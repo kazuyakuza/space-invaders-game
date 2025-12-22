@@ -22,7 +22,7 @@
 
 ## 4. Implementation
 
-- **Coder Agent**: Receives and implements individual tiny steps from the plan.
+- **Coder Agent**: Receives and implements individual extremely tiny and detailed steps from the plan.
 
 ## 5. Code Review
 

@@ -1,5 +1,9 @@
 # Task Handling Workflow
 
+## Prerequisites
+
+Before proceeding with this workflow, it is essential to be familiar with the **Git Flow Workflow**, which is an integral part of the task management process. This workflow will be referenced at various stages.
+
 ## 1. Task Origin
 
 - **Chat**: If a task is given in the chat, create a new TODO file in `.ai-agent/todos/<YYYYMMDD>/<YYYYMMDD>-todo-<number>.md`. The content of the file should be the user's request.

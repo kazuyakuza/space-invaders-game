@@ -29,3 +29,19 @@ This is a base project designed to serve as a foundational template for future A
 - This repository is a **base project to use later**. It is not a functional application itself but a scaffolding tool.
 - It contains configuration files, rule definitions, and workflow documentation.
 - It does not contain specific business logic or application code.
+
+<!-- DO NOT DELETE THIS SECTION -->
+
+## Important Note for AI Agents
+
+All agents working on this project must adhere to the workflows and rules outlined in the [AI Agent Onboarding document](../../../AGENTS.md). This is not optional.
+
+Before starting any task, you must:
+
+1.  **Review `AGENTS.md`**: This file is the primary source of instructions for agents.
+2.  **Follow Workflows**: Strictly follow the procedures defined in `.ai-agent/WORKFLOWS.md`.
+3.  **Prioritize Workflows**: Always check `.ai-agent/WORKFLOWS.md` for defined procedures before any task.
+
+Failure to comply with these instructions will result in incorrect or incomplete work.
+
+<!-- END DO NOT DELETE -->

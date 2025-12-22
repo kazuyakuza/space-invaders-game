@@ -15,3 +15,5 @@ This file contains the rules that all AI agents must follow. Each rule is define
 - Max Arguments per Method: .kilocode/rules/max-arguments-per-method.md
 - Project Structure Rule: .kilocode/rules/project-structure.md
 - Prefer Private Members Rule: .kilocode/rules/prefer-private-members.md
+- Workflow Review Rule: .kilocode/rules/workflow-review-rule.md
+- Markdown Generation Rule: .kilocode/rules/markdown-generation-rule.md

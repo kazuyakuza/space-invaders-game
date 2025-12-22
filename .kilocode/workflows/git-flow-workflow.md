@@ -1,5 +1,7 @@
 # Git Flow Workflow
 
+> **Note:** This workflow is a component of the overall **Task Handling Workflow** and is not intended to be used in isolation. It is invoked at specific stages of the task handling process to manage branches for new tasks.
+
 ## 1. Start a New Task
 - Switch to the `main` branch.
 - Create a new branch with a descriptive name:
@@ -15,3 +17,4 @@
 - Merge the feature branch into the `main` branch.
 - Switch to the `main` branch.
 - Delete the feature branch.
+- If an `origin` remote repository exists, then push the latest `main` branch commits to the remote repository.
