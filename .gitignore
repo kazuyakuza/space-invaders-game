@@ -29,6 +29,7 @@ logs/
 # Build artifacts (generic)
 build/
 dist/
+/node_modules
 
 # Tokens and secrets
 .git-credentials

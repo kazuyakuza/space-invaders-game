@@ -1,0 +1,32 @@
+{
+  "name": "space-invaders-game",
+  "version": "1.0.0",
+  "description": "This project is a classic Space Invaders game. The player controls a spaceship at the bottom of the screen and must shoot down waves of aliens descending from the top.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  },
+  "engines": {
+    "node": "22.14.0"
+  },
+  "scripts": {
+    "build": "vite build",
+    "start": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://kazuyakuza@github.com/kazuyakuza/space-invaders-game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kazuyakuza/space-invaders-game/issues"
+  },
+  "homepage": "https://github.com/kazuyakuza/space-invaders-game#readme"
+}
