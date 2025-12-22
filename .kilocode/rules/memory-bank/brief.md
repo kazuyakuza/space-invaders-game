@@ -1,31 +1,22 @@
 # Project Brief
 
-<!--
-THIS MARKS THE FILE HAS ITS DEFAULT VALUE
------------------------------------------
-Usually, this file should be filled with project-specific content. This file is intended to provide a high-level overview of the project, including its purpose, goals, and scope. It should be updated as the project evolves.
-Remove this comment when you have completed this file.
--->
-
 ## Overview
 
-This is a base project designed to serve as a foundational template for future AI-agent driven development. It is pre-configured with essential rules, workflows, and structures optimized for collaboration between human developers and AI agents (specifically Kilo Code).
-
-## Core Requirements
-
-- **Foundation**: Provide a clean, structured starting point for new projects.
-- **AI-Readiness**: Include necessary configurations (like `.kilocode` and `.ai-agent` directories) to enable immediate and effective AI agent participation.
-- **Standardization**: Establish a baseline for coding standards, workflows (e.g., Git Flow, Task Handling), and documentation practices.
-- **Memory Bank**: Integrate the Memory Bank system to ensure persistent context and knowledge management across sessions.
+This project is a classic Space Invaders game. The player controls a spaceship at the bottom of the screen and must shoot down waves of aliens descending from the top.
 
 ## Goals
 
-- Reduce setup time for new projects.
-- Ensure consistency across different projects started from this base.
-- Demonstrate best practices for "AI-Agent Driven" development.
+- Recreate the classic Space Invaders arcade experience.
+- Implement core gameplay mechanics, including player movement, shooting, and enemy patterns.
+- Create a scoring system to track player performance.
 
 ## Project Scope
 
-- This repository is a **base project to use later**. It is not a functional application itself but a scaffolding tool.
-- It contains configuration files, rule definitions, and workflow documentation.
-- It does not contain specific business logic or application code.
+- The game will be developed using HTML, CSS, and JavaScript, with no frameworks.
+- The initial version will be a single-player game with one level.
+- The player will control the ship with the cursor keys and shoot with the space bar.
+- The game will start with 30 enemies, and the player wins by defeating all of them.
+- If the enemies reach the bottom of the screen, the player loses.
+- The game will use geometric figures for the ship and enemies, and will not have sound.
+- A minimal UI will be added later.
+- The game will have a "night mode" color scheme with a black background.
