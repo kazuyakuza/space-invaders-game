@@ -1,7 +1,9 @@
 # Project Structure
 
-# Folders in src/:
+# Folders in src/
+
 # (no folders yet)
 
-# Other folders:
-# docs/ - Documentation files
+# Other folders
+
+- docs/: Documentation files
