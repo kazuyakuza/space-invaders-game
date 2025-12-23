@@ -12,7 +12,7 @@ This project is a classic Space Invaders game. The player controls a spaceship a
 
 ## Project Scope
 
-- The game will be developed using HTML, CSS, and JavaScript, with no frameworks.
+- The game will be developed using HTML, CSS, and TypeScript, with no frameworks.
 - The initial version will be a single-player game with one level.
 - The player will control the ship with the cursor keys and shoot with the space bar.
 - The game will start with 30 enemies, and the player wins by defeating all of them.
