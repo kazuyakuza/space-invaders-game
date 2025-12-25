@@ -2,17 +2,40 @@
 
 ## System Architecture
 
-As a project template, there is no pre-defined system architecture. The architecture will be defined by the specific project that is built upon this foundation.
+Canvas-based 2D Space Invaders game using HTML5 Canvas and TypeScript. Main game loop driven by requestAnimationFrame targeting 60fps.
 
 ## Source Code Paths
 
-- `src/`: This directory is reserved for all source code. Currently, it is empty.
+- `src/index.html`: Entry point with canvas element
+- `src/styles.css`: Night mode color scheme
+- `src/ts/main.ts`: Initializes and starts the game
+- `src/ts/Game.ts`: Manages game loop, entities, and rendering
+- `src/ts/InputHandler.ts`: Keyboard input processing
+- `src/ts/entities/Player.ts`: Player spaceship entity
+- `src/ts/entities/Enemy.ts`: Individual enemy entity
+- `src/ts/entities/Bullet.ts`: Projectile entity
+- `src/ts/entities/EnemyWave.ts`: Manages formation and movement of enemies
 
 ## Key Technical Decisions
 
-- **Standardization**: The project emphasizes a standardized structure to ensure consistency.
-- **AI-Agent Readiness**: The inclusion of `.kilocode` and `.ai-agent` directories is a key decision to facilitate AI-driven development from the start.
+- Vanilla HTML/CSS/TypeScript - no frameworks or libraries
+- OOP design with entity classes featuring update() and draw() methods
+- Centralized game state management in Game class
+- Keyboard controls: arrow keys for movement, space for shooting
+- Geometric shapes for sprites (no images)
 
 ## Design Patterns
 
-No specific design patterns are implemented at this stage. The choice of design patterns will depend on the requirements of the project that uses this template.
+- Entity pattern: Game objects inherit common update/render behavior
+
+## Component Relationships
+
+- Game owns instances of Player, EnemyWave, and handles Bullet lifecycle
+- EnemyWave creates and positions multiple Enemy instances
+- Player creates player Bullets on shoot
+- InputHandler observes keyboard events and updates Player position/shoot state
+- Game orchestrates update/render cycle for all entities each frame
+
+## Critical Implementation Paths
+
+`main.ts` → `new Game(canvas)` → `gameLoop()` → `Game.update(deltaTime)` → entities.update() → `Game.render(ctx)` → entities.draw()

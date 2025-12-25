@@ -2,16 +2,18 @@
 
 ## Current State
 
-This is the initial setup of the project template. The Memory Bank has been initialized, and the `src` directory has been created to comply with project structure rules. The repository is ready for source code development.
+Space Invaders game base implemented. Core entities (Player, Enemy, Bullet, EnemyWave) and game loop in place. Player movement and shooting functional, enemies spawn in waves.
 
 ## Recent Changes
 
-- Memory Bank initialized.
-- Core project structure and rules are in place.
-- `src` directory created in project root.
+- Implemented Player, Enemy, Bullet, EnemyWave classes in src/ts/entities/
+- Added Game class managing update/render loop
+- InputHandler for keyboard controls
+- Merged feat/game-base to main, completed todo-3
 
 ## Next Steps
 
-- Begin a new development task.
-- Populate the `src` directory with application code.
-- Update the Memory Bank as the project evolves.
+- Add collision detection between bullets and enemies/player
+- Implement scoring system
+- Add game over/win conditions
+- Polish UI
