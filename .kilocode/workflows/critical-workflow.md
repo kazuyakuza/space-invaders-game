@@ -37,7 +37,7 @@ Orchestrator Agent must also handle this step:
   - If not in the main branch, and:
     - there are uncommitted changes, commit them. Then ask the user if merge that branch to `main` branch or not.
     - there are not pending changes, then ask the user if merge that branch to `main` branch or not.
-- 2º Create a new branch with a descriptive name:
+- 2º Create and switch to a new branch with a descriptive name:
   - For new features: `feat/<meaning-name>`
   - For bug fixes: `fix/<meaning-name>`
   - Create the new branch before starting work on the task, ensuring the branch name reflects the task's purpose or TODO file's name.
@@ -93,12 +93,13 @@ Orchestrator Agent must also handle this step:
 ## 7. TODO File Completion
 
 - When all items in a TODO file are resolved (ie. marked as done as indicates the step 6), rename the file with a `-DONE` suffix (e.g., `<YYYYMMDD>-todo-<number>-DONE.md`).
-- Merge the current branch into the master branch:
+- Merge the current feature branch into the master branch:
   - Ensure all files are committed in feature branch.
-  - Switch to the `main` branch.
+  - Switch to the `main` branch, which is the master branch.
   - Merge the feature branch into the `main` branch.
   - Recheck the feature branch was correctly merged into `main` branch.
-  - Delete the feature branch.
+    - If it was correctly merged, then delete the feature branch.
+    - If the feature branch was not correctly merged into the `main` branch, then ask the user to resolve the merge conflicts and then retry the merge process.
   - If an `origin` remote repository exists, then push the latest `main` branch commits to the remote repository.
 
 ## 8. Continuation
