@@ -1,1 +1,216 @@
-import { InputHandler } from './InputHandler';\nimport { Player, type PlayerConfig } from './entities/Player';\nimport { Bullet } from './entities/Bullet';\nimport { EnemyWave, type EnemyWaveConfig } from './entities/EnemyWave';\nimport levelsData from '../assets/levels.json';\n\ninterface Bounds {\n  x: number;\n  y: number;\n  width: number;\n  height: number;\n}\n\ninterface LevelConfig {\n  rows: number;\n  cols: number;\n  speed: number;\n  spacingX: number;\n  spacingY: number;\n  dropDistance: number;\n}\n\nfunction rectsIntersect(a: Bounds, b: Bounds): boolean {\n  return a.x < b.x + b.width\n    && a.x + a.width > b.x\n    && a.y < b.y + b.height\n    && a.y + a.height > b.y;\n}\n\nexport class Game {\n  private canvas: HTMLCanvasElement;\n  private ctx: CanvasRenderingContext2D;\n  private input: InputHandler;\n  private player: Player;\n  private enemyWave: EnemyWave;\n  private bullets: Bullet[] = [];\n  private gameRunning: boolean = true;\n  private shootCooldown: number = 0;\n  private readonly SHOOT_INTERVAL: number = 10;\n\n  private score: number = 0;\n  private readonly PADDING: number = 20;\n  private currentLevel: number = 0;\n  private levels: LevelConfig[];\n\n  constructor() {\n    this.canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;\n    this.ctx = this.canvas.getContext('2d')!;\n    this.canvas.width = 1000;\n    this.canvas.height = 800;\n\n    this.input = new InputHandler();\n\n    const canvasConfig = {\n      canvasWidth: this.canvas.width,\n      canvasHeight: this.canvas.height\n    };\n\n    const playerConfig: PlayerConfig = {\n      ...canvasConfig,\n      speed: 5,\n      padding: this.PADDING\n    };\n    this.player = new Player(playerConfig);\n\n    this.levels = levelsData as LevelConfig[];\n    this.initLevel(0);\n  }\n\n  private initLevel(levelIndex: number): void {\n    const configIndex = Math.min(levelIndex, this.levels.length - 1);\n    const levelConfig = this.levels[configIndex];\n\n    const canvasConfig = {\n      canvasWidth: this.canvas.width,\n      canvasHeight: this.canvas.height\n    };\n\n    const enemyConfig: EnemyWaveConfig = {\n      ...canvasConfig,\n      cols: levelConfig.cols,\n      rows: levelConfig.rows,\n      spacingX: levelConfig.spacingX,\n      spacingY: levelConfig.spacingY,\n      startX: 50,\n      startY: 50,\n      speed: levelConfig.speed,\n      dropDistance: levelConfig.dropDistance\n    };\n    this.enemyWave = new EnemyWave(enemyConfig);\n    this.bullets = [];\n  }\n\n  private reset(): void {\n    this.score = 0;\n    this.bullets = [];\n    const canvasConfig = {\n      canvasWidth: this.canvas.width,\n      canvasHeight: this.canvas.height\n    };\n    const playerConfig: PlayerConfig = {\n      ...canvasConfig,\n      speed: 5,\n      padding: this.PADDING\n    };\n    this.player = new Player(playerConfig);\n    this.currentLevel = 0;\n    this.initLevel(0);\n    this.gameRunning = true;\n    this.shootCooldown = 0;\n  }\n\n  public start(): void {\n    this.gameLoop();\n  }\n\n  private gameLoop(): void {\n    this.update();\n    this.render();\n    requestAnimationFrame(() => this.gameLoop());\n  }\n\n  private update(): void {\n    if (!this.gameRunning && this.input.isPressed('Enter')) {\n      this.reset();\n      return;\n    }\n    if (!this.gameRunning) {\n      return;\n    }\n    this.player.update(this.input);\n\n    if (this.shootCooldown <= 0 && this.input.isPressed('Space')) {\n      const pos = this.player.getShootPosition();\n      this.bullets.push(new Bullet(pos.x, pos.y));\n      this.shootCooldown = this.SHOOT_INTERVAL;\n    } else {\n      this.shootCooldown--;\n    }\n\n    // Update bullets\n    this.bullets = this.bullets.filter(bullet => bullet.update());\n\n    // Update enemies\n    this.gameRunning = this.enemyWave.update();\n\n    // Collision detection\n    for (let i = this.bullets.length - 1; i >= 0; i--) {\n      const bulletBounds = this.bullets[i].getBounds();\n      const enemies = this.enemyWave.getEnemies();\n      for (let j = enemies.length - 1; j >= 0; j--) {\n        const enemyBounds = enemies[j].getBounds();\n        if (rectsIntersect(bulletBounds, enemyBounds)) {\n          this.enemyWave.removeEnemy(enemies[j]);\n          this.score += 10;\n          this.bullets.splice(i, 1);\n          break;\n        }\n      }\n    }\n\n    // Level transition\n    if (this.enemyWave.isEmpty()) {\n      this.currentLevel++;\n      this.initLevel(this.currentLevel);\n    }\n  }\n\n  private render(): void {\n    // Clear with black background\n    this.ctx.fillStyle = '#000000';\n    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);\n\n    // Score\n    this.ctx.fillStyle = '#ffffff';\n    this.ctx.font = '24px Arial';\n    this.ctx.textAlign = 'left';\n    this.ctx.fillText(`Score: ${this.score}`, this.PADDING, 30);\n\n    // Level\n    this.ctx.textAlign = 'right';\n    this.ctx.fillText(`Level: ${this.currentLevel}`, this.canvas.width - this.PADDING, 30);\n    this.ctx.textAlign = 'left';\n\n    this.player.draw(this.ctx);\n    this.enemyWave.draw(this.ctx);\n    for (const bullet of this.bullets) {\n      bullet.draw(this.ctx);\n    }\n\n    // Game over text\n    if (!this.gameRunning) {\n      this.ctx.fillStyle = '#ffffff';\n      this.ctx.font = '48px Arial';\n      this.ctx.textAlign = 'center';\n      const message = 'Game Over'; // since infinity, no win\n      this.ctx.fillText(message, this.canvas.width / 2, this.canvas.height / 2);\n      this.ctx.font = '24px Arial';\n      this.ctx.fillText('Press ENTER to restart', this.canvas.width / 2, this.canvas.height / 2 + 60);\n    }\n  }\n}
+import { InputHandler } from './InputHandler';
+import { Player, type PlayerConfig } from './entities/Player';
+import { Bullet } from './entities/Bullet';
+import { EnemyWave, type EnemyWaveConfig } from './entities/EnemyWave';
+import levelsData from '../assets/levels.json';
+import {
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT,
+  SHOOT_INTERVAL,
+  GAME_PADDING,
+  ENEMY_WAVE_START_X,
+  ENEMY_WAVE_START_Y,
+  SCORE_PER_ENEMY,
+  PLAYER_SPEED,
+  ENEMY_SPACING_X,
+  ENEMY_SPACING_Y,
+  ENEMY_DROP_DISTANCE
+} from './constants';
+
+interface Bounds {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+interface LevelConfig {
+  rows: number;
+  cols: number;
+  speed: number;
+  enemyCount: number;
+}
+
+function rectsIntersect(a: Bounds, b: Bounds): boolean {
+  return a.x < b.x + b.width
+    && a.x + a.width > b.x
+    && a.y < b.y + b.height
+    && a.y + a.height > b.y;
+}
+
+export class Game {
+  private canvas: HTMLCanvasElement;
+  private ctx: CanvasRenderingContext2D;
+  private input: InputHandler;
+  private player!: Player;
+  private enemyWave!: EnemyWave;
+  private bullets: Bullet[] = [];
+  private gameRunning: boolean = true;
+  private shootCooldown: number = 0;
+
+  private score: number = 0;
+  private currentLevel: number = 0;
+  private levels: LevelConfig[];
+
+  constructor() {
+    this.canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
+    this.ctx = this.canvas.getContext('2d')!;
+    this.canvas.width = CANVAS_WIDTH;
+    this.canvas.height = CANVAS_HEIGHT;
+
+    this.input = new InputHandler();
+
+    const canvasConfig = {
+      canvasWidth: CANVAS_WIDTH,
+      canvasHeight: CANVAS_HEIGHT
+    };
+
+    const playerConfig: PlayerConfig = {
+      ...canvasConfig,
+      speed: PLAYER_SPEED,
+      padding: GAME_PADDING
+    };
+    this.player = new Player(playerConfig);
+
+    this.levels = levelsData as LevelConfig[];
+    this.initLevel(0);
+  }
+
+  private initLevel(levelIndex: number): void {
+    const configIndex = Math.min(levelIndex, this.levels.length - 1);
+    const levelConfig = this.levels[configIndex];
+
+    const canvasConfig = {
+      canvasWidth: CANVAS_WIDTH,
+      canvasHeight: CANVAS_HEIGHT
+    };
+
+    const enemyConfig: EnemyWaveConfig = {
+      ...canvasConfig,
+      cols: levelConfig.cols,
+      rows: levelConfig.rows,
+      spacingX: ENEMY_SPACING_X,
+      spacingY: ENEMY_SPACING_Y,
+      startX: ENEMY_WAVE_START_X,
+      startY: ENEMY_WAVE_START_Y,
+      speed: levelConfig.speed,
+      dropDistance: ENEMY_DROP_DISTANCE,
+      enemyCount: levelConfig.enemyCount
+    };
+    this.enemyWave = new EnemyWave(enemyConfig);
+    this.bullets = [];
+  }
+
+  private reset(): void {
+    this.score = 0;
+    this.bullets = [];
+    const canvasConfig = {
+      canvasWidth: CANVAS_WIDTH,
+      canvasHeight: CANVAS_HEIGHT
+    };
+    const playerConfig: PlayerConfig = {
+      ...canvasConfig,
+      speed: PLAYER_SPEED,
+      padding: GAME_PADDING
+    };
+    this.player = new Player(playerConfig);
+    this.currentLevel = 0;
+    this.initLevel(0);
+    this.gameRunning = true;
+    this.shootCooldown = 0;
+  }
+
+  public start(): void {
+    this.gameLoop();
+  }
+
+  private gameLoop(): void {
+    this.update();
+    this.render();
+    requestAnimationFrame(() => this.gameLoop());
+  }
+
+  private update(): void {
+    if (!this.gameRunning && this.input.isPressed('Enter')) {
+      this.reset();
+      return;
+    }
+    if (!this.gameRunning) {
+      return;
+    }
+    this.player.update(this.input);
+
+    if (this.shootCooldown <= 0 && this.input.isPressed('Space')) {
+      const pos = this.player.getShootPosition();
+      this.bullets.push(new Bullet(pos.x, pos.y));
+      this.shootCooldown = SHOOT_INTERVAL;
+    } else {
+      this.shootCooldown--;
+    }
+
+    // Update bullets
+    this.bullets = this.bullets.filter(bullet => bullet.update());
+
+    // Update enemies
+    this.gameRunning = this.enemyWave.update();
+
+    this.handleCollisions();
+
+
+    // Level transition
+    if (this.enemyWave.isEmpty()) {
+      this.currentLevel++;
+      this.initLevel(this.currentLevel);
+    }
+  }
+
+  private handleCollisions(): void {
+    for (let i = this.bullets.length - 1; i >= 0; i--) {
+      const bulletBounds = this.bullets[i].getBounds();
+      const enemies = this.enemyWave.getEnemies();
+      for (let j = enemies.length - 1; j >= 0; j--) {
+        const enemyBounds = enemies[j].getBounds();
+        if (rectsIntersect(bulletBounds, enemyBounds)) {
+          this.enemyWave.removeEnemy(enemies[j]);
+          this.score += SCORE_PER_ENEMY;
+          this.bullets.splice(i, 1);
+          break;
+        }
+      }
+    }
+  }
+
+  private render(): void {
+    // Clear with black background
+    this.ctx.fillStyle = '#000000';
+    this.ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    // Score
+    this.ctx.fillStyle = '#ffffff';
+    this.ctx.font = '24px Arial';
+    this.ctx.textAlign = 'left';
+    this.ctx.fillText(`Score: ${this.score}`, GAME_PADDING, 30);
+
+    // Level
+    this.ctx.textAlign = 'right';
+    this.ctx.fillText(`Level: ${this.currentLevel}`, CANVAS_WIDTH - GAME_PADDING, 30);
+    this.ctx.textAlign = 'left';
+
+    this.player.draw(this.ctx);
+    this.enemyWave.draw(this.ctx);
+    for (const bullet of this.bullets) {
+      bullet.draw(this.ctx);
+    }
+
+    // Game over text
+    if (!this.gameRunning) {
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.font = '48px Arial';
+      this.ctx.textAlign = 'center';
+      const message = 'Game Over';
+      this.ctx.fillText(message, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      this.ctx.font = '24px Arial';
+      this.ctx.fillText('Press ENTER to restart', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 60);
+    }
+  }
+}

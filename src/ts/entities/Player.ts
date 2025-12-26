@@ -1,4 +1,6 @@
-interface PlayerConfig {
+import { PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_COLOR, PLAYER_START_Y_OFFSET } from '../constants';
+
+export interface PlayerConfig {
     canvasWidth: number;
     canvasHeight: number;
     speed: number;
@@ -8,10 +10,10 @@ interface PlayerConfig {
 export class Player {
     private x: number;
     private y: number;
-    private readonly width: number = 40;
-    private readonly height: number = 30;
+    private readonly width: number = PLAYER_WIDTH;
+    private readonly height: number = PLAYER_HEIGHT;
     private readonly speed: number;
-    private readonly color: string = '#00ff00'; // green
+    private readonly color: string = PLAYER_COLOR;
     private readonly canvasWidth: number;
     private readonly canvasHeight: number;
     private readonly padding: number;
@@ -22,7 +24,7 @@ export class Player {
         this.canvasHeight = config.canvasHeight;
         this.padding = config.padding;
         this.x = (this.canvasWidth / 2) - (this.width / 2);
-        this.y = this.canvasHeight - 50;
+        this.y = this.canvasHeight - PLAYER_START_Y_OFFSET;
     }
 
     public update(inputHandler: import('../InputHandler').InputHandler): void {

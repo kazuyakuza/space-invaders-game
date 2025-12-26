@@ -1,10 +1,12 @@
+import { BULLET_WIDTH, BULLET_HEIGHT, BULLET_SPEED, BULLET_COLOR } from '../constants';
+
 export class Bullet {
     private x: number;
     private y: number;
-    private readonly width: number = 5;
-    private readonly height: number = 15;
-    private readonly speed: number = 7;
-    private readonly color: string = '#ffffff';
+    private readonly width: number = BULLET_WIDTH;
+    private readonly height: number = BULLET_HEIGHT;
+    private readonly speed: number = BULLET_SPEED;
+    private readonly color: string = BULLET_COLOR;
 
     constructor(x: number, y: number) {
         this.x = x;

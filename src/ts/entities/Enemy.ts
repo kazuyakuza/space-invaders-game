@@ -3,12 +3,14 @@ interface Vector2 {
   y: number;
 }
 
+import { ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_COLOR } from '../constants';
+
 export class Enemy {
   private x: number;
   private y: number;
-  private readonly width: number = 30;
-  private readonly height: number = 20;
-  private readonly color: string = '#ff0000';
+  private readonly width: number = ENEMY_WIDTH;
+  private readonly height: number = ENEMY_HEIGHT;
+  private readonly color: string = ENEMY_COLOR;
 
   constructor(x: number, y: number) {
     this.x = x;
