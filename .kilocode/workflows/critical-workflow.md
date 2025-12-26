@@ -44,6 +44,7 @@ Orchestrator Agent must also handle this step:
   - For bug fixes: `fix/<meaning-name>`
   - Create the new branch before starting work on the task, ensuring the branch name reflects the task's purpose or TODO file's name.
   - All work must be done in the feature branch. The feature branch will be merged to the `main` branch later.
+- 4º Add the TODO file/s and/or plan file/s staged in step 1º of this section, if any.
 
 ## 3. Version Update
 
