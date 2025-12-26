@@ -52,59 +52,70 @@ Orchestrator Agent must also handle this step:
 
 ## 4. Task Execution
 
+### 4.0 Overall Process Management
+
+- This step must be handled by the Orchestrator Agent.
+- IMPORTANT: this step indicates that the Orchestrator Agent must drive the overall process. The analysis and implementation details should be handled by the appropriate agents. This is detailed in the below steps.
 - Process items within the TODO file in the order they are defined.
 - Before starting a new item, commit any pending changes to the current branch with a meaningful message.
-- For each item:
-  - Ask the user for clarifications or to confirm implementation plans if necessary.
-  - Adhere to all other defined rules and workflows (e.g., creating unit tests for new features).
-  - **Analysis and Planning**
-    - This must be handled by the Architect Agent.
-    - Identifies ambiguities and areas needing user clarification.
-    - Researches required technologies, frameworks, or APIs.
-    - Analyzes the current project status.
-    - Defines a high-level approach for the solution/implementation, creating a step-by-step plan including:
-      - git handling (check section 5. Implementation)
-      - code writing (check section 5. Implementation)
-      - running console cmds (when required)
-      - test build (if exists)
-      - code review
-      - testing implementation (if set-up in the project)
-      - documentation updates
-      - mark the item inside the TODO file as DONE (check section 6. Item Completion)
-      - etc.
-    - IMPORTANT: Redefines the plan in tiny and detailed steps, including clear files names, structure, code snippets, and any other relevant details.
-    - Review the plan for any necessary changes.
-    - **File Storage**: the plan must be saved to a file in `.kilocode/_generated/plans/` with a unique name (e.g., `<datetime>-<plan-name>.md`) in almost all cases. So, the Coder Agent (or any other) can receive this file to work on.
-    - The plan must be presented to the user for approval before proceeding with the next steps.
-    - Although the Architect Agent is responsible for creating the plan, the Orchestrator Agent is responsible for ensuring that the plan is followed and that the appropriate agents are assigned to the appropriate tasks.
-    - Always check the details of the original task before proceeding with the next steps.
-    - General process must be: the Orchestrator creates a step to generate the plan in a sub-task, that must respond with the plan file path. Then, the Orchestrator Agent can assign the Coder Agent to implement the plan in another sub-task.
+- Ask the user for clarifications or to confirm implementation plans if necessary.
+- Adhere to all other defined rules and workflows (e.g., creating unit tests for new features).
+- For each item follow next steps in current section 4.
 
-## 5. Implementation
+### 4.1. Analysis and Planning
 
-- This step must be defined per each TODO file item. This is described in the "4. Task Execution" section.
-- **Coder Agent**:
-  - Receives and implements individual extremely tiny and detailed steps from the plan.
-  - Always check the details of the original task before proceeding with the next steps.
-  - IMPORTANT: Make commits with meaningful messages at the end of the work, after resolve each one of the TODO file items.
-- **Architect/Code Reviewer/Code Simplifier Agent**:
-  - Reviews the implemented code for errors or deviations from the plan.
-  - Requests necessary changes from the Coder Agent.
-- **Documentator Agent**:
-  - Adds comments to the code where necessary.
-  - Updates the project's documentation (e.g., README, `/docs` files).
-  - Suggests and implements automated documentation tools.
+- This step must be handled by the Architect Agent.
+- Identifies ambiguities and areas needing user clarification.
+- Researches required technologies, frameworks, or APIs.
+- Analyzes the current project status.
+- Defines a high-level approach for the solution/implementation, creating a step-by-step plan including:
+  - git handling (check steps below)
+  - code writing (check steps below)
+  - running console cmds (when required)
+  - test build (if exists)
+  - code review
+  - testing implementation (if set-up in the project)
+  - documentation updates (check steps below)
+  - mark the item inside the TODO file as DONE (check steps below)
+  - etc.
+- IMPORTANT: After the high-level approach, redefines the plan in very tiny and very detailed steps, including clear files names/paths, structure, code snippets, and any other relevant details.
+- Review the plan for any necessary changes.
+- **File Storage**: the plan must be saved to a file in `.kilocode/_generated/plans/` with a unique name (e.g., `<datetime>-<plan-name>.md`) in almost all cases. So, the Coder Agent (or any other) can receive this file to work on.
+- The plan must be presented to the user for approval before proceeding with the next steps.
+- Although the Architect Agent is responsible for creating the plan, the Orchestrator Agent is responsible for ensuring that the plan is followed and that the appropriate agents are assigned to the appropriate tasks.
+- Always check the details of the original task before proceeding with the next steps.
+- General process must be: the Orchestrator creates a step to generate the plan in a sub-task, that must respond with the plan file path. Then, the Orchestrator Agent can assign the Coder Agent to implement the plan in another sub-task.
 
-## 6. Item Completion
+### 4.2. Implementation
 
-- This step must be defined per each TODO file item. This is described in the "4. Task Execution" section.
-- When the Implementation of a plan item is completed, the item in the TODO file must be clearly marked as done.
+- This step must be handled by the Coder Agent.
+- Receives and implements individual extremely tiny and very detailed steps from the plan.
+- Always check the details of the original task before proceeding with the next steps.
+- IMPORTANT: Make commits with meaningful messages at the end of the work done to resolve each one of the TODO file items.
+
+### 4.3. Code Review
+
+- This step may be handled by Architect or Code Reviewer or Code Simplifier Agent.
+- Reviews the implemented code for errors or deviations from the plan.
+- Requests necessary changes to the Coder Agent.
+
+### 4.4 Documentation
+
+- This step must be handled by the Documentator Agent.
+- Adds comments to the code where necessary.
+- Updates the project's documentation (e.g., README, `/docs` files).
+- Suggests and implements automated documentation tools.
+
+### 4.5. Item Completion
+
+- When the Implementation of a plan's item is completed, the item in the TODO file must be clearly marked as done.
 - Mark the item as done in the TODO file:
-  - **Line Item**: Add `[DONE]` at the beginning of the line.
-  - **Section Item**: Add `[DONE]` to the section title.
-- Commit all changes to the current branch with a meaningful message.
+  - **Line Item Format**: Add `[DONE]` at the beginning of the line.
+  - **Section Item Format**: Add `[DONE]` to the section title.
+  - **Other Format**: Add `[DONE]` to the appropriate section or line as needed.
+- IMPORTANT: Commit all changes to the current branch with a meaningful message.
 
-## 7. TODO File Completion
+## 5. TODO File Completion
 
 - When all items in a TODO file are resolved (ie. marked as done as indicates the step 6), rename the file with a `-DONE` suffix (e.g., `<YYYYMMDD>-todo-<number>-DONE.md`).
 - Merge the current feature branch into the master branch:
@@ -116,7 +127,7 @@ Orchestrator Agent must also handle this step:
     - If the feature branch was not correctly merged into the `main` branch, then ask the user to resolve the merge conflicts and then retry the merge process.
   - If an `origin` remote repository exists, then push the latest `main` branch commits to the remote repository.
 
-## 8. Continuation
+## 6. Continuation
 
 - After a TODO file is completed, check for any remaining TODO files.
 - If other TODO files exist, ask the user whether to proceed with the next one or not. If the response is affirmative, then is preferable to start with the next file in a completely new chat, finalizing the current one.
