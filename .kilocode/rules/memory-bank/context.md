@@ -2,7 +2,7 @@
 
 ## Current State
 
-Space Invaders game features a complete multi-level progression system. The codebase now uses a centralized `constants.ts` file and a simplified level JSON structure for easier configuration and maintenance.
+Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties, enemy health/lives system, centralized `constants.ts`, and simplified level JSON structure for configuration.
 
 ## Recent Changes
 
@@ -15,6 +15,9 @@ Space Invaders game features a complete multi-level progression system. The code
 - Added velocity scaling in `EnemyWave.ts` (0.1% speed increase per row drop).
 - Integrated real-time score and level display in the UI.
 - Implemented basic collision detection and game over state.
+- Restructured `levels.json` to use object with level numbers as keys, enabling sparse definitions.
+- Added '+' prefix support for incremental property accumulation from base levels.
+- Implemented enemy health system: configurable lives per enemy, visual display, updated collisions.
 
 ## Next Steps
 
