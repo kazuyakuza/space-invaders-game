@@ -1,0 +1,10 @@
+[
+  {
+    "rows": 5,
+    "cols": 6,
+    "speed": 1.0,
+    "spacingX": 60,
+    "spacingY": 50,
+    "dropDistance": 20
+  }
+]
