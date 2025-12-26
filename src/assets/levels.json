@@ -1,8 +1,9 @@
-[
-  {
+{
+  "1": {
     "rows": 5,
     "cols": 6,
     "speed": 1.0,
-    "enemyCount": 30
+    "enemyCount": 30,
+    "enemyHealth": 1
   }
-]
+}

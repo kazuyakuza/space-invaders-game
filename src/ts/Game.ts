@@ -29,6 +29,11 @@ interface LevelConfig {
   cols: number;
   speed: number;
   enemyCount: number;
+  enemyHealth: number;
+}
+
+interface RawLevelConfig {
+  [key: string]: number;
 }
 
 function rectsIntersect(a: Bounds, b: Bounds): boolean {
@@ -50,7 +55,7 @@ export class Game {
 
   private score: number = 0;
   private currentLevel: number = 0;
-  private levels: LevelConfig[];
+  private levelConfigs: Record<string, RawLevelConfig> = {};
 
   constructor() {
     this.canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
@@ -72,13 +77,83 @@ export class Game {
     };
     this.player = new Player(playerConfig);
 
-    this.levels = levelsData as LevelConfig[];
+    this.loadLevels();
     this.initLevel(0);
   }
 
+  private loadLevels(): void {
+    this.levelConfigs = levelsData as Record<string, RawLevelConfig>;
+  }
+
+  private isStaticLevel(levelNum: number): boolean {
+    const config = this.levelConfigs[levelNum.toString()];
+    return config ? Object.keys(config).every(key => !key.startsWith('+')) : false;
+  }
+
+  private hasDeltas(levelNum: number): boolean {
+    const config = this.levelConfigs[levelNum.toString()];
+    return config ? Object.keys(config).some(key => key.startsWith('+')) : false;
+  }
+
+  private resolveLevelConfig(targetLevel: number): LevelConfig {
+    const sortedLevels = Object.keys(this.levelConfigs)
+      .map(k => parseInt(k))
+      .filter(n => !isNaN(n))
+      .sort((a, b) => a - b);
+
+    if (sortedLevels.length === 0) {
+      return {
+        rows: 5,
+        cols: 6,
+        speed: 1.0,
+        enemyCount: 30,
+        enemyHealth: 1
+      };
+    }
+
+    const staticYs = sortedLevels.filter(l => l <= targetLevel && this.isStaticLevel(l));
+    let staticY = staticYs.length > 0 ? Math.max(...staticYs) : sortedLevels[0];
+
+    const baseKey = staticY.toString();
+    const baseRaw = this.levelConfigs[baseKey];
+
+    if (!baseRaw) {
+      return {
+        rows: 5,
+        cols: 6,
+        speed: 1.0,
+        enemyCount: 30,
+        enemyHealth: 1
+      };
+    }
+
+    const effective: Partial<LevelConfig> = {};
+
+    Object.entries(baseRaw).forEach(([key, value]) => {
+      if (!key.startsWith('+')) {
+        (effective as any)[key as keyof LevelConfig] = value;
+      }
+    });
+
+    for (let i = staticY + 1; i <= targetLevel; i++) {
+      const deltaZs = sortedLevels.filter(z => z <= i && this.hasDeltas(z));
+      if (deltaZs.length > 0) {
+        const Z = Math.max(...deltaZs);
+        const deltaRaw = this.levelConfigs[Z.toString()];
+        Object.entries(deltaRaw).forEach(([key, value]) => {
+          if (key.startsWith('+')) {
+            const prop = key.slice(1) as keyof LevelConfig;
+            effective[prop] = (effective[prop] ?? 0) + (value as number);
+          }
+        });
+      }
+    }
+
+    return effective as LevelConfig;
+  }
+
   private initLevel(levelIndex: number): void {
-    const configIndex = Math.min(levelIndex, this.levels.length - 1);
-    const levelConfig = this.levels[configIndex];
+    const levelConfig: LevelConfig = this.resolveLevelConfig(levelIndex + 1);
 
     const canvasConfig = {
       canvasWidth: CANVAS_WIDTH,
@@ -171,8 +246,10 @@ export class Game {
       for (let j = enemies.length - 1; j >= 0; j--) {
         const enemyBounds = enemies[j].getBounds();
         if (rectsIntersect(bulletBounds, enemyBounds)) {
-          this.enemyWave.removeEnemy(enemies[j]);
-          this.score += SCORE_PER_ENEMY;
+          if (enemies[j].takeDamage(1)) {
+            this.enemyWave.removeEnemy(enemies[j]);
+            this.score += SCORE_PER_ENEMY;
+          }
           this.bullets.splice(i, 1);
           break;
         }

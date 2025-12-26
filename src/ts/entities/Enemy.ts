@@ -11,10 +11,12 @@ export class Enemy {
   private readonly width: number = ENEMY_WIDTH;
   private readonly height: number = ENEMY_HEIGHT;
   private readonly color: string = ENEMY_COLOR;
+  private health: number;
 
-  constructor(x: number, y: number) {
+  constructor(x: number, y: number, health: number = 1) {
     this.x = x;
     this.y = y;
+    this.health = health;
   }
 
   public move(offset: Vector2): void {
@@ -29,6 +31,18 @@ export class Enemy {
   public draw(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.save();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(this.health.toString(), this.x + this.width / 2, this.y + this.height / 2);
+    ctx.restore();
+  }
+
+  public takeDamage(amount: number = 1): boolean {
+    this.health -= amount;
+    return this.health <= 0;
   }
 
   public getBounds(): { x: number, y: number, width: number, height: number; } {
