@@ -2,18 +2,21 @@
 
 ## Current State
 
-Space Invaders game base implemented. Core entities (Player, Enemy, Bullet, EnemyWave) and game loop in place. Player movement and shooting functional, enemies spawn in waves.
+Space Invaders game now features a complete multi-level progression system. Players can progress through waves of enemies with increasing difficulty, tracked by a scoring system and level display.
 
 ## Recent Changes
 
-- Implemented Player, Enemy, Bullet, EnemyWave classes in src/ts/entities/
-- Added Game class managing update/render loop
-- InputHandler for keyboard controls
-- Merged feat/game-base to main, completed todo-3
+- Implemented JSON-based level configuration system (`src/assets/levels.json`).
+- Added level management logic in `Game.ts` including level loading and infinity fallback.
+- Implemented immediate next-level spawning upon clearing a wave.
+- Added velocity scaling in `EnemyWave.ts` (0.1% speed increase per row drop).
+- Integrated real-time score and level display in the UI.
+- Implemented basic collision detection and game over state.
 
 ## Next Steps
 
-- Add collision detection between bullets and enemies/player
-- Implement scoring system
-- Add game over/win conditions
-- Polish UI
+- Polish UI and visual effects.
+- Add sound effects and background music.
+- Implement player lives and health system.
+- Add more diverse level configurations to `levels.json`.
+- Implement specialized enemy behaviors or boss levels.
