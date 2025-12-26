@@ -1,6 +1,6 @@
 {
   "name": "space-invaders-game",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This project is a classic Space Invaders game. The player controls a spaceship at the bottom of the screen and must shoot down waves of aliens descending from the top.",
   "main": "index.js",
   "directories": {
