@@ -31,13 +31,15 @@ The workflow steps organize the task/work receiving, the understanding and analy
 
 Orchestrator Agent must also handle this step:
 
-- 1º Switch to the `main` branch:
+- 1º Run `git status`:
+  - If TODO file/s and/or plan file/s created in the **1. Task Origin** step are unstaged, stash them, in order to merge them later in the new branch to create in the step 3º below, from this same section.
+- 2º Switch to the `main` branch:
   - Its important to understand that `main` branch is the master branch of the repo.
   - If already in the main branch, and there are uncommitted changes, ask the user what to do with them.
   - If not in the main branch, and:
     - there are uncommitted changes, commit them. Then ask the user if merge that branch to `main` branch or not.
     - there are not pending changes, then ask the user if merge that branch to `main` branch or not.
-- 2º Create and switch to a new branch with a descriptive name:
+- 3º Create and switch to a new branch with a descriptive name:
   - For new features: `feat/<meaning-name>`
   - For bug fixes: `fix/<meaning-name>`
   - Create the new branch before starting work on the task, ensuring the branch name reflects the task's purpose or TODO file's name.
@@ -59,8 +61,8 @@ Orchestrator Agent must also handle this step:
   - Identifies ambiguities and areas needing user clarification.
   - Researches required technologies, frameworks, or APIs.
   - Analyzes the current project status.
-  - Defines a high-level approach for the solution/implementation, creating a step-by-step plan.
-  - Redefines the plan in tiny and detailed steps, including clear files names, structure, code snippets, and any other relevant details..
+  - Defines a high-level approach for the solution/implementation, creating a step-by-step plan. Include git handling, code writing, running console cmds (when required), test build (if exists), code review, testing implementation (if set-up in the project), documentation updates, etc.
+  - IMPORTANT: Redefines the plan in tiny and detailed steps, including clear files names, structure, code snippets, and any other relevant details.
   - Review the plan for any necessary changes.
   - **File Storage**: the plan must be saved to a file in `.kilocode/_generated/plans/` with a unique name (e.g., `<datetime>-<plan-name>.md`) in almost all cases. So, the Coder Agent (or any other) can receive this file to work on.
   - The plan must be presented to the user for approval before proceeding with the next steps.
@@ -73,7 +75,7 @@ Orchestrator Agent must also handle this step:
 - **Coder Agent**:
   - Receives and implements individual extremely tiny and detailed steps from the plan.
   - Always check the details of the original task before proceeding with the next steps.
-  - Make commits with meaningful messages at the end of the work.
+  - IMPORTANT: Make commits with meaningful messages at the end of the work, after resolve each one of the TODO file items.
 - **Architect/Code Reviewer/Code Simplifier Agent**:
   - Reviews the implemented code for errors or deviations from the plan.
   - Requests necessary changes from the Coder Agent.
@@ -94,11 +96,11 @@ Orchestrator Agent must also handle this step:
 
 - When all items in a TODO file are resolved (ie. marked as done as indicates the step 6), rename the file with a `-DONE` suffix (e.g., `<YYYYMMDD>-todo-<number>-DONE.md`).
 - Merge the current feature branch into the master branch:
-  - Ensure all files are committed in feature branch.
+  - IMPORTANT: Ensure all files are committed in feature branch. If not, stage them and commit them before continue.
   - Switch to the `main` branch, which is the master branch.
   - Merge the feature branch into the `main` branch.
   - Recheck the feature branch was correctly merged into `main` branch.
-    - If it was correctly merged, then delete the feature branch.
+    - If it was correctly merged, then delete the feature branch. It is IMPORTANT to verify BEFORE deleting the feature branch.
     - If the feature branch was not correctly merged into the `main` branch, then ask the user to resolve the merge conflicts and then retry the merge process.
   - If an `origin` remote repository exists, then push the latest `main` branch commits to the remote repository.
 
