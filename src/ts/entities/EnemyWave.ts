@@ -1,5 +1,5 @@
 import { Enemy } from './Enemy';
-import type { Vector2 } from './Enemy';
+type Vector2 = { x: number; y: number };
 
 interface EnemyWaveConfig {
     canvasWidth: number;
@@ -45,10 +45,14 @@ export class EnemyWave {
         let hitEdge = false;
 
         for (const enemy of this.enemies) {
-            const bounds = enemy.getBounds();
             enemy.move(offset);
-            if (bounds.x <= 0 || bounds.x + enemy.getBounds().width >= this.canvasWidth) {
+        }
+
+        for (const enemy of this.enemies) {
+            const bounds = enemy.getBounds();
+            if ((this.direction < 0 && bounds.x <= 0) || (this.direction > 0 && bounds.x + bounds.width >= this.canvasWidth)) {
                 hitEdge = true;
+                break;
             }
         }
 
