@@ -38,7 +38,12 @@ export class Player {
 
     public draw(ctx: CanvasRenderingContext2D): void {
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.beginPath();
+        ctx.moveTo(this.x + this.width / 2, this.y);
+        ctx.lineTo(this.x, this.y + this.height);
+        ctx.lineTo(this.x + this.width, this.y + this.height);
+        ctx.closePath();
+        ctx.fill();
     }
 
     public getShootPosition(): {x: number, y: number} {
