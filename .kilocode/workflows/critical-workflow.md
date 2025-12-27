@@ -117,7 +117,7 @@ Orchestrator Agent must also handle this step:
 
 ## 5. TODO File Completion
 
-- When all items in a TODO file are resolved (ie. marked as done as indicates the step 6), rename the file with a `-DONE` suffix (e.g., `<YYYYMMDD>-todo-<number>-DONE.md`).
+- When all items in a TODO file are resolved (ie. marked as done as indicates the step 6), rename the file with a `-DONE` suffix (e.g., `<YYYYMMDD>-todo-<number>-DONE.md`), and commit it.
 - Merge the current feature branch into the master branch:
   - IMPORTANT: Ensure all files are committed in feature branch. If not, stage them and commit them before continue.
   - Switch to the `main` branch, which is the master branch.
