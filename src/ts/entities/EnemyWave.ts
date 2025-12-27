@@ -15,7 +15,8 @@ export interface EnemyWaveConfig {
     speed: number;
     dropDistance: number;
     enemyCount: number;
-}
+       enemyHealth: number;
+ }
 
 export class EnemyWave {
     private enemies: Enemy[] = [];
@@ -56,7 +57,7 @@ export class EnemyWave {
         for (const slot of slots) {
             const x = config.startX + slot.col * config.spacingX;
             const y = config.startY + slot.row * config.spacingY;
-            this.enemies.push(new Enemy(x, y));
+            this.enemies.push(new Enemy(x, y, config.enemyHealth));
         }
     }
 

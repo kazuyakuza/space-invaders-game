@@ -26,3 +26,6 @@ export const BULLET_WIDTH = 5;
 export const BULLET_HEIGHT = 15;
 export const BULLET_SPEED = 7;
 export const BULLET_COLOR = '#ffffff';
+export const SHOW_DEBUG_INFO = true;
+
+export const COUNTDOWN_FRAMES = 180;

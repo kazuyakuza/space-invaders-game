@@ -14,8 +14,10 @@ import {
   PLAYER_SPEED,
   ENEMY_SPACING_X,
   ENEMY_SPACING_Y,
-  ENEMY_DROP_DISTANCE
-} from './constants';
+  ENEMY_DROP_DISTANCE,
+   SHOW_DEBUG_INFO,
+  COUNTDOWN_FRAMES
+ } from './constants';
 
 interface Bounds {
   x: number;
@@ -57,6 +59,13 @@ export class Game {
   private currentLevel: number = 0;
   private levelConfigs: Record<string, RawLevelConfig> = {};
 
+  private currentLevelConfig: LevelConfig | null = null;
+  private isPaused: boolean = false;
+  private hasStarted: boolean = false;
+  private countdown: number = 0;
+  private lastEscapePressed: boolean = false;
+  private lastSpacePressed: boolean = false;
+
   constructor() {
     this.canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d')!;
@@ -79,6 +88,11 @@ export class Game {
 
     this.loadLevels();
     this.initLevel(0);
+    this.hasStarted = false;
+    this.isPaused = false;
+    this.countdown = 0;
+    this.lastEscapePressed = false;
+    this.lastSpacePressed = false;
   }
 
   private loadLevels(): void {
@@ -154,6 +168,7 @@ export class Game {
 
   private initLevel(levelIndex: number): void {
     const levelConfig: LevelConfig = this.resolveLevelConfig(levelIndex + 1);
+    this.currentLevelConfig = levelConfig;
 
     const canvasConfig = {
       canvasWidth: CANVAS_WIDTH,
@@ -170,7 +185,8 @@ export class Game {
       startY: ENEMY_WAVE_START_Y,
       speed: levelConfig.speed,
       dropDistance: ENEMY_DROP_DISTANCE,
-      enemyCount: levelConfig.enemyCount
+      enemyCount: levelConfig.enemyCount,
+      enemyHealth: levelConfig.enemyHealth
     };
     this.enemyWave = new EnemyWave(enemyConfig);
     this.bullets = [];
@@ -191,6 +207,11 @@ export class Game {
     this.player = new Player(playerConfig);
     this.currentLevel = 0;
     this.initLevel(0);
+    this.hasStarted = false;
+    this.isPaused = false;
+    this.countdown = 0;
+    this.lastEscapePressed = false;
+    this.lastSpacePressed = false;
     this.gameRunning = true;
     this.shootCooldown = 0;
   }
@@ -206,6 +227,31 @@ export class Game {
   }
 
   private update(): void {
+  const escapePressed = this.input.isPressed('Escape');
+  if (escapePressed && !this.lastEscapePressed) {
+    this.isPaused = !this.isPaused;
+  }
+  this.lastEscapePressed = escapePressed;
+
+  if (!this.hasStarted) {
+    const spacePressed = this.input.isPressed('Space');
+    if (spacePressed && !this.lastSpacePressed) {
+      this.hasStarted = true;
+      this.countdown = COUNTDOWN_FRAMES;
+    }
+    this.lastSpacePressed = spacePressed;
+    return;
+  }
+
+  if (this.countdown > 0) {
+    this.countdown--;
+    return;
+  }
+
+  if (this.isPaused) {
+    return;
+  }
+
     if (!this.gameRunning && this.input.isPressed('Enter')) {
       this.reset();
       return;
@@ -273,10 +319,47 @@ export class Game {
     this.ctx.fillText(`Level: ${this.currentLevel}`, CANVAS_WIDTH - GAME_PADDING, 30);
     this.ctx.textAlign = 'left';
 
+    if (SHOW_DEBUG_INFO && this.currentLevelConfig) {
+      this.ctx.save();
+      this.ctx.font = '16px Arial';
+      this.ctx.fillStyle = '#ffff00';
+      this.ctx.fillText('Debug Info:', GAME_PADDING, 60);
+      this.ctx.fillText(`Rows: ${this.currentLevelConfig.rows}`, GAME_PADDING, 80);
+      this.ctx.fillText(`Cols: ${this.currentLevelConfig.cols}`, GAME_PADDING, 100);
+      this.ctx.fillText(`Speed: ${this.currentLevelConfig.speed.toFixed(2)}`, GAME_PADDING, 120);
+      this.ctx.fillText(`Enemy Count: ${this.currentLevelConfig.enemyCount}`, GAME_PADDING, 140);
+      this.ctx.fillText(`Enemy Health: ${this.currentLevelConfig.enemyHealth}`, GAME_PADDING, 160);
+      this.ctx.restore();
+    }
+
+    if (!this.hasStarted) {
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.font = '48px Arial';
+      this.ctx.textAlign = 'center';
+      this.ctx.fillText('Press SPACE to start', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      this.ctx.textAlign = 'left';
+    }
+
+    if (this.countdown > 0) {
+      this.ctx.fillStyle = '#ff0000';
+      this.ctx.font = '96px Arial';
+      this.ctx.textAlign = 'center';
+      this.ctx.fillText(Math.ceil(this.countdown / 60).toString(), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      this.ctx.textAlign = 'left';
+    }
+
     this.player.draw(this.ctx);
     this.enemyWave.draw(this.ctx);
     for (const bullet of this.bullets) {
       bullet.draw(this.ctx);
+    }
+
+    if (this.isPaused) {
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.font = '48px Arial';
+      this.ctx.textAlign = 'center';
+      this.ctx.fillText('PAUSED - Press ESC to resume', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      this.ctx.textAlign = 'left';
     }
 
     // Game over text
