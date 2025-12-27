@@ -20,7 +20,12 @@ export const PLAYER_START_Y_OFFSET = 50;
 
 export const ENEMY_WIDTH = 30;
 export const ENEMY_HEIGHT = 20;
-export const ENEMY_COLOR = '#ff0000';
+export const RED_ENEMY_COLOR = '#ff0000';
+export const YELLOW_ENEMY_COLOR = '#ffff00';
+export const ORANGE_ENEMY_COLOR = '#ffaa00';
+export const VIOLET_ENEMY_COLOR = '#aa00ff';
+export const ENEMY_SHOOT_CHANCE = 0.002;
+export const YELLOW_ENEMY_SPEED = 1.0;
 
 export const BULLET_WIDTH = 5;
 export const BULLET_HEIGHT = 15;

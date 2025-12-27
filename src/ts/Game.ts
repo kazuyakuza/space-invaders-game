@@ -36,10 +36,11 @@ interface LevelConfig {
   speed: number;
   enemyCount: number;
   enemyHealth: number;
+  enemyTypes?: Record<string, number>;
 }
 
 interface RawLevelConfig {
-  [key: string]: number;
+  [key: string]: any;
 }
 
 function rectsIntersect(a: Bounds, b: Bounds): boolean {
@@ -148,7 +149,9 @@ export class Game {
     const effective: Partial<LevelConfig> = {};
 
     Object.entries(baseRaw).forEach(([key, value]) => {
-      if (!key.startsWith('+')) {
+      if (key === 'enemyTypes') {
+        (effective as any).enemyTypes = value;
+      } else if (!key.startsWith('+')) {
         (effective as any)[key as keyof LevelConfig] = value;
       }
     });
@@ -161,7 +164,7 @@ export class Game {
         Object.entries(deltaRaw).forEach(([key, value]) => {
           if (key.startsWith('+')) {
             const prop = key.slice(1) as keyof LevelConfig;
-            effective[prop] = (effective[prop] ?? 0) + (value as number);
+            (effective as any)[prop] = ((effective[prop] as number ?? 0) + (value as number)) as any;
           }
         });
       }
@@ -190,7 +193,8 @@ export class Game {
       speed: levelConfig.speed,
       dropDistance: ENEMY_DROP_DISTANCE,
       enemyCount: levelConfig.enemyCount,
-      enemyHealth: levelConfig.enemyHealth
+      enemyHealth: levelConfig.enemyHealth,
+      enemyTypes: levelConfig.enemyTypes
     };
     this.enemyWave = new EnemyWave(enemyConfig);
     this.bullets = [];
@@ -272,7 +276,7 @@ export class Game {
 
     if (this.shootCooldown <= 0 && this.input.isPressed('Space')) {
       const pos = this.player.getShootPosition();
-      this.bullets.push(new Bullet(pos.x, pos.y));
+      this.bullets.push(new Bullet(pos.x - BULLET_WIDTH / 2, pos.y, true));
       this.shootCooldown = SHOOT_INTERVAL;
     } else {
       this.shootCooldown--;
@@ -282,7 +286,11 @@ export class Game {
     this.bullets = this.bullets.filter(bullet => bullet.update());
 
     // Update enemies
-    this.gameRunning = this.enemyWave.update();
+    const result = this.enemyWave.update();
+    this.gameRunning = result.continue;
+    for (const pb of result.pendingBullets) {
+      this.bullets.push(new Bullet(pb.x - BULLET_WIDTH / 2, pb.y, pb.isPlayer));
+    }
 
     this.handleCollisions();
 

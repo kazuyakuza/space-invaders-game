@@ -4,9 +4,26 @@
     "cols": 6,
     "speed": 1.0,
     "enemyCount": 30,
-    "enemyHealth": 1
+    "enemyHealth": 1,
+    "enemyTypes": {
+      "red": 70,
+      "yellow": 30
+    }
   },
   "2": {
-    "+enemyHealth": 1
+    "+enemyCount": 10,
+    "enemyTypes": {
+      "red": 50,
+      "yellow": 25,
+      "orange": 25
+    }
+  },
+  "3": {
+    "enemyTypes": {
+      "red": 40,
+      "yellow": 20,
+      "orange": 20,
+      "violet": 20
+    }
   }
 }

@@ -1,50 +1,37 @@
-interface Vector2 {
+import { ENEMY_WIDTH, ENEMY_HEIGHT } from '../constants';
+
+interface Bounds {
   x: number;
   y: number;
+  width: number;
+  height: number;
 }
 
-import { ENEMY_WIDTH, ENEMY_HEIGHT, ENEMY_COLOR } from '../constants';
+export interface UpdateContext {
+  spawnBullet(x: number, y: number, isPlayer: boolean): void;
+}
 
-export class Enemy {
-  private x: number;
-  private y: number;
-  private readonly width: number = ENEMY_WIDTH;
-  private readonly height: number = ENEMY_HEIGHT;
-  private readonly color: string = ENEMY_COLOR;
-  private health: number;
+export abstract class Enemy {
+  protected x: number;
+  protected y: number;
+  protected readonly width: number = ENEMY_WIDTH;
+  protected readonly height: number = ENEMY_HEIGHT;
+  protected readonly color: string;
+  protected health: number;
 
-  constructor(x: number, y: number, health: number = 1) {
+  constructor(x: number, y: number, health: number, color: string) {
     this.x = x;
     this.y = y;
     this.health = health;
+    this.color = color;
   }
 
-  public move(offset: Vector2): void {
-    this.x += offset.x;
-    this.y += offset.y;
-  }
+  public abstract update(context: UpdateContext): void;
+  public abstract draw(ctx: CanvasRenderingContext2D): void;
 
-  public setX(newX: number): void {
-    this.x = newX;
-  }
-
-  public draw(ctx: CanvasRenderingContext2D): void {
-    ctx.fillStyle = this.color;
-    ctx.beginPath();
-    ctx.moveTo(this.x + this.width / 2, this.y);
-    ctx.lineTo(this.x + this.width, this.y + this.height * 0.4);
-    ctx.lineTo(this.x + this.width * 0.8, this.y + this.height);
-    ctx.lineTo(this.x + this.width * 0.2, this.y + this.height);
-    ctx.lineTo(this.x, this.y + this.height * 0.4);
-    ctx.closePath();
-    ctx.fill();
-    ctx.save();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '12px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(this.health.toString(), this.x + this.width / 2, this.y + this.height / 2);
-    ctx.restore();
+  public move(offsetX: number, offsetY: number): void {
+    this.x += offsetX;
+    this.y += offsetY;
   }
 
   public takeDamage(amount: number = 1): boolean {
@@ -52,7 +39,34 @@ export class Enemy {
     return this.health <= 0;
   }
 
-  public getBounds(): { x: number, y: number, width: number, height: number; } {
-    return { x: this.x, y: this.y, width: this.width, height: this.height };
+  public getBounds(): Bounds {
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height
+    };
+  }
+
+  protected drawPentagon(ctx: CanvasRenderingContext2D, drawX: number = this.x, drawY: number = this.y): void {
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.moveTo(drawX + this.width / 2, drawY);
+    ctx.lineTo(drawX + this.width, drawY + this.height * 0.4);
+    ctx.lineTo(drawX + this.width * 0.8, drawY + this.height);
+    ctx.lineTo(drawX + this.width * 0.2, drawY + this.height);
+    ctx.lineTo(drawX, drawY + this.height * 0.4);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  protected drawHealth(ctx: CanvasRenderingContext2D): void {
+    ctx.save();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(this.health.toString(), this.x + this.width / 2, this.y + this.height / 2);
+    ctx.restore();
   }
 }
