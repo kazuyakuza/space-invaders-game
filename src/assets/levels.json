@@ -5,5 +5,8 @@
     "speed": 1.0,
     "enemyCount": 30,
     "enemyHealth": 1
+  },
+  "2": {
+    "+enemyHealth": 1
   }
 }
