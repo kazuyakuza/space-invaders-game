@@ -16,7 +16,11 @@ import {
   ENEMY_SPACING_Y,
   ENEMY_DROP_DISTANCE,
    SHOW_DEBUG_INFO,
-  COUNTDOWN_FRAMES
+  COUNTDOWN_FRAMES,
+   LABEL_PAUSE,
+   LABEL_RESTART,
+   LABEL_FONT,
+   LABEL_COLOR
  } from './constants';
 
 interface Bounds {
@@ -233,6 +237,11 @@ export class Game {
   }
   this.lastEscapePressed = escapePressed;
 
+  if (this.isPaused && this.input.isPressed('KeyR')) {
+    this.reset();
+    return;
+  }
+
   if (!this.hasStarted) {
     const spacePressed = this.input.isPressed('Space');
     if (spacePressed && !this.lastSpacePressed) {
@@ -317,6 +326,20 @@ export class Game {
     // Level
     this.ctx.textAlign = 'right';
     this.ctx.fillText(`Level: ${this.currentLevel}`, CANVAS_WIDTH - GAME_PADDING, 30);
+    this.ctx.textAlign = 'left';
+
+    this.ctx.font = LABEL_FONT;
+    this.ctx.fillStyle = LABEL_COLOR;
+    this.ctx.textAlign = 'center';
+
+    if (this.hasStarted && this.countdown === 0 && this.gameRunning && !this.isPaused) {
+      this.ctx.fillText(LABEL_PAUSE, CANVAS_WIDTH / 2, 30);
+    }
+
+    if (this.isPaused) {
+      this.ctx.fillText(LABEL_RESTART, CANVAS_WIDTH / 2, 30);
+    }
+
     this.ctx.textAlign = 'left';
 
     if (SHOW_DEBUG_INFO && this.currentLevelConfig) {

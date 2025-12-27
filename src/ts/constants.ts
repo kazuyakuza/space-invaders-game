@@ -29,3 +29,8 @@ export const BULLET_COLOR = '#ffffff';
 export const SHOW_DEBUG_INFO = true;
 
 export const COUNTDOWN_FRAMES = 180;
+
+export const LABEL_PAUSE = 'Press ESC to pause';
+export const LABEL_RESTART = 'Press R to restart';
+export const LABEL_FONT = '20px Arial';
+export const LABEL_COLOR = '#ffffff';
