@@ -6,12 +6,16 @@
 - **TypeScript**: Used for all game logic, providing type safety and better developer experience.
 - **Vite**: Modern build tool and development server for bundling assets and TypeScript.
 - **JSON**: Used for externalizing level configurations (`src/assets/levels.json`).
+- **Vitest**: Headless unit testing framework.
+- **jsdom**: DOM implementation for headless testing.
+- **vitest-canvas-mock**: Mocking for HTML5 Canvas API in tests.
 
 ## Development Setup
 
 - **Prerequisites**: Node.js and npm installed.
 - **Installation**: Run `npm install` to install dependencies (Vite).
 - **Execution**: Use `npm run dev` to start the local development server.
+- **Testing**: Use `npm run test` to execute headless unit tests.
 
 ## Technical Constraints
 
@@ -23,6 +27,9 @@
 
 - **Vite**: Build system and dev server.
 - **TypeScript**: Language support and compilation.
+- **Vitest**: Testing framework.
+- **jsdom**: Headless DOM environment.
+- **vitest-canvas-mock**: Canvas API mocking.
 
 ## Tool Usage Patterns
 

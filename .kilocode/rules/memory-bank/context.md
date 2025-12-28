@@ -2,7 +2,7 @@
 
 ## Current State
 
-Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties, enemy health/lives system, centralized `constants.ts`, and simplified level JSON structure for configuration.
+Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties, enemy health/lives system, centralized `constants.ts`, and simplified level JSON structure for configuration. A headless unit testing environment is also in place using Vitest.
 
 ## Recent Changes
 
@@ -19,6 +19,7 @@ Space Invaders game features advanced multi-level progression system with sparse
 - Added '+' prefix support for incremental property accumulation from base levels.
 - Implemented enemy health system: configurable lives per enemy, visual display, updated collisions.
 - Fixed TypeError in `Game.render()` where `toFixed()` was called on undefined (`src/ts/Game.ts`).
+- Implemented headless unit testing using Vitest, jsdom, and vitest-canvas-mock.
 
 ## Next Steps
 
