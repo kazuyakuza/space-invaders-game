@@ -64,10 +64,6 @@ export class EnemyWave {
         }
       }
       if (config.enemyCount < totalSlots) {
-        for (let i = slots.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [slots[i], slots[j]] = [slots[j], slots[i]];
-        }
         slots = slots.slice(0, config.enemyCount);
       }
       for (const slot of slots) {
@@ -101,10 +97,6 @@ export class EnemyWave {
         }
       }
       if (redCount < totalSlots) {
-        for (let i = slots.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [slots[i], slots[j]] = [slots[j], slots[i]];
-        }
         slots = slots.slice(0, redCount);
       }
       for (const slot of slots) {
