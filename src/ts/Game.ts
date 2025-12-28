@@ -356,11 +356,11 @@ export class Game {
       this.ctx.font = '16px Arial';
       this.ctx.fillStyle = '#ffff00';
       this.ctx.fillText('Debug Info:', GAME_PADDING, 60);
-      this.ctx.fillText(`Rows: ${this.currentLevelConfig.rows}`, GAME_PADDING, 80);
-      this.ctx.fillText(`Cols: ${this.currentLevelConfig.cols}`, GAME_PADDING, 100);
-      this.ctx.fillText(`Speed: ${this.currentLevelConfig.speed.toFixed(2)}`, GAME_PADDING, 120);
-      this.ctx.fillText(`Enemy Count: ${this.currentLevelConfig.enemyCount}`, GAME_PADDING, 140);
-      this.ctx.fillText(`Enemy Health: ${this.currentLevelConfig.enemyHealth}`, GAME_PADDING, 160);
+      this.ctx.fillText(`Rows: ${this.currentLevelConfig.rows ?? 'N/A'}`, GAME_PADDING, 80);
+      this.ctx.fillText(`Cols: ${this.currentLevelConfig.cols ?? 'N/A'}`, GAME_PADDING, 100);
+      this.ctx.fillText(`Speed: ${(this.currentLevelConfig.speed ?? 0).toFixed(2)}`, GAME_PADDING, 120);
+      this.ctx.fillText(`Enemy Count: ${this.currentLevelConfig.enemyCount ?? 'N/A'}`, GAME_PADDING, 140);
+      this.ctx.fillText(`Enemy Health: ${this.currentLevelConfig.enemyHealth ?? 'N/A'}`, GAME_PADDING, 160);
       this.ctx.restore();
     }
 
