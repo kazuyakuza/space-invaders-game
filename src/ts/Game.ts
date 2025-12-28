@@ -105,69 +105,42 @@ export class Game {
     this.levelConfigs = levelsData as Record<string, RawLevelConfig>;
   }
 
-  private isStaticLevel(levelNum: number): boolean {
-    const config = this.levelConfigs[levelNum.toString()];
-    return config ? Object.keys(config).every(key => !key.startsWith('+')) : false;
-  }
-
-  private hasDeltas(levelNum: number): boolean {
-    const config = this.levelConfigs[levelNum.toString()];
-    return config ? Object.keys(config).some(key => key.startsWith('+')) : false;
+  private applyLevelDelta(levelConfig: RawLevelConfig, effective: Partial<LevelConfig>): void {
+    Object.entries(levelConfig).forEach(([key, value]) => {
+      if (key.startsWith('+')) {
+        const prop = key.slice(1) as keyof LevelConfig;
+        const current = effective[prop] as number | undefined;
+        if (typeof current === 'number' && typeof value === 'number') {
+          effective[prop] = current + value;
+        }
+      } else {
+        (effective as any)[key] = value;
+      }
+    });
   }
 
   private resolveLevelConfig(targetLevel: number): LevelConfig {
-    const sortedLevels = Object.keys(this.levelConfigs)
+    const levelKeys = Object.keys(this.levelConfigs)
       .map(k => parseInt(k))
       .filter(n => !isNaN(n))
       .sort((a, b) => a - b);
 
-    if (sortedLevels.length === 0) {
-      return {
-        rows: 5,
-        cols: 6,
-        speed: 1.0,
-        enemyCount: 30,
-        enemyHealth: 1
-      };
-    }
+    const maxLevel = levelKeys.length > 0 ? Math.max(...levelKeys) : 0;
 
-    const staticYs = sortedLevels.filter(l => l <= targetLevel && this.isStaticLevel(l));
-    let staticY = staticYs.length > 0 ? Math.max(...staticYs) : sortedLevels[0];
 
-    const baseKey = staticY.toString();
-    const baseRaw = this.levelConfigs[baseKey];
+    const effective: Partial<LevelConfig> = {
+      rows: 5,
+      cols: 6,
+      speed: 1.0,
+      enemyCount: 30,
+      enemyHealth: 1
+    };
 
-    if (!baseRaw) {
-      return {
-        rows: 5,
-        cols: 6,
-        speed: 1.0,
-        enemyCount: 30,
-        enemyHealth: 1
-      };
-    }
-
-    const effective: Partial<LevelConfig> = {};
-
-    Object.entries(baseRaw).forEach(([key, value]) => {
-      if (key === 'enemyTypes') {
-        (effective as any).enemyTypes = value;
-      } else if (!key.startsWith('+')) {
-        (effective as any)[key as keyof LevelConfig] = value;
-      }
-    });
-
-    for (let i = staticY + 1; i <= targetLevel; i++) {
-      const deltaZs = sortedLevels.filter(z => z <= i && this.hasDeltas(z));
-      if (deltaZs.length > 0) {
-        const Z = Math.max(...deltaZs);
-        const deltaRaw = this.levelConfigs[Z.toString()];
-        Object.entries(deltaRaw).forEach(([key, value]) => {
-          if (key.startsWith('+')) {
-            const prop = key.slice(1) as keyof LevelConfig;
-            (effective as any)[prop] = ((effective[prop] as number ?? 0) + (value as number)) as any;
-          }
-        });
+    for (let i = 1; i <= targetLevel; i++) {
+      const levelKey = i <= maxLevel ? i.toString() : maxLevel.toString();
+      const levelConfig = this.levelConfigs[levelKey];
+      if (levelConfig) {
+        this.applyLevelDelta(levelConfig, effective);
       }
     }
 
