@@ -111,12 +111,11 @@ export class EnemyWave {
         const y = 0;
         this.enemies.push(new YellowEnemy(x, y, config.enemyHealth));
       }
-      // Orange bottom
+      // Orange top
       const orangeCount = typeCounts['orange'] || 0;
-      const bottomY = config.canvasHeight - ENEMY_HEIGHT - GAME_PADDING * 2;
       for (let i = 0; i < orangeCount; i++) {
         const x = GAME_PADDING + Math.random() * (config.canvasWidth - 2 * GAME_PADDING - ENEMY_WIDTH);
-        const y = bottomY;
+        const y = 0;
         this.enemies.push(new OrangeEnemy(x, y, config.enemyHealth));
       }
       // Violet middle
