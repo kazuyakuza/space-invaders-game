@@ -77,10 +77,20 @@ export class EnemyWave {
       }
     } else {
       const typeCounts: Record<string, number> = {};
-      for (const [type, pct] of Object.entries(config.enemyTypes)) {
-        const count = Math.floor(config.enemyCount * (pct / 100));
-        typeCounts[type] = count;
+      const sortedTypes = ['red', 'yellow', 'orange', 'violet'];
+      let allocated = 0;
+      let cumulativePct = 0;
+
+      for (const type of sortedTypes) {
+        if (config.enemyTypes[type] !== undefined) {
+          cumulativePct += config.enemyTypes[type];
+          const targetCumulative = Math.ceil(config.enemyCount * (cumulativePct / 100));
+          const count = targetCumulative - allocated;
+          typeCounts[type] = Math.max(0, count);
+          allocated += typeCounts[type];
+        }
       }
+      // Safety check: total should equal enemyCount if percentages sum to 100
       // Red in formation
       const redCount = typeCounts['red'] || 0;
       const totalSlots = config.rows * config.cols;
