@@ -29,10 +29,12 @@ The workflow steps organize the task/work receiving, the understanding and analy
 
 ## 2. Git Feature Branch Setup
 
-Orchestrator Agent must also handle this step:
+Orchestrator Agent must include in the plan it generates this section.
+It must clear for the designated ai agent to where and how to run the commands of this section.
+Must include next steps:
 
 - 1º Run `git status`:
-  - If TODO file/s and/or plan file/s created in the **1. Task Origin** step are unstaged, stash them, in order to merge them later in the new branch to create in the step 3º below, from this same section.
+  - If TODO file/s and/or plan file/s from the **1. Task Origin** step are unstaged, stash them, in order to merge them later in the new branch to create in the step 3º below, from this same section. CAUTION: don't remove the files, they have the work definition!
 - 2º Switch to the `main` branch:
   - Its important to understand that `main` branch is the master branch of the repo.
   - If already in the main branch, and there are uncommitted changes, ask the user what to do with them.
@@ -49,6 +51,7 @@ Orchestrator Agent must also handle this step:
 ## 3. Version Update
 
 - If the project has a version number (e.g., in `package.json`), increment it following the `x.y.z` format.
+- Commit this change.
 
 ## 4. Task Execution
 
@@ -58,7 +61,7 @@ Orchestrator Agent must also handle this step:
 - IMPORTANT: this step indicates that the Orchestrator Agent must drive the overall process. The analysis and implementation details should be handled by the appropriate agents. This is detailed in the below steps.
 - Process items within the TODO file in the order they are defined.
 - Before starting a new item, commit any pending changes to the current branch with a meaningful message.
-- Ask the user for clarifications or to confirm implementation plans if necessary.
+- Ask the user for clarifications or to confirm implementation plans when necessary.
 - Adhere to all other defined rules and workflows (e.g., creating unit tests for new features).
 - For each item follow next steps in current section 4.
 
@@ -78,9 +81,9 @@ Orchestrator Agent must also handle this step:
   - documentation updates (check steps below)
   - mark the item inside the TODO file as DONE (check steps below)
   - etc.
-- IMPORTANT: After the high-level approach, redefines the plan in very tiny and very detailed steps, including clear files names/paths, structure, code snippets, and any other relevant details.
+- IMPORTANT: After the high-level approach, redefines the plan in very tiny and very detailed steps, including clear files names/paths, structure, code snippets, where/how run terminal cmds, and any other relevant details.
 - Review the plan for any necessary changes.
-- **File Storage**: the plan must be saved to a file in `.kilocode/_generated/plans/` with a unique name (e.g., `<datetime>-<plan-name>.md`) in almost all cases. So, the Coder Agent (or any other) can receive this file to work on.
+- CRITICAL **File Storage**: the plan must be saved to a file in `.kilocode/_generated/plans/` with a unique name (e.g., `<datetime>-<plan-name>.md`) in almost all cases. So, the Coder Agent (or any other) can receive this file to work on.
 - The plan must be presented to the user for approval before proceeding with the next steps.
 - Although the Architect Agent is responsible for creating the plan, the Orchestrator Agent is responsible for ensuring that the plan is followed and that the appropriate agents are assigned to the appropriate tasks.
 - Always check the details of the original task before proceeding with the next steps.
@@ -113,11 +116,13 @@ Orchestrator Agent must also handle this step:
   - **Line Item Format**: Add `[DONE]` at the beginning of the line.
   - **Section Item Format**: Add `[DONE]` to the section title.
   - **Other Format**: Add `[DONE]` to the appropriate section or line as needed.
+  **Take care to don't delete the content of the file**
 - IMPORTANT: Commit all changes to the current branch with a meaningful message.
 
 ## 5. TODO File Completion
 
 - When all items in a TODO file are resolved (ie. marked as done as indicates the step 6), rename the file with a `-DONE` suffix (e.g., `<YYYYMMDD>-todo-<number>-DONE.md`), and commit it.
+  **Take care to don't delete the file**
 - Merge the current feature branch into the master branch:
   - IMPORTANT: Ensure all files are committed in feature branch. If not, stage them and commit them before continue.
   - Switch to the `main` branch, which is the master branch.
