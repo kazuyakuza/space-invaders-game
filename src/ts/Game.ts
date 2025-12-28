@@ -354,7 +354,12 @@ export class Game {
     }
 
     this.player.draw(this.ctx);
-    this.enemyWave.draw(this.ctx);
+    
+    // Only draw enemies if the game has started
+    if (this.hasStarted) {
+      this.enemyWave.draw(this.ctx);
+    }
+    
     for (const bullet of this.bullets) {
       bullet.draw(this.ctx);
     }
