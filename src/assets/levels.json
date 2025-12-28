@@ -6,24 +6,23 @@
     "enemyCount": 30,
     "enemyHealth": 1,
     "enemyTypes": {
-      "red": 70,
-      "yellow": 30
+      "red": 95,
+      "yellow": 5
     }
   },
   "2": {
-    "+enemyCount": 10,
     "enemyTypes": {
-      "red": 50,
-      "yellow": 25,
-      "orange": 25
+      "red": 90,
+      "yellow": 5,
+      "orange": 5
     }
   },
   "3": {
     "enemyTypes": {
-      "red": 40,
-      "yellow": 20,
-      "orange": 20,
-      "violet": 20
+      "red": 85,
+      "yellow": 5,
+      "orange": 5,
+      "violet": 5
     }
   }
 }

@@ -18,6 +18,7 @@ Space Invaders game features advanced multi-level progression system with sparse
 - Restructured `levels.json` to use object with level numbers as keys, enabling sparse definitions.
 - Added '+' prefix support for incremental property accumulation from base levels.
 - Implemented enemy health system: configurable lives per enemy, visual display, updated collisions.
+- Fixed TypeError in `Game.render()` where `toFixed()` was called on undefined (`src/ts/Game.ts`).
 
 ## Next Steps
 
