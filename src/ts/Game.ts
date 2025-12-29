@@ -298,11 +298,25 @@ export class Game {
   private handleCollisions(): void {
     for (let i = this.bullets.length - 1; i >= 0; i--) {
       const bulletBounds = this.bullets[i].getBounds();
+      const bullet = this.bullets[i];
+      const playerBounds = this.player.getBounds();
+      if (!bullet.isPlayerBullet) {
+        if (rectsIntersect(bulletBounds, playerBounds)) {
+          this.player.loseLife();
+          this.bullets.splice(i, 1);
+          if (this.player.getLives() > 0) {
+            this.player.resetPosition();
+          } else {
+            this.gameRunning = false;
+          }
+          continue;
+        }
+      }
       const enemies = this.enemyWave.getEnemies();
       for (let j = enemies.length - 1; j >= 0; j--) {
         const enemyBounds = enemies[j].getBounds();
         if (rectsIntersect(bulletBounds, enemyBounds)) {
-          const bullet = this.bullets[i];
+  
           if (!bullet.isPlayerBullet && bullet.isOrangeBullet) {
             continue;
           }
@@ -332,6 +346,7 @@ export class Game {
     this.ctx.textAlign = 'right';
     this.ctx.fillText(`Level: ${this.currentLevel}`, CANVAS_WIDTH - GAME_PADDING, 30);
     this.ctx.textAlign = 'left';
+    this.ctx.fillText(`Lives: ${this.player.getLives()}`, GAME_PADDING, 60);
 
     this.ctx.font = LABEL_FONT;
     this.ctx.fillStyle = LABEL_COLOR;
