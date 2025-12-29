@@ -3,7 +3,7 @@ import { VIOLET_ENEMY_COLOR } from '../constants';
 
 export class VioletEnemy extends Enemy {
   constructor(x: number, y: number, health: number) {
-    super(x, y, health, VIOLET_ENEMY_COLOR);
+    super(x, y, health * 10, VIOLET_ENEMY_COLOR);
   }
 
   public update(context: UpdateContext): void {

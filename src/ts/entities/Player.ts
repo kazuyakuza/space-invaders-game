@@ -17,6 +17,7 @@ export class Player {
     private readonly canvasWidth: number;
     private readonly canvasHeight: number;
     private readonly padding: number;
+    private lives: number = 3;
 
     constructor(config: PlayerConfig) {
         this.speed = config.speed;
@@ -25,6 +26,7 @@ export class Player {
         this.padding = config.padding;
         this.x = (this.canvasWidth / 2) - (this.width / 2);
         this.y = this.canvasHeight - PLAYER_START_Y_OFFSET;
+        this.lives = 3;
     }
 
     public update(inputHandler: import('../InputHandler').InputHandler): void {
@@ -53,11 +55,19 @@ export class Player {
         };
     }
 
-    public getCenterX(): number {
-        return this.x + this.width / 2;
+    public getLives(): number {
+        return this.lives;
     }
 
-    public getCenterY(): number {
-        return this.y + this.height / 2;
+    public loseLife(): void {
+        this.lives--;
+    }
+
+    public resetPosition(): void {
+        this.x = (this.canvasWidth / 2) - (this.width / 2);
+    }
+
+    public getBounds(): {x: number, y: number, width: number, height: number} {
+        return { x: this.x, y: this.y, width: this.width, height: this.height };
     }
 }
