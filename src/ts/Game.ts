@@ -1,7 +1,8 @@
 import { InputHandler } from './InputHandler';
 import { Player, type PlayerConfig } from './entities/Player';
 import { Bullet } from './entities/Bullet';
-import { EnemyWave, type EnemyWaveConfig } from './entities/EnemyWave';
+import { EnemyWave, type EnemyWaveConfig, type RedFormationConfig } from './entities/EnemyWave';
+import { CollisionManager } from './CollisionManager';
 import levelsData from '../assets/levels.json';
 import {
   CANVAS_WIDTH,
@@ -180,15 +181,15 @@ export class Game {
   private nextLevel(): void {
     this.currentLevel++;
     const levelConfig = this.resolveLevelConfig(this.currentLevel + 1);
-    this.enemyWave.spawnRedFormation(
-      levelConfig.rows,
-      levelConfig.cols,
-      ENEMY_WAVE_START_X,
-      ENEMY_WAVE_START_Y,
-      ENEMY_SPACING_X,
-      ENEMY_SPACING_Y,
-      levelConfig.enemyHealth
-    );
+    this.enemyWave.spawnRedFormation({
+      rows: levelConfig.rows,
+      cols: levelConfig.cols,
+      startX: ENEMY_WAVE_START_X,
+      startY: ENEMY_WAVE_START_Y,
+      spacingX: ENEMY_SPACING_X,
+      spacingY: ENEMY_SPACING_Y,
+      enemyHealth: levelConfig.enemyHealth
+    });
   }
 
   private reset(): void {

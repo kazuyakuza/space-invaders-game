@@ -34,6 +34,16 @@ export interface EnemyWaveConfig {
   enemyTypes?: Record<string, number>;
 }
 
+export interface RedFormationConfig {
+  rows: number;
+  cols: number;
+  startX: number;
+  startY: number;
+  spacingX: number;
+  spacingY: number;
+  enemyHealth: number;
+}
+
 interface WaveUpdateResult {
   continue: boolean;
   pendingBullets: { x: number; y: number; isPlayer: boolean; vx?: number; vy?: number; isOrangeBullet?: boolean; }[];
@@ -55,24 +65,58 @@ export class EnemyWave {
     this.initializeEnemies(config);
   }
 
+  private createGridSlots(rows: number, cols: number): { row: number, col: number }[] {
+    const slots: { row: number, col: number }[] = [];
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        slots.push({ row, col });
+      }
+    }
+    return slots;
+  }
+
+  private spawnRedEnemies(slots: { row: number, col: number }[], startX: number, startY: number, spacingX: number, spacingY: number, enemyHealth: number): void {
+    for (const slot of slots) {
+      const x = startX + slot.col * spacingX;
+      const y = startY + slot.row * spacingY;
+      this.enemies.push(new RedEnemy(x, y, enemyHealth));
+    }
+  }
+
+  private spawnYellowEnemies(count: number, canvasWidth: number, enemyHealth: number): void {
+    for (let i = 0; i < count; i++) {
+      const x = GAME_PADDING + Math.random() * (canvasWidth - 2 * GAME_PADDING - ENEMY_WIDTH);
+      const y = 0;
+      this.enemies.push(new YellowEnemy(x, y, enemyHealth));
+    }
+  }
+
+  private spawnOrangeEnemies(count: number, canvasWidth: number, enemyHealth: number): void {
+    for (let i = 0; i < count; i++) {
+      const x = GAME_PADDING + Math.random() * (canvasWidth - 2 * GAME_PADDING - ENEMY_WIDTH);
+      const y = 0;
+      this.enemies.push(new OrangeEnemy(x, y, enemyHealth));
+    }
+  }
+
+  private spawnVioletEnemies(count: number, canvasHeight: number, canvasWidth: number, enemyHealth: number): void {
+    const middleY = canvasHeight * 0.5 - ENEMY_HEIGHT * 0.5;
+    for (let i = 0; i < count; i++) {
+      const x = GAME_PADDING + Math.random() * (canvasWidth - 2 * GAME_PADDING - ENEMY_WIDTH);
+      const y = middleY;
+      this.enemies.push(new VioletEnemy(x, y, enemyHealth));
+    }
+  }
+
   private initializeEnemies(config: EnemyWaveConfig): void {
     if (!config.enemyTypes || Object.keys(config.enemyTypes).length === 0) {
       // Legacy all red
       const totalSlots = config.rows * config.cols;
-      let slots: { row: number, col: number; }[] = [];
-      for (let row = 0; row < config.rows; row++) {
-        for (let col = 0; col < config.cols; col++) {
-          slots.push({ row, col });
-        }
-      }
+      let slots = this.createGridSlots(config.rows, config.cols);
       if (config.enemyCount < totalSlots) {
         slots = slots.slice(0, config.enemyCount);
       }
-      for (const slot of slots) {
-        const x = config.startX + slot.col * config.spacingX;
-        const y = config.startY + slot.row * config.spacingY;
-        this.enemies.push(new RedEnemy(x, y, config.enemyHealth));
-      }
+      this.spawnRedEnemies(slots, config.startX, config.startY, config.spacingX, config.spacingY, config.enemyHealth);
     } else {
       const typeCounts: Record<string, number> = {};
       const sortedTypes = ['red', 'yellow', 'orange', 'violet'];
@@ -88,76 +132,61 @@ export class EnemyWave {
           allocated += typeCounts[type];
         }
       }
-      // Safety check: total should equal enemyCount if percentages sum to 100
       // Red in formation
       const redCount = typeCounts['red'] || 0;
       const totalSlots = config.rows * config.cols;
-      let slots: { row: number, col: number; }[] = [];
-      for (let row = 0; row < config.rows; row++) {
-        for (let col = 0; col < config.cols; col++) {
-          slots.push({ row, col });
-        }
-      }
+      let slots = this.createGridSlots(config.rows, config.cols);
       if (redCount < totalSlots) {
         slots = slots.slice(0, redCount);
       }
-      for (const slot of slots) {
-        const x = config.startX + slot.col * config.spacingX;
-        const y = config.startY + slot.row * config.spacingY;
-        this.enemies.push(new RedEnemy(x, y, config.enemyHealth));
-      }
+      this.spawnRedEnemies(slots, config.startX, config.startY, config.spacingX, config.spacingY, config.enemyHealth);
       // Yellow top
-      const yellowCount = typeCounts['yellow'] || 0;
-      for (let i = 0; i < yellowCount; i++) {
-        const x = GAME_PADDING + Math.random() * (config.canvasWidth - 2 * GAME_PADDING - ENEMY_WIDTH);
-        const y = 0;
-        this.enemies.push(new YellowEnemy(x, y, config.enemyHealth));
-      }
+      this.spawnYellowEnemies(typeCounts['yellow'] || 0, config.canvasWidth, config.enemyHealth);
       // Orange top
-      const orangeCount = typeCounts['orange'] || 0;
-      for (let i = 0; i < orangeCount; i++) {
-        const x = GAME_PADDING + Math.random() * (config.canvasWidth - 2 * GAME_PADDING - ENEMY_WIDTH);
-        const y = 0;
-        this.enemies.push(new OrangeEnemy(x, y, config.enemyHealth));
-      }
+      this.spawnOrangeEnemies(typeCounts['orange'] || 0, config.canvasWidth, config.enemyHealth);
       // Violet middle
-      const violetCount = typeCounts['violet'] || 0;
-      const middleY = config.canvasHeight * 0.5 - ENEMY_HEIGHT * 0.5;
-      for (let i = 0; i < violetCount; i++) {
-        const x = GAME_PADDING + Math.random() * (config.canvasWidth - 2 * GAME_PADDING - ENEMY_WIDTH);
-        const y = middleY;
-        this.enemies.push(new VioletEnemy(x, y, config.enemyHealth));
+      this.spawnVioletEnemies(typeCounts['violet'] || 0, config.canvasHeight, config.canvasWidth, config.enemyHealth);
+    }
+  }
+
+  private moveRedEnemies(offsetX: number, offsetY: number): void {
+    for (const enemy of this.enemies) {
+      if (enemy instanceof RedEnemy) {
+        enemy.move(offsetX, offsetY);
       }
     }
   }
 
-  private updateWaveMovement(): void {
-    const offsetX = this.speed * this.direction;
-    let hitEdge = false;
-    for (const enemy of this.enemies) {
-      if (enemy instanceof RedEnemy) {
-        enemy.move(offsetX, 0);
-      }
-    }
+  private checkRedEdgeHit(): boolean {
     for (const enemy of this.enemies) {
       if (enemy instanceof RedEnemy) {
         const bounds = enemy.getBounds();
         if ((this.direction < 0 && bounds.x <= 0) || (this.direction > 0 && bounds.x + bounds.width >= this.canvasWidth)) {
-          hitEdge = true;
-          break;
+          return true;
         }
       }
     }
-    if (hitEdge) {
+    return false;
+  }
+
+  private updateWaveMovement(): void {
+    const offsetX = this.speed * this.direction;
+    this.moveRedEnemies(offsetX, 0);
+    if (this.checkRedEdgeHit()) {
       this.direction *= -1;
-      const dropOffsetY = this.dropDistance;
-      for (const enemy of this.enemies) {
-        if (enemy instanceof RedEnemy) {
-          enemy.move(0, dropOffsetY);
-        }
-      }
+      this.moveRedEnemies(0, this.dropDistance);
       this.speed *= DIFFICULTY_SPEED_INCREMENT;
     }
+  }
+
+  private checkLoseCondition(): boolean {
+    for (const enemy of this.enemies) {
+      const bounds = enemy.getBounds();
+      if (bounds.y + bounds.height >= this.canvasHeight - LOSE_CONDITION_Y_OFFSET) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public update(playerX: number, playerY: number): WaveUpdateResult {
@@ -171,12 +200,8 @@ export class EnemyWave {
     for (const enemy of this.enemies) {
       enemy.update(context);
     }
-    // Lose condition
-    for (const enemy of this.enemies) {
-      const bounds = enemy.getBounds();
-      if (bounds.y + bounds.height >= this.canvasHeight - LOSE_CONDITION_Y_OFFSET) {
-        return { continue: false, pendingBullets: [] };
-      }
+    if (this.checkLoseCondition()) {
+      return { continue: false, pendingBullets: [] };
     }
     return { continue: true, pendingBullets };
   }
@@ -202,28 +227,16 @@ export class EnemyWave {
     return this.enemies.length === 0;
   }
 
-  public spawnRedFormation(rows: number, cols: number, startX: number, startY: number, spacingX: number, spacingY: number, enemyHealth: number): void {
-    const slots: { row: number; col: number }[] = [];
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        slots.push({ row, col });
-      }
-    }
-    for (const slot of slots) {
-      const x = startX + slot.col * spacingX;
-      const y = startY + slot.row * spacingY;
-      this.enemies.push(new RedEnemy(x, y, enemyHealth));
-    }
+  public spawnRedFormation(config: RedFormationConfig): void {
+    const slots = this.createGridSlots(config.rows, config.cols);
+    this.spawnRedEnemies(slots, config.startX, config.startY, config.spacingX, config.spacingY, config.enemyHealth);
   }
-
 
   public hasRedEnemies(): boolean {
     return this.enemies.some(enemy => enemy instanceof RedEnemy);
-    ;
   }
 
   public spawnEnemies(config: EnemyWaveConfig): void {
     this.initializeEnemies(config);
-    ;
   }
 }
