@@ -3,18 +3,18 @@ import { RedEnemy } from './RedEnemy';
 import { YellowEnemy } from './YellowEnemy';
 import { OrangeEnemy } from './OrangeEnemy';
 import { VioletEnemy } from './VioletEnemy';
-import { 
-  DIFFICULTY_SPEED_INCREMENT, 
-  LOSE_CONDITION_Y_OFFSET, 
-  ENEMY_DROP_DISTANCE, 
-  ENEMY_SPACING_X, 
-  ENEMY_SPACING_Y, 
-  GAME_PADDING, 
-  ENEMY_WIDTH, 
-  ENEMY_HEIGHT 
+import {
+  DIFFICULTY_SPEED_INCREMENT,
+  LOSE_CONDITION_Y_OFFSET,
+  ENEMY_DROP_DISTANCE,
+  ENEMY_SPACING_X,
+  ENEMY_SPACING_Y,
+  GAME_PADDING,
+  ENEMY_WIDTH,
+  ENEMY_HEIGHT
 } from '../constants';
 
-type Vector2 = { x: number; y: number };
+type Vector2 = { x: number; y: number; };
 
 export interface EnemyWaveConfig {
   canvasWidth: number;
@@ -34,7 +34,7 @@ export interface EnemyWaveConfig {
 
 interface WaveUpdateResult {
   continue: boolean;
-  pendingBullets: { x: number; y: number; isPlayer: boolean }[];
+  pendingBullets: { x: number; y: number; isPlayer: boolean; }[];
 }
 
 export class EnemyWave {
@@ -57,10 +57,10 @@ export class EnemyWave {
     if (!config.enemyTypes || Object.keys(config.enemyTypes).length === 0) {
       // Legacy all red
       const totalSlots = config.rows * config.cols;
-      let slots: {row: number, col: number}[] = [];
+      let slots: { row: number, col: number; }[] = [];
       for (let row = 0; row < config.rows; row++) {
         for (let col = 0; col < config.cols; col++) {
-          slots.push({row, col});
+          slots.push({ row, col });
         }
       }
       if (config.enemyCount < totalSlots) {
@@ -90,10 +90,10 @@ export class EnemyWave {
       // Red in formation
       const redCount = typeCounts['red'] || 0;
       const totalSlots = config.rows * config.cols;
-      let slots: {row: number, col: number}[] = [];
+      let slots: { row: number, col: number; }[] = [];
       for (let row = 0; row < config.rows; row++) {
         for (let col = 0; col < config.cols; col++) {
-          slots.push({row, col});
+          slots.push({ row, col });
         }
       }
       if (redCount < totalSlots) {
@@ -159,7 +159,7 @@ export class EnemyWave {
   }
 
   public update(): WaveUpdateResult {
-    const pendingBullets: { x: number; y: number; isPlayer: boolean }[] = [];
+    const pendingBullets: { x: number; y: number; isPlayer: boolean; }[] = [];
     const context: UpdateContext = {
       spawnBullet: (x: number, y: number, isPlayer: boolean) => pendingBullets.push({ x, y, isPlayer })
     };
@@ -197,4 +197,5 @@ export class EnemyWave {
   public isEmpty(): boolean {
     return this.enemies.length === 0;
   }
+  public hasRedEnemies(): boolean { \n    return this.enemies.some(enemy => enemy instanceof RedEnemy); \n; } \n\n  public spawnEnemies(config: EnemyWaveConfig): void { \n    this.initializeEnemies(config); \n; } \n;
 }
