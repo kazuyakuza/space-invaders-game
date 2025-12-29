@@ -11,7 +11,9 @@ import {
   ENEMY_SPACING_Y,
   GAME_PADDING,
   ENEMY_WIDTH,
-  ENEMY_HEIGHT
+  ENEMY_HEIGHT,
+  ENEMY_WAVE_START_X,
+  ENEMY_WAVE_START_Y
 } from '../constants';
 
 type Vector2 = { x: number; y: number; };
@@ -199,5 +201,29 @@ export class EnemyWave {
   public isEmpty(): boolean {
     return this.enemies.length === 0;
   }
-  public hasRedEnemies(): boolean { \n    return this.enemies.some(enemy => enemy instanceof RedEnemy); \n; } \n\n  public spawnEnemies(config: EnemyWaveConfig): void { \n    this.initializeEnemies(config); \n; } \n;
+
+  public spawnRedFormation(rows: number, cols: number, startX: number, startY: number, spacingX: number, spacingY: number, enemyHealth: number): void {
+    const slots: { row: number; col: number }[] = [];
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        slots.push({ row, col });
+      }
+    }
+    for (const slot of slots) {
+      const x = startX + slot.col * spacingX;
+      const y = startY + slot.row * spacingY;
+      this.enemies.push(new RedEnemy(x, y, enemyHealth));
+    }
+  }
+
+
+  public hasRedEnemies(): boolean {
+    return this.enemies.some(enemy => enemy instanceof RedEnemy);
+    ;
+  }
+
+  public spawnEnemies(config: EnemyWaveConfig): void {
+    this.initializeEnemies(config);
+    ;
+  }
 }

@@ -114,7 +114,7 @@ export class Game {
         const prop = key.slice(1) as keyof LevelConfig;
         const current = effective[prop] as number | undefined;
         if (typeof current === 'number' && typeof value === 'number') {
-          effective[prop] = current + value;
+          (effective as any)[prop] = current + value;
         }
       } else {
         (effective as any)[key] = value;
@@ -175,6 +175,20 @@ export class Game {
     };
     this.enemyWave = new EnemyWave(enemyConfig);
     this.bullets = [];
+  }
+
+  private nextLevel(): void {
+    this.currentLevel++;
+    const levelConfig = this.resolveLevelConfig(this.currentLevel + 1);
+    this.enemyWave.spawnRedFormation(
+      levelConfig.rows,
+      levelConfig.cols,
+      ENEMY_WAVE_START_X,
+      ENEMY_WAVE_START_Y,
+      ENEMY_SPACING_X,
+      ENEMY_SPACING_Y,
+      levelConfig.enemyHealth
+    );
   }
 
   private reset(): void {
@@ -276,9 +290,8 @@ export class Game {
 
 
     // Level transition
-    if (this.enemyWave.isEmpty()) {
-      this.currentLevel++;
-      this.initLevel(this.currentLevel);
+    if (!this.enemyWave.hasRedEnemies()) {
+      this.nextLevel();
     }
   }
 
