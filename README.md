@@ -10,13 +10,14 @@ This project is a classic Space Invaders game. The player controls a spaceship a
 
 ## Project Scope
 
-- Developed using HTML, CSS, and JavaScript, with no frameworks.
+- Developed using HTML, CSS, and TypeScript (using Vite).
 - Multi-level system driven by a JSON configuration file (`levels.json`).
+- Player lives system: 3 lives with respawning.
 - Player controls: cursor keys for movement, space bar for shooting.
-- Level-specific enemy waves and patterns.
-- Player loses if enemies reach the bottom of the screen.
+- Level-specific enemy waves and patterns (Red, Yellow, Orange, Violet enemies).
+- Player loses if enemies reach the bottom of the screen or all lives are lost.
 - Uses geometric figures for the ship and enemies, no sound.
-- Minimal UI to be added later.
+- Real-time UI for score, level, and lives tracking.
 - "Night mode" color scheme with a black background.
 
 ## Development Setup

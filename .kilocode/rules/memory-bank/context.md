@@ -4,8 +4,18 @@
 
 Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties, enemy health/lives system, centralized `constants.ts`, and simplified level JSON structure for configuration. A headless unit testing environment is also in place using Vitest.
 
-## Recent Changes
+## Recent Changes (v1.1.13)
 
+- **Architecture Refactor**: Split `Game.ts` and `EnemyWave.ts` into specialized managers:
+  - `CollisionManager.ts`: Centralized collision detection logic.
+  - `UIManager.ts`: Handles all HUD and screen overlay rendering.
+  - `Renderer.ts`: Orchestrates entity drawing.
+  - `FormationGenerator.ts`: Decoupled enemy spawning and formation logic.
+- **Player Lives System**: Implemented a 3-lives system with respawning and visual UI tracking.
+- **Enemy Behavior Enhancements**:
+  - **Level Completion**: Levels now end when all Red enemies are cleared; other types are preserved.
+  - **Orange Enemy**: Implemented targeting logic and bullet transparency (bullets pass through other enemies).
+  - **Violet Enemy**: Increased health to 10x for mini-boss encounters.
 - Refactored level configuration and extracted core constants into `src/ts/constants.ts`.
 - Implemented random enemy spawning logic for more varied gameplay.
 - Refactored `Game.ts` to stay under the 200-line limit by extracting collision handling logic.
@@ -25,6 +35,6 @@ Space Invaders game features advanced multi-level progression system with sparse
 
 - Polish UI and visual effects.
 - Add sound effects and background music.
-- Implement player lives and health system.
 - Add more diverse level configurations to `levels.json`.
-- Implement specialized enemy behaviors or boss levels.
+- Implement specialized boss levels with unique patterns.
+- Implement power-up system for the player.

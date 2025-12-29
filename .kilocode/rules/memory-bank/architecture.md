@@ -10,12 +10,16 @@ Canvas-based 2D Space Invaders game using HTML5 Canvas and TypeScript. Main game
 - `src/styles.css`: Night mode color scheme
 - `src/assets/levels.json`: External level configuration (rows, cols, speed, spacing)
 - `src/ts/main.ts`: Initializes and starts the game
-- `src/ts/Game.ts`: Manages game loop, entities, level progression, and rendering
+- `src/ts/Game.ts`: Orchestrates game loop, level management, and state
+- `src/ts/CollisionManager.ts`: Centralized collision detection logic
+- `src/ts/UIManager.ts`: Handles HUD and screen overlay rendering
+- `src/ts/Renderer.ts`: Orchestrates entity drawing
 - `src/ts/InputHandler.ts`: Keyboard input processing
 - `src/ts/entities/Player.ts`: Player spaceship entity
-- `src/ts/entities/Enemy.ts`: Individual enemy entity
+- `src/ts/entities/Enemy.ts`: Base enemy entity and specialized types (Red, Yellow, Orange, Violet)
 - `src/ts/entities/Bullet.ts`: Projectile entity
-- `src/ts/entities/EnemyWave.ts`: Manages formation, movement, and difficulty scaling of enemies
+- `src/ts/entities/EnemyWave.ts`: Manages enemy group lifecycle and movement
+- `src/ts/entities/FormationGenerator.ts`: Decoupled formation and spawning logic
 
 ## Key Technical Decisions
 
@@ -30,18 +34,20 @@ Canvas-based 2D Space Invaders game using HTML5 Canvas and TypeScript. Main game
 
 ## Design Patterns
 
-- Entity pattern: Game objects inherit common update/render behavior
-- State management: Game class acts as the central coordinator for level transitions and entity lifecycle
+- **Entity pattern**: Game objects inherit common update/render behavior.
+- **Manager pattern**: specialized logic (collisions, UI, rendering) extracted into dedicated manager classes.
+- **State management**: Game class acts as the central coordinator for level transitions and entity lifecycle.
 
 ## Component Relationships
 
-- Game owns instances of Player, EnemyWave, and handles Bullet lifecycle
-- Game loads level configurations from levels.json and initializes EnemyWave per level
-- EnemyWave creates and positions multiple Enemy instances
-- Player creates player Bullets on shoot
-- InputHandler observes keyboard events and updates Player position/shoot state
-- Game orchestrates update/render cycle for all entities each frame
+- **Game** owns instances of `Player`, `EnemyWave`, `CollisionManager`, `UIManager`, and `EntityRenderer`.
+- **Game** loads level configurations from `levels.json` and initializes `EnemyWave` per level.
+- **EnemyWave** uses `FormationGenerator` to create and position multiple `Enemy` instances.
+- **Player** creates player `Bullet` instances on shoot.
+- **InputHandler** observes keyboard events and updates `Player` position/shoot state.
+- **CollisionManager** processes interactions between `Bullet`, `Player`, and `EnemyWave`.
+- **UIManager** handles all text and overlay rendering based on current `Game` state.
 
 ## Critical Implementation Paths
 
-`main.ts` → `new Game(canvas)` → `initLevel(0)` → `gameLoop()` → `Game.update(deltaTime)` → entities.update() → `Game.render(ctx)` → entities.draw()
+`main.ts` → `new Game(canvas)` → `initLevel(0)` → `gameLoop()` → `Game.update(deltaTime)` → `CollisionManager.handleCollisions()` → `Game.render(ctx)` → `UIManager.render()` / `EntityRenderer.render()`
