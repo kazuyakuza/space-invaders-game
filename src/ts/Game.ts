@@ -12,11 +12,14 @@ import {
   ENEMY_WAVE_START_Y,
   SCORE_PER_ENEMY,
   PLAYER_SPEED,
+  PLAYER_WIDTH,
+  PLAYER_HEIGHT,
   ENEMY_SPACING_X,
   ENEMY_SPACING_Y,
   ENEMY_DROP_DISTANCE,
    SHOW_DEBUG_INFO,
   BULLET_WIDTH,
+  BULLET_SPEED,
   COUNTDOWN_FRAMES,
    LABEL_PAUSE,
    LABEL_RESTART,
@@ -260,10 +263,13 @@ export class Game {
     this.bullets = this.bullets.filter(bullet => bullet.update());
 
     // Update enemies
-    const result = this.enemyWave.update();
+    const playerPos = this.player.getShootPosition();
+    const playerCenterX = playerPos.x;
+    const playerCenterY = playerPos.y + PLAYER_HEIGHT / 2;
+    const result = this.enemyWave.update(playerCenterX, playerCenterY);
     this.gameRunning = result.continue;
     for (const pb of result.pendingBullets) {
-      this.bullets.push(new Bullet(pb.x - BULLET_WIDTH / 2, pb.y, pb.isPlayer));
+      this.bullets.push(new Bullet(pb.x - BULLET_WIDTH / 2, pb.y, pb.isPlayer, pb.vx ?? 0, pb.vy ?? (pb.isPlayer ? -BULLET_SPEED : BULLET_SPEED), pb.isOrangeBullet ?? false));
     }
 
     this.handleCollisions();
@@ -283,6 +289,10 @@ export class Game {
       for (let j = enemies.length - 1; j >= 0; j--) {
         const enemyBounds = enemies[j].getBounds();
         if (rectsIntersect(bulletBounds, enemyBounds)) {
+          const bullet = this.bullets[i];
+          if (!bullet.isPlayerBullet && bullet.isOrangeBullet) {
+            continue;
+          }
           if (enemies[j].takeDamage(1)) {
             this.enemyWave.removeEnemy(enemies[j]);
             this.score += SCORE_PER_ENEMY;

@@ -8,7 +8,9 @@ interface Bounds {
 }
 
 export interface UpdateContext {
-  spawnBullet(x: number, y: number, isPlayer: boolean): void;
+  playerX: number;
+  playerY: number;
+  spawnBullet(x: number, y: number, isPlayer: boolean, vx?: number, vy?: number, isOrangeBullet?: boolean): void;
 }
 
 export abstract class Enemy {

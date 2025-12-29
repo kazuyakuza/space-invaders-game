@@ -52,4 +52,12 @@ export class Player {
             y: this.y
         };
     }
+
+    public getCenterX(): number {
+        return this.x + this.width / 2;
+    }
+
+    public getCenterY(): number {
+        return this.y + this.height / 2;
+    }
 }

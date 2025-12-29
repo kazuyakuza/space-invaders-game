@@ -34,7 +34,7 @@ export interface EnemyWaveConfig {
 
 interface WaveUpdateResult {
   continue: boolean;
-  pendingBullets: { x: number; y: number; isPlayer: boolean; }[];
+  pendingBullets: { x: number; y: number; isPlayer: boolean; vx?: number; vy?: number; isOrangeBullet?: boolean; }[];
 }
 
 export class EnemyWave {
@@ -158,10 +158,12 @@ export class EnemyWave {
     }
   }
 
-  public update(): WaveUpdateResult {
-    const pendingBullets: { x: number; y: number; isPlayer: boolean; }[] = [];
+  public update(playerX: number, playerY: number): WaveUpdateResult {
+    const pendingBullets: { x: number; y: number; isPlayer: boolean; vx?: number; vy?: number; isOrangeBullet?: boolean; }[] = [];
     const context: UpdateContext = {
-      spawnBullet: (x: number, y: number, isPlayer: boolean) => pendingBullets.push({ x, y, isPlayer })
+      playerX,
+      playerY,
+      spawnBullet: (x: number, y: number, isPlayer: boolean, vx?: number, vy?: number, isOrangeBullet?: boolean) => pendingBullets.push({ x, y, isPlayer, vx, vy, isOrangeBullet })
     };
     this.updateWaveMovement();
     for (const enemy of this.enemies) {
