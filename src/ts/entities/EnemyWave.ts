@@ -144,4 +144,8 @@ export class EnemyWave {
     const newEnemies = FormationGenerator.generateFormation(config);
     this.enemies.push(...newEnemies);
   }
+
+  public setSpeed(speed: number): void {
+    this.speed = speed;
+  }
 }

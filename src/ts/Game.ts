@@ -90,7 +90,7 @@ export class Game {
   private initLevel(levelIndex: number): void {
     const config = this.resolveLevelConfig(levelIndex + 1);
     this.currentLevelConfig = config;
-    this.enemyWave = new EnemyWave({
+    const waveConfig = {
       canvasWidth: CANVAS_WIDTH,
       canvasHeight: CANVAS_HEIGHT,
       cols: config.cols,
@@ -104,7 +104,14 @@ export class Game {
       enemyCount: config.enemyCount,
       enemyHealth: config.enemyHealth,
       enemyTypes: config.enemyTypes
-    });
+    };
+
+    if (levelIndex === 0 || !this.enemyWave) {
+      this.enemyWave = new EnemyWave(waveConfig);
+    } else {
+      this.enemyWave.spawnEnemies(waveConfig);
+      this.enemyWave.setSpeed(config.speed);
+    }
     this.bullets = [];
   }
 
