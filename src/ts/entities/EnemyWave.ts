@@ -2,8 +2,7 @@ import { Enemy, type UpdateContext } from './Enemy';
 import { RedEnemy } from './RedEnemy';
 import { FormationGenerator } from './FormationGenerator';
 import {
-  DIFFICULTY_SPEED_INCREMENT,
-  LOSE_CONDITION_Y_OFFSET
+  DIFFICULTY_SPEED_INCREMENT
 } from '../constants';
 
 export interface EnemyWaveConfig {
@@ -83,10 +82,11 @@ export class EnemyWave {
     }
   }
 
-  private checkLoseCondition(): boolean {
+  private checkLoseCondition(playerY: number): boolean {
     for (const enemy of this.enemies) {
       const bounds = enemy.getBounds();
-      if (bounds.y + bounds.height >= this.canvasHeight - LOSE_CONDITION_Y_OFFSET) {
+      // Trigger if enemy bottom reaches or passes player top (playerY)
+      if (bounds.y + bounds.height >= playerY) {
         return true;
       }
     }
@@ -104,7 +104,7 @@ export class EnemyWave {
     for (const enemy of this.enemies) {
       enemy.update(context);
     }
-    if (this.checkLoseCondition()) {
+    if (this.checkLoseCondition(playerY)) {
       return { continue: false, pendingBullets: [] };
     }
     return { continue: true, pendingBullets };

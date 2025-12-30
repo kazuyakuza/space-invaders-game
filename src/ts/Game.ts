@@ -177,7 +177,7 @@ export class Game {
     }
     this.bullets = this.bullets.filter(b => b.update());
     const pPos = this.player.getShootPosition();
-    const result = this.enemyWave.update(pPos.x, pPos.y + PLAYER_HEIGHT / 2);
+    const result = this.enemyWave.update(pPos.x, pPos.y);
     this.gameRunning = result.continue;
     result.pendingBullets.forEach(pb => this.bullets.push(new Bullet(pb.x - BULLET_WIDTH / 2, pb.y, pb.isPlayer, pb.vx, pb.vy, pb.isOrangeBullet)));
   }

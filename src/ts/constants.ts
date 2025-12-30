@@ -4,7 +4,6 @@ export const SHOOT_INTERVAL = 10;
 export const GAME_PADDING = 20;
 export const ENEMY_WAVE_START_X = 50;
 export const ENEMY_WAVE_START_Y = 50;
-export const LOSE_CONDITION_Y_OFFSET = 100;
 export const SCORE_PER_ENEMY = 10;
 export const DIFFICULTY_SPEED_INCREMENT = 1.001;
 
