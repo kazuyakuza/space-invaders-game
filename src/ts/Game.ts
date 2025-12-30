@@ -184,16 +184,7 @@ export class Game {
 
   private nextLevel(): void {
     this.currentLevel++;
-    const config = this.resolveLevelConfig(this.currentLevel + 1);
-    this.enemyWave.spawnRedFormation({
-      rows: config.rows,
-      cols: config.cols,
-      startX: ENEMY_WAVE_START_X,
-      startY: ENEMY_WAVE_START_Y,
-      spacingX: ENEMY_SPACING_X,
-      spacingY: ENEMY_SPACING_Y,
-      enemyHealth: config.enemyHealth
-    });
+    this.initLevel(this.currentLevel);
   }
 
   private render(): void {

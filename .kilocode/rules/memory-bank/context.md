@@ -4,7 +4,7 @@
 
 Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties, enemy health/lives system, centralized `constants.ts`, and simplified level JSON structure for configuration. A headless unit testing environment is also in place using Vitest.
 
-## Recent Changes (v1.1.13)
+## Recent Changes (v1.1.14)
 
 - **Architecture Refactor**: Split `Game.ts` and `EnemyWave.ts` into specialized managers:
   - `CollisionManager.ts`: Centralized collision detection logic.
@@ -30,6 +30,9 @@ Space Invaders game features advanced multi-level progression system with sparse
 - Implemented enemy health system: configurable lives per enemy, visual display, updated collisions.
 - Fixed TypeError in `Game.render()` where `toFixed()` was called on undefined (`src/ts/Game.ts`).
 - Implemented headless unit testing using Vitest, jsdom, and vitest-canvas-mock.
+- Fixed UI state passing in Game.render() to UIManager by adding gameRunning and currentLevelConfig.
+- Refactored UIManager.render() into private renderHUD() and renderOverlays() methods.
+- Implemented LOSE_CONDITION_Y_OFFSET usage in EnemyWave.checkLoseCondition() for game over trigger.
 
 ## Next Steps
 

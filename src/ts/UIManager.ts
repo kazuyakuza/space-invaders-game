@@ -6,7 +6,8 @@ import {
   LABEL_COLOR,
   LABEL_PAUSE,
   LABEL_RESTART,
-  SHOW_DEBUG_INFO
+  SHOW_DEBUG_INFO,
+  PLAYER_COLOR
 } from './constants';
 
 interface LevelConfigPartial {
@@ -30,19 +31,30 @@ interface GameRenderState {
 
 export class UIManager {
   render(ctx: CanvasRenderingContext2D, state: GameRenderState): void {
-    // Score
+    this.renderHUD(ctx, state);
+    this.renderOverlays(ctx, state);
+  }
+
+  private renderHUD(ctx: CanvasRenderingContext2D, state: GameRenderState): void {
     ctx.fillStyle = '#ffffff';
     ctx.font = '24px Arial';
     ctx.textAlign = 'left';
     ctx.fillText(`Score: ${state.score}`, GAME_PADDING, 30);
 
-    // Level
     ctx.textAlign = 'right';
     ctx.fillText(`Level: ${state.currentLevel}`, CANVAS_WIDTH - GAME_PADDING, 30);
-    ctx.textAlign = 'left';
-    ctx.fillText(`Lives: ${state.lives}`, GAME_PADDING, 60);
 
-    // Labels
+    const dotRadius = 6;
+    const spacing = 20;
+    const startX = CANVAS_WIDTH - GAME_PADDING - dotRadius;
+    const startY = CANVAS_HEIGHT - GAME_PADDING - dotRadius;
+    ctx.fillStyle = PLAYER_COLOR;
+    for (let i = 0; i < state.lives; i++) {
+      ctx.beginPath();
+      ctx.arc(startX - i * spacing, startY, dotRadius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
     ctx.font = LABEL_FONT;
     ctx.fillStyle = LABEL_COLOR;
     ctx.textAlign = 'center';
@@ -57,7 +69,6 @@ export class UIManager {
 
     ctx.textAlign = 'left';
 
-    // Debug Info
     if (SHOW_DEBUG_INFO && state.currentLevelConfig) {
       ctx.save();
       ctx.font = '16px Arial';
@@ -70,8 +81,9 @@ export class UIManager {
       ctx.fillText(`Enemy Health: ${state.currentLevelConfig.enemyHealth ?? 'N/A'}`, GAME_PADDING, 160);
       ctx.restore();
     }
+  }
 
-    // Start screen
+  private renderOverlays(ctx: CanvasRenderingContext2D, state: GameRenderState): void {
     if (!state.hasStarted) {
       ctx.fillStyle = '#ffffff';
       ctx.font = '48px Arial';
@@ -80,7 +92,6 @@ export class UIManager {
       ctx.textAlign = 'left';
     }
 
-    // Countdown
     if (state.countdown > 0) {
       ctx.fillStyle = '#ff0000';
       ctx.font = '96px Arial';
@@ -89,7 +100,6 @@ export class UIManager {
       ctx.textAlign = 'left';
     }
 
-    // Paused overlay
     if (state.isPaused) {
       ctx.fillStyle = '#ffffff';
       ctx.font = '48px Arial';
@@ -98,7 +108,6 @@ export class UIManager {
       ctx.textAlign = 'left';
     }
 
-    // Game over
     if (!state.gameRunning) {
       ctx.fillStyle = '#ffffff';
       ctx.font = '48px Arial';
