@@ -1,28 +1,40 @@
-# Space Invaders Game
+# Space Invaders
 
-This project is a classic Space Invaders game. The player controls a spaceship at the bottom of the screen and must shoot down waves of aliens descending from the top.
+Modern TypeScript/HTML5 Canvas remake of the classic arcade game.
 
-## Goals
+## Features
 
-- Recreate the classic Space Invaders arcade experience.
-- Implement core gameplay mechanics, including player movement, shooting, and enemy patterns.
-- Create a scoring system to track player performance.
+- **Multi-level system**: JSON-driven ([`src/assets/levels.json`](src/assets/levels.json)) with sparse definitions and '+' incremental accumulation.
+- **Enemy varieties** (geometric pentagons):
+  - **Red** ([`RedEnemy.ts`](src/ts/entities/RedEnemy.ts)): Standard. Level ends when all cleared (others preserved).
+  - **Yellow**: Faster movement.
+  - **Orange** ([`OrangeEnemy.ts`](src/ts/entities/OrangeEnemy.ts)): Player-targeting shots, bullets pass through enemies.
+  - **Violet** ([`VioletEnemy.ts`](src/ts/entities/VioletEnemy.ts)): 10x health mini-boss (triple visual).
+- **Difficulty scaling**: +0.1% speed per row drop ([`DIFFICULTY_SPEED_INCREMENT`](src/ts/constants.ts:23)).
+- **Player lives**: 3 lives with respawn.
+- **Game over**: Enemies reach player Y or 0 lives ([`checkLoseCondition`](src/ts/entities/EnemyWave.ts:107)).
+- **Infinity mode**: Repeats last level.
+- **Pause/Start**: ESC pause, Space start after countdown, R/Enter restart ([`Game.handlePauseAndStart`](src/ts/Game.ts:124)).
+- **UI**: Live score/level/lives ([`UIManager`](src/ts/UIManager.ts)).
+- **No audio/images**: Pure canvas shapes, night theme.
+- **Tests**: Vitest headless ([`Game.test.ts`](src/ts/__tests__/Game.test.ts)).
 
-## Project Scope
+## Controls
 
-- Developed using HTML, CSS, and TypeScript (using Vite).
-- Multi-level system driven by a JSON configuration file (`levels.json`).
-- Player lives system: 3 lives with respawning.
-- Player controls: cursor keys for movement, space bar for shooting.
-- Level-specific enemy waves and patterns (Red, Yellow, Orange, Violet enemies).
-- Player loses if enemies reach the bottom of the screen or all lives are lost.
-- Uses geometric figures for the ship and enemies, no sound.
-- Real-time UI for score, level, and lives tracking.
-- "Night mode" color scheme with a black background.
+- Arrow keys: Move
+- Space: Shoot
+- ESC: Pause/unpause
+- R/Enter: Restart
 
-## Development Setup
+## Setup
 
-- **Prerequisites**: Node.js and npm installed.
-- **Installation**: Run `npm install` to install dependencies.
-- **Execution**: Use `npm run dev` to start the local development server.
-- **Testing**: Use `npm run test` to run headless unit tests with Vitest.
+```bash
+npm install
+npm run dev
+```
+
+Canvas: [`1000x800`](src/ts/constants.ts:1) @60fps via [`requestAnimationFrame`](src/ts/main.ts).
+
+## Architecture
+
+See [`architecture.md`](.kilocode/rules/memory-bank/architecture.md)."

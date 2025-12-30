@@ -13,22 +13,26 @@ This project is a classic Space Invaders game. The player controls a spaceship a
 
 ## Project Scope
 
-- The game is developed using HTML, CSS, and TypeScript, with no frameworks (using Vite for bundling).
-- Multi-level system driven by a JSON configuration file (`levels.json`).
-- Infinity levels fallback: if levels run out, the game repeats the last level configuration.
-- Difficulty scaling: enemy velocity increases by 0.1% every time they drop a row.
-- The player controls the ship with the cursor keys and shoots with the space bar.
-- The game starts with enemies in formation; the player wins a level by defeating all of them.
-- If the enemies reach the bottom of the screen, the player loses.
-- The game uses geometric figures for the ship and enemies, and does not have sound.
-- UI displays current score and current level.
-- The game has a "night mode" color scheme with a black background.
+- Developed using HTML, CSS, and TypeScript (Vite bundling, no frameworks).
+- Multi-level progression via [`src/assets/levels.json`](src/assets/levels.json): sparse object keys, '+' prefix for incremental accumulation.
+- Infinity mode: repeats final level config after exhausting defined levels.
+- Difficulty scaling: 0.1% velocity increase per row drop ([`DIFFICULTY_SPEED_INCREMENT`](src/ts/constants.ts)).
+- Controls: Arrow keys (move), Space (shoot), ESC (pause/unpause), R/Enter (restart).
+- Level complete: All Red enemies destroyed (Yellow/Orange/Violet preserved).
+- Game over: Enemies reach player Y position or 0/3 lives lost.
+- Enemies:
+  - Red: Standard.
+  - Yellow: Faster.
+  - Orange: Player-targeting, pass-through bullets.
+  - Violet: 10x health mini-boss.
+- Geometric canvas shapes, no images/audio, night mode theme.
+- HUD: Score, level, lives display.
 
 <!-- DO NOT DELETE THIS SECTION -->
 
 ## Important Note for AI Agents
 
-All agents working on this project must adhere to the workflows and rules outlined in the [AI Agent Onboarding document](../../../AGENTS.md). This is not optional.
+All agents working on this project must adhere to the workflows and rules outlined in the [AI Agent Onboarding document](AGENTS.md). This is not optional.
 
 Before starting any task, you must:
 
@@ -37,4 +41,4 @@ Before starting any task, you must:
 
 Failure to comply with these instructions will result in incorrect or incomplete work.
 
-<!-- END DO NOT DELETE -->
+<!-- END DO NOT DELETE -->"
