@@ -38,3 +38,5 @@ export const LABEL_PAUSE = 'Press ESC to pause';
 export const LABEL_RESTART = 'Press R to restart';
 export const LABEL_FONT = '20px Arial';
 export const LABEL_COLOR = '#ffffff';
+
+export const ORANGE_SHOOT_COOLDOWN = 60000;

@@ -93,11 +93,12 @@ export class EnemyWave {
     return false;
   }
 
-  public update(playerX: number, playerY: number): WaveUpdateResult {
+  public update(playerX: number, playerY: number, timestamp: number): WaveUpdateResult {
     const pendingBullets: { x: number; y: number; isPlayer: boolean; vx?: number; vy?: number; isOrangeBullet?: boolean; }[] = [];
     const context: UpdateContext = {
       playerX,
       playerY,
+      timestamp,
       spawnBullet: (x: number, y: number, isPlayer: boolean, vx?: number, vy?: number, isOrangeBullet?: boolean) => pendingBullets.push({ x, y, isPlayer, vx, vy, isOrangeBullet })
     };
     this.updateWaveMovement();

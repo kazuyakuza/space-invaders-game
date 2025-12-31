@@ -1,13 +1,17 @@
 import { Enemy, type UpdateContext } from './Enemy';
-import { ORANGE_ENEMY_COLOR, ENEMY_SHOOT_CHANCE, BULLET_SPEED } from '../constants';
+import { ORANGE_ENEMY_COLOR, ENEMY_SHOOT_CHANCE, BULLET_SPEED, ORANGE_SHOOT_COOLDOWN } from '../constants';
 
 export class OrangeEnemy extends Enemy {
+  private lastShootTime: number = 0;
+
   constructor(x: number, y: number, health: number) {
     super(x, y, health, ORANGE_ENEMY_COLOR);
   }
 
   public update(context: UpdateContext): void {
-    if (Math.random() < ENEMY_SHOOT_CHANCE) {
+    const canShoot = context.timestamp - this.lastShootTime >= ORANGE_SHOOT_COOLDOWN;
+
+    if (canShoot && Math.random() < ENEMY_SHOOT_CHANCE) {
       const spawnX = this.x + this.width / 2;
       const spawnY = this.y + this.height;
       const dx = context.playerX - spawnX;
@@ -20,6 +24,7 @@ export class OrangeEnemy extends Enemy {
       } else {
         context.spawnBullet(spawnX, spawnY, false);
       }
+      this.lastShootTime = context.timestamp;
     }
   }
 

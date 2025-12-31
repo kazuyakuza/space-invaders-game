@@ -10,6 +10,7 @@ interface Bounds {
 export interface UpdateContext {
   playerX: number;
   playerY: number;
+  timestamp: number;
   spawnBullet(x: number, y: number, isPlayer: boolean, vx?: number, vy?: number, isOrangeBullet?: boolean): void;
 }
 
