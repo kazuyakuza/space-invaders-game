@@ -2,10 +2,11 @@
 
 ## Current State
 
-Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties, enemy health/lives system, centralized `constants.ts`, and simplified level JSON structure for configuration. A headless unit testing environment is also in place using Vitest.
+Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties, enemy health/lives system, centralized `constants.ts`, simplified level JSON structure for configuration, improved game over detection at player base Y, enemy persistence across levels for non-red types, adjusted orange enemy shooting frequency, violet enemy hitbox planning. A headless unit testing environment using Vitest is in place.
 
-## Recent Changes (v1.1.14)
+## Recent Changes (v1.1.15)
 
+- **Bug Fixes and Reviews (feat/bug-fixes-and-reviews merged to main)**: Fixed enemies game over trigger to reach player base Y position, preserved surviving non-red enemies state (position, config, behavior) on level end, limited orange enemies shooting to ~1 per minute, created detailed plan for violet enemy hitbox fix (wider bounding box for three pentagons), updated README.md and brief.md with comprehensive game details.
 - **Architecture Refactor**: Split `Game.ts` and `EnemyWave.ts` into specialized managers:
   - `CollisionManager.ts`: Centralized collision detection logic.
   - `UIManager.ts`: Handles all HUD and screen overlay rendering.
@@ -36,6 +37,7 @@ Space Invaders game features advanced multi-level progression system with sparse
 
 ## Next Steps
 
+- Complete violet enemy hitbox implementation from the plan in `.kilocode/_generated/plans/20251230-violet-enemy-hit-box.md`.
 - Polish UI and visual effects.
 - Add sound effects and background music.
 - Add more diverse level configurations to `levels.json`.
