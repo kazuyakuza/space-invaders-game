@@ -60,11 +60,14 @@ export class EnemyWave {
     }
   }
 
+  private isRedEnemyAtEdge(enemy: Enemy): boolean {
+    return (this.direction < 0 && enemy.getBounds().x <= 0) || (this.direction > 0 && enemy.getBounds().x + enemy.getBounds().width >= this.canvasWidth);
+  }
+
   private checkRedEdgeHit(): boolean {
     for (const enemy of this.enemies) {
       if (enemy instanceof RedEnemy) {
-        const bounds = enemy.getBounds();
-        if ((this.direction < 0 && bounds.x <= 0) || (this.direction > 0 && bounds.x + bounds.width >= this.canvasWidth)) {
+        if (this.isRedEnemyAtEdge(enemy)) {
           return true;
         }
       }
