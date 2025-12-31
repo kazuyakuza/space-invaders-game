@@ -19,4 +19,14 @@ export class VioletEnemy extends Enemy {
     }
     this.drawHealth(ctx);
   }
+
+  public getBounds(): { x: number; y: number; width: number; height: number } {
+    const spacing = 12;
+    return {
+      x: this.x - spacing,
+      y: this.y,
+      width: this.width + 2 * spacing,
+      height: this.height
+    };
+  }
 }
