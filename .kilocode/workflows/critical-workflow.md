@@ -72,7 +72,7 @@ Must include next steps:
 - Identifies ambiguities and areas needing user clarification.
 - Researches required technologies, frameworks, or APIs.
 - Analyzes the current project status.
-- Defines a high-level approach for the solution/implementation, creating a step-by-step plan including:
+- IMPORTANT: defines a high-level approach for the solution/implementation, creating a step-by-step plan including one or more steps for:
   - git handling (check steps below)
   - code writing (check steps below)
   - running console cmds (when required)
@@ -112,6 +112,7 @@ Must include next steps:
 
 ### 4.5. Item Completion
 
+- This step is RELEVANT to show the details of the item completion process.
 - When the Implementation of a plan's item is completed, the item in the TODO file must be clearly marked as done, details below.
 - Mark the item as done in the TODO file:
   - **Line Item Format**: Add `[DONE]` at the beginning of the line.
