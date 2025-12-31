@@ -10,7 +10,7 @@ Classic arcade games often lack progression or become predictable. This project 
 
 ## How it Works
 
-The game uses a high-performance HTML5 Canvas rendering engine. Level configurations are loaded from a central JSON file, defining enemy formation, speed, and spacing. As players clear waves, the game seamlessly transitions to the next level. If a player clears all predefined levels, the game enters an "infinity mode," repeating the final configuration while continuing to track high scores.
+The game uses a high-performance HTML5 Canvas rendering engine. Level configurations are loaded from a central JSON file, defining enemy formation, speed, and spacing. As players clear waves, the game seamlessly transitions to the next level. If a player clears all 1000 predefined levels, the game enters an "infinity mode," repeating the final configuration while continuing to track high scores.
 
 ## User Experience Goals
 

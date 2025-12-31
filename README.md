@@ -4,7 +4,7 @@ Modern TypeScript/HTML5 Canvas remake of the classic arcade game.
 
 ## Features
 
-- **Multi-level system**: JSON-driven ([`src/assets/levels.json`](src/assets/levels.json)) with sparse definitions and '+' incremental accumulation.
+- **Multi-level system**: JSON-driven ([`src/assets/levels.json`](src/assets/levels.json)) with sparse definitions and '+' incremental accumulation, supporting 1000 unique levels.
 - **Enemy varieties** (geometric pentagons):
   - **Red** ([`RedEnemy.ts`](src/ts/entities/RedEnemy.ts)): Standard. Level ends when all cleared (others preserved).
   - **Yellow**: Faster movement.
@@ -37,4 +37,4 @@ Canvas: [`1000x800`](src/ts/constants.ts:1) @60fps via [`requestAnimationFrame`]
 
 ## Architecture
 
-See [`architecture.md`](.kilocode/rules/memory-bank/architecture.md)."
+See [`architecture.md`](.kilocode/rules/memory-bank/architecture.md).
