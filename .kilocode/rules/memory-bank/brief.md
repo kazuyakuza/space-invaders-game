@@ -17,8 +17,9 @@ This project is a classic Space Invaders game. The player controls a spaceship a
 - Multi-level progression via [`src/assets/levels.json`](src/assets/levels.json): sparse object keys, '+' prefix for incremental accumulation, supporting 100 unique levels.
 - Infinity mode: repeats final level config (starting at level 101) after exhausting defined levels.
 - Difficulty scaling: 0.1% velocity increase per row drop ([`DIFFICULTY_SPEED_INCREMENT`](src/ts/constants.ts)).
-- Controls: Arrow keys (move), Space (shoot), ESC (pause/unpause), R/Enter (restart).
-- Level complete: All Red enemies destroyed (Yellow/Orange/Violet preserved).
+- Controls: Arrow keys (move), Space (start game), ESC (pause/unpause), R/Enter (restart).
+- Auto-shooting: Player spaceship fires automatically at regular intervals.
+- Level complete: All Red enemies destroyed (Yellow/Orange/Violet preserved). Earn bonus points based on level number (doubled for no-death levels).
 - Game over: Enemies reach player Y position or 0/3 lives lost.
 - Enemies:
   - Red: Standard.
@@ -26,7 +27,7 @@ This project is a classic Space Invaders game. The player controls a spaceship a
   - Orange: Player-targeting, pass-through bullets.
   - Violet: 10x health mini-boss.
 - Geometric canvas shapes, no images/audio, night mode theme.
-- HUD: Score, level, lives display.
+- HUD: Score, level, lives, and survival timer.
 
 <!-- DO NOT DELETE THIS SECTION -->
 
