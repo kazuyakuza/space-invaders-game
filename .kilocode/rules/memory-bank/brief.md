@@ -14,8 +14,8 @@ This project is a classic Space Invaders game. The player controls a spaceship a
 ## Project Scope
 
 - Developed using HTML, CSS, and TypeScript (Vite bundling, no frameworks).
-- Multi-level progression via [`src/assets/levels.json`](src/assets/levels.json): sparse object keys, '+' prefix for incremental accumulation, supporting 1000 unique levels.
-- Infinity mode: repeats final level config after exhausting defined levels.
+- Multi-level progression via [`src/assets/levels.json`](src/assets/levels.json): sparse object keys, '+' prefix for incremental accumulation, supporting 100 unique levels.
+- Infinity mode: repeats final level config (starting at level 101) after exhausting defined levels.
 - Difficulty scaling: 0.1% velocity increase per row drop ([`DIFFICULTY_SPEED_INCREMENT`](src/ts/constants.ts)).
 - Controls: Arrow keys (move), Space (shoot), ESC (pause/unpause), R/Enter (restart).
 - Level complete: All Red enemies destroyed (Yellow/Orange/Violet preserved).

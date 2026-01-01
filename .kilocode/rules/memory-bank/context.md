@@ -34,6 +34,7 @@ Space Invaders game features advanced multi-level progression system with sparse
 - Fixed UI state passing in Game.render() to UIManager by adding gameRunning and currentLevelConfig.
 - Refactored UIManager.render() into private renderHUD() and renderOverlays() methods.
 - Implemented LOSE_CONDITION_Y_OFFSET usage in EnemyWave.checkLoseCondition() for game over trigger.
+- **Level Configuration Refactor**: Reduced levels from 1000 to 100 in `src/assets/levels.json`, implemented new difficulty scaling logic (speed tiers, rows/cols increments, health increments), and updated infinity mode to start at level 101. Updated documentation (`docs/levels-config.md`, memory bank) to reflect these changes.
 
 ## Next Steps
 
