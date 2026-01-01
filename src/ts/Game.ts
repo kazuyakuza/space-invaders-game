@@ -44,6 +44,8 @@ export class Game {
   private bullets: Bullet[] = [];
   private gameRunning: boolean = true;
   private shootCooldown: number = 0;
+  private gameTime: number = 0;
+  private livesLostInLevel: number = 0;
   private score: number = 0;
   private currentLevel: number = 0;
   private levelConfigs: Record<string, any> = {};
@@ -69,20 +71,37 @@ export class Game {
   private resolveLevelConfig(targetLevel: number): LevelConfig {
     const levelKeys = Object.keys(this.levelConfigs).map(k => parseInt(k)).filter(n => !isNaN(n)).sort((a, b) => a - b);
     const maxLevel = levelKeys.length > 0 ? Math.max(...levelKeys) : 0;
-    const effective: any = { rows: 5, cols: 6, speed: 1.0, enemyCount: 30, enemyHealth: 1 };
 
-    for (let i = 1; i <= targetLevel; i++) {
-      const levelKey = i <= maxLevel ? i.toString() : maxLevel.toString();
-      const config = this.levelConfigs[levelKey];
-      if (!config) continue;
-      Object.entries(config).forEach(([key, value]) => {
-        if (typeof value === 'number' && key.startsWith('+')) {
-          const prop = key.slice(1);
-          effective[prop] = (effective[prop] || 0) + value;
-        } else {
-          effective[key] = value;
+    // Find base level: latest <= targetLevel with no + keys
+    let baseLevel = 0;
+    for (let l = targetLevel; l >= 1; l--) {
+      const key = l.toString();
+      if (this.levelConfigs[key]) {
+        const config = this.levelConfigs[key];
+        const hasPlus = Object.keys(config).some(k => k.startsWith('+'));
+        if (!hasPlus) {
+          baseLevel = l;
+          break;
         }
-      });
+      }
+    }
+
+    const effective: any = { rows: 5, cols: 6, speed: 1.0, enemyCount: 30, enemyHealth: 1 };
+    if (baseLevel > 0) {
+      const baseConfig = this.levelConfigs[baseLevel.toString()];
+      Object.assign(effective, baseConfig);
+    }
+
+    // Target config for increments
+    const targetKey = targetLevel > maxLevel ? maxLevel.toString() : targetLevel.toString();
+    const targetConfig = this.levelConfigs[targetKey];
+    if (targetConfig) {
+      if ('+speed' in targetConfig) {
+        effective.speed = targetConfig['+speed'] * (targetLevel - 1);
+      }
+      if ('+enemyHealth' in targetConfig) {
+        effective.enemyHealth = 1 + Math.floor(targetConfig['+enemyHealth'] * targetLevel - 1);
+      }
     }
     return effective as LevelConfig;
   }
@@ -148,8 +167,9 @@ export class Game {
       if (this.input.isPressed('Enter')) this.reset();
       return;
     }
-    this.updateEntities();
-    this.collisionManager.handleCollisions(this.bullets, this.player, this.enemyWave, (pts) => this.score += pts, (run) => this.gameRunning = run);
+      this.gameTime += 16.67;
+  this.updateEntities();
+    this.collisionManager.handleCollisions(this.bullets, this.player, this.enemyWave, (pts) => this.score += pts, (run) => this.gameRunning = run, () => this.livesLostInLevel++);
     if (!this.enemyWave.hasRedEnemies()) this.nextLevel();
   }
 
@@ -175,7 +195,7 @@ export class Game {
 
   private updateEntities(): void {
     this.player.update(this.input);
-    if (this.shootCooldown <= 0 && this.input.isPressed('Space')) {
+    if (this.shootCooldown <= 0) {
       const pos = this.player.getShootPosition();
       this.bullets.push(new Bullet(pos.x - BULLET_WIDTH / 2, pos.y, true));
       this.shootCooldown = SHOOT_INTERVAL;
@@ -190,6 +210,10 @@ export class Game {
   }
 
   private nextLevel(): void {
+    let bonus = this.currentLevel * 10;
+    if (this.livesLostInLevel === 0) bonus *= 2;
+    this.score += bonus;
+    this.livesLostInLevel = 0;
     this.currentLevel++;
     this.initLevel(this.currentLevel);
   }
@@ -206,7 +230,8 @@ export class Game {
       countdown: this.countdown,
       isPaused: this.isPaused,
       gameRunning: this.gameRunning,
-      currentLevelConfig: this.currentLevelConfig
+      currentLevelConfig: this.currentLevelConfig,
+      gameTime: this.gameTime
     });
   }
 }

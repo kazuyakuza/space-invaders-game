@@ -27,6 +27,7 @@ interface GameRenderState {
   isPaused: boolean;
   gameRunning: boolean;
   currentLevelConfig: LevelConfigPartial | null;
+  gameTime: number;
 }
 
 export class UIManager {
@@ -40,6 +41,8 @@ export class UIManager {
     ctx.font = '24px Arial';
     ctx.textAlign = 'left';
     ctx.fillText(`Score: ${state.score}`, GAME_PADDING, 30);
+    ctx.textAlign = 'right';
+    ctx.fillText(`Time: ${this.formatTime(state.gameTime)}`, CANVAS_WIDTH - GAME_PADDING - 150, 30);
 
     ctx.textAlign = 'right';
     ctx.fillText(`Level: ${state.currentLevel}`, CANVAS_WIDTH - GAME_PADDING, 30);
@@ -117,5 +120,12 @@ export class UIManager {
       ctx.fillText('Press ENTER to restart', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 60);
       ctx.textAlign = 'left';
     }
+  }
+
+  private formatTime(gameTime: number): string {
+    const totalSeconds = Math.floor(gameTime / 16.67);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 }

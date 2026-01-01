@@ -23,7 +23,8 @@ export class CollisionManager {
     player: Player,
     enemyWave: EnemyWave,
     scoreCallback: (points: number) => void,
-    gameRunningCallback: (running: boolean) => void
+    gameRunningCallback: (running: boolean) => void,
+    onLifeLost: () => void
   ): void {
     for (let i = bullets.length - 1; i >= 0; i--) {
       const bulletBounds = bullets[i].getBounds();
@@ -31,6 +32,7 @@ export class CollisionManager {
       if (!bullets[i].isPlayerBullet) {
         if (this.rectsIntersect(bulletBounds, playerBounds)) {
           player.loseLife();
+          onLifeLost();
           bullets.splice(i, 1);
           if (player.getLives() > 0) {
             player.resetPosition();
