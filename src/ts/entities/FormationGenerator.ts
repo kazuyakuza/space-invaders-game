@@ -187,7 +187,7 @@ export class FormationGenerator {
       // Orange top
       enemies.push(...this.spawnOrangeEnemies(typeCounts['orange'] || 0, config.canvasWidth, config.enemyHealth, enemies));
       // Violet middle
-      enemies.push(...this.spawnVioletEnemies(typeCounts['violet'] || 0, config.canvasHeight, config.canvasWidth, config.enemyHealth));
+      enemies.push(...this.spawnVioletEnemies(typeCounts['violet'] || 0, config.canvasHeight, config.canvasWidth, config.enemyHealth, enemies));
     }
     return enemies;
   }

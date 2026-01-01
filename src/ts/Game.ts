@@ -2,7 +2,7 @@ import { InputHandler } from './InputHandler';
 import { Player, type PlayerConfig } from './entities/Player';
 import { Bullet } from './entities/Bullet';
 import { EnemyWave, type EnemyWaveConfig } from './entities/EnemyWave';
-import { CollisionManager } from './CollisionManager';
+import { CollisionManager, type CollisionContext } from './CollisionManager';
 import { UIManager } from './UIManager';
 import { EntityRenderer } from './Renderer';
 import levelsData from '../assets/levels.json';
@@ -144,6 +144,8 @@ export class Game {
     this.isPaused = false;
     this.countdown = 0;
     this.shootCooldown = 0;
+    this.gameTime = 0;
+    this.livesLostInLevel = 0;
     this.lastEscapePressed = false;
     this.lastSpacePressed = false;
   }
@@ -169,7 +171,14 @@ export class Game {
     }
       this.gameTime += 16.67;
   this.updateEntities();
-    this.collisionManager.handleCollisions(this.bullets, this.player, this.enemyWave, (pts) => this.score += pts, (run) => this.gameRunning = run, () => this.livesLostInLevel++);
+    this.collisionManager.handleCollisions({
+      bullets: this.bullets,
+      player: this.player,
+      enemyWave: this.enemyWave,
+      scoreCallback: (pts) => this.score += pts,
+      gameRunningCallback: (run) => this.gameRunning = run,
+      onLifeLost: () => this.livesLostInLevel++
+    });
     if (!this.enemyWave.hasRedEnemies()) this.nextLevel();
   }
 
@@ -216,6 +225,20 @@ export class Game {
     this.livesLostInLevel = 0;
     this.currentLevel++;
     this.initLevel(this.currentLevel);
+  }
+
+  private getUIState(): any {
+    return {
+      score: this.score,
+      currentLevel: this.currentLevel,
+      lives: this.player.getLives(),
+      hasStarted: this.hasStarted,
+      countdown: this.countdown,
+      isPaused: this.isPaused,
+      gameRunning: this.gameRunning,
+      currentLevelConfig: this.currentLevelConfig,
+      gameTime: this.gameTime
+    };
   }
 
   private render(): void {
