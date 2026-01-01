@@ -8,30 +8,30 @@ const __dirname = path.dirname(__filename);
 const levels = {};
 
 function getSpeedInc(level) {
-  if (level <= 100) return 0.01;
-  if (level <= 500) return 0.005;
-  return 0.002;
+  if (level <= 20) return 0.05;
+  if (level <= 50) return 0.03;
+  return 0.02;
 }
 
 function getRows(level) {
-  return Math.min(5 + Math.floor((level - 1) / 100), 10);
+  return Math.min(5 + Math.floor((level - 1) / 10), 10);
 }
 
 function getCols(level) {
-  return Math.min(6 + Math.floor((level - 1) / 50), 15);
+  return Math.min(6 + Math.floor((level - 1) / 11), 15);
 }
 
 function getHealth(level) {
-  return 1 + Math.floor((level - 1) / 200);
+  return 1 + Math.floor((level - 1) / 25);
 }
 
 const typeMilestones = {
   1: { red: 100 },
   10: { red: 90, yellow: 10 },
-  50: { red: 80, yellow: 15, orange: 5 },
-  100: { red: 70, yellow: 20, orange: 7, violet: 3 },
-  500: { red: 40, yellow: 30, orange: 20, violet: 10 },
-  1000: { red: 10, yellow: 30, orange: 40, violet: 20 }
+  25: { red: 80, yellow: 15, orange: 5 },
+  50: { red: 70, yellow: 20, orange: 7, violet: 3 },
+  75: { red: 50, yellow: 25, orange: 15, violet: 10 },
+  100: { red: 20, yellow: 30, orange: 30, violet: 20 }
 };
 
 let prevRows = 0;
@@ -40,7 +40,7 @@ let prevHealth = 0;
 let prevEnemyCount = 0;
 let prevTypesStr = '';
 
-for (let level = 1; level <= 1000; level++) {
+for (let level = 1; level <= 100; level++) {
   const config = {};
 
   const currRows = getRows(level);
