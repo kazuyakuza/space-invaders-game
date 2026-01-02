@@ -11,6 +11,7 @@ Canvas-based 2D Space Invaders game using HTML5 Canvas and TypeScript. Main game
 - `src/assets/levels.json`: External level configuration (rows, cols, speed, spacing)
 - `src/ts/main.ts`: Initializes and starts the game
 - `src/ts/Game.ts`: Orchestrates game loop, level management, and state
+- `src/ts/LevelManager.ts`: Centralizes level resolution and delta accumulation logic
 - `src/ts/CollisionManager.ts`: Centralized collision detection logic
 - `src/ts/UIManager.ts`: Handles HUD and screen overlay rendering
 - `src/ts/Renderer.ts`: Orchestrates entity drawing
@@ -40,8 +41,8 @@ Canvas-based 2D Space Invaders game using HTML5 Canvas and TypeScript. Main game
 
 ## Component Relationships
 
-- **Game** owns instances of `Player`, `EnemyWave`, `CollisionManager`, `UIManager`, and `EntityRenderer`.
-- **Game** loads level configurations from `levels.json` and initializes `EnemyWave` per level.
+- **Game** owns instances of `Player`, `EnemyWave`, `CollisionManager`, `UIManager`, `EntityRenderer`, and `LevelManager`.
+- **Game** uses `LevelManager` to resolve level configurations from `levels.json` and initializes `EnemyWave` per level.
 - **EnemyWave** uses `FormationGenerator` to create and position multiple `Enemy` instances.
 - **Player** creates player `Bullet` instances on shoot.
 - **InputHandler** observes keyboard events and updates `Player` position/shoot state.

@@ -21,25 +21,30 @@ The `levels.json` file is an object where keys are level numbers (as strings) an
 
 ### Scaling Formulas (`+` prefix)
 
-Properties prefixed with `+` use absolute formulas based on the current level number, overriding any hardcoded base values when present in the target configuration.
+Properties prefixed with `+` use incremental formulas based on the distance from the nearest **base level** (a level defined without any `+` properties).
 
 #### Enemy Speed Scaling
 
-The `+speed` property defines an increment applied per level.
-**Formula:** `effectiveSpeed = 1 + (+speed * (currentLevel - 1))`
+The `+speed` property defines an increment applied per level distance.
+**Formula:** `effectiveSpeed = baseSpeed + (+speed * (currentLevel - baseLevel))`
 
 #### Enemy Health Scaling
 
-The `+enemyHealth` property defines a health increment factor.
-**Formula:** `effectiveHealth = 1 + floor(+enemyHealth * currentLevel - 1)`
+The `+enemyHealth` property defines a health increment factor applied per level distance.
+**Formula:** `effectiveHealth = floor(baseHealth + (+enemyHealth * (currentLevel - baseLevel)))`
 
 ### Level Resolution Logic
 
-The game resolves the configuration for a target level as follows:
+The game uses a sparse level resolution system managed by [`src/ts/LevelManager.ts`](../src/ts/LevelManager.ts):
 
-1. **Find Base Level**: Searches backwards from the target level for the latest level definition that does **not** contain any `+` prefixed keys.
-2. **Inherit Base Values**: Loads all properties from this base level.
-3. **Apply Increments**: If the target level's own configuration contains `+speed` or `+enemyHealth`, the absolute formulas above are applied, overriding the inherited base values.
+1.  **Identify Target Level**: The game starts at Level 1 by default.
+2.  **Find Nearest Defined Level ($L_{defined}$)**: Searches backwards from the target level ($L_{target}$) for the closest level explicitly defined in `levels.json`.
+3.  **Resolve Base Configuration**:
+    - If $L_{defined}$ has no `+` properties, it is treated as a **base level**. Its properties are merged with global defaults.
+    - If $L_{defined}$ contains `+` properties, the system searches further back for the nearest **base level** ($L_{base}$).
+4.  **Accumulate and Apply**:
+    - Non-delta properties (e.g., `rows`, `cols`, `enemyTypes`) are inherited from the nearest defined level ($L_{defined}$).
+    - Delta properties (prefixed with `+`) are calculated using the formulas above, where the distance is $L_{target} - L_{base}$.
 
 ## Infinity Mode
 

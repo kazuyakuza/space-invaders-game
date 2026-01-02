@@ -19,4 +19,4 @@ The game uses a high-performance HTML5 Canvas rendering engine. Level configurat
 - **Progression**: Provide a sense of achievement through a multi-level system and performance-based scoring bonuses.
 - **Increasing Challenge**: Implement velocity scaling (0.1% increase per row drop) and health scaling to keep the gameplay intense.
 - **Visual Clarity**: A "night mode" color scheme ensures high contrast and reduced eye strain during extended play.
-- **Persistent Feedback**: Real-time score, level, lives, and survival time display on the HUD.
+- **Persistent Feedback**: Real-time score, level, lives, and survival time (in MM:SS format) display on the HUD.

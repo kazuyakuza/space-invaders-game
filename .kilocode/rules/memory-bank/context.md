@@ -2,7 +2,17 @@
 
 ## Current State
 
-Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties, enemy health/lives system, centralized `constants.ts`, simplified level JSON structure for configuration, improved game over detection at player base Y, enemy persistence across levels for non-red types, adjusted orange enemy shooting frequency, violet enemy hitbox planning. A headless unit testing environment using Vitest is in place.
+Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties via `LevelManager.ts`, enemy health/lives system, centralized `constants.ts`, simplified level JSON structure for configuration, improved game over detection at player base Y, enemy persistence across levels for non-red types, adjusted orange enemy shooting frequency, violet enemy hitbox planning. HUD timer now displays in "MM:SS" format. A headless unit testing environment using Vitest is in place.
+
+## Recent Changes (v1.1.16)
+
+- **Level Management Overhaul**:
+    - Implemented `LevelManager.ts` to centralize level resolution and delta accumulation logic.
+    - **Sparse Resolution**: The game now correctly resolves levels even if they aren't explicitly defined in `levels.json` by finding the nearest previous defined level.
+    - **Delta Accumulation**: Properties like `+speed` and `+enemyHealth` are accumulated based on the distance from the nearest **base level** (a level without any `+` properties).
+    - **Start Level Fix**: Ensured the game correctly initializes and starts at Level 1.
+- **UI Improvements**:
+    - Updated the HUD survival timer to display in "MM:SS" format for better readability.
 
 ## Recent Changes (v1.1.15)
 
