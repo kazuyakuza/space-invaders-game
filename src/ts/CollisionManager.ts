@@ -17,6 +17,7 @@ export interface CollisionContext {
   scoreCallback: (points: number) => void;
   gameRunningCallback: (running: boolean) => void;
   onLifeLost: () => void;
+  spawnBullet: (x: number, y: number, isPlayer: boolean, vx?: number, vy?: number) => void;
 }
 
 export class CollisionManager {
@@ -51,7 +52,7 @@ export class CollisionManager {
           if (!context.bullets[i].isPlayerBullet && context.bullets[i].isOrangeBullet) {
             continue;
           }
-          if (enemies[j].takeDamage(1)) {
+          if (enemies[j].takeDamage(1, (x, y, vx, vy) => context.spawnBullet(x, y, false, vx, vy))) {
             context.enemyWave.removeEnemy(enemies[j]);
             context.scoreCallback(SCORE_PER_ENEMY);
           }

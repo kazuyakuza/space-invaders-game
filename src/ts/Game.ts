@@ -130,7 +130,10 @@ export class Game {
       enemyWave: this.enemyWave,
       scoreCallback: (pts) => this.score += pts,
       gameRunningCallback: (run) => this.gameRunning = run,
-      onLifeLost: () => this.livesLostInLevel++
+      onLifeLost: () => this.livesLostInLevel++,
+      spawnBullet: (x, y, isPlayer, vx, vy) => {
+        this.bullets.push(new Bullet(x, y, isPlayer, vx, vy));
+      }
     });
     if (!this.enemyWave.hasRedEnemies()) this.nextLevel();
   }

@@ -3,6 +3,7 @@ import { RedEnemy } from './RedEnemy';
 import { YellowEnemy } from './YellowEnemy';
 import { OrangeEnemy } from './OrangeEnemy';
 import { VioletEnemy } from './VioletEnemy';
+import { BlueEnemy } from './BlueEnemy';
 import {
   GAME_PADDING,
   ENEMY_WIDTH,
@@ -59,6 +60,23 @@ export class FormationGenerator {
       const x = startX + slot.col * spacingX;
       const y = startY + slot.row * spacingY;
       enemies.push(new RedEnemy(x, y, enemyHealth));
+    }
+    return enemies;
+  }
+
+  private static spawnBlueEnemies(
+    slots: { row: number; col: number }[],
+    startX: number,
+    startY: number,
+    spacingX: number,
+    spacingY: number,
+    enemyHealth: number
+  ): Enemy[] {
+    const enemies: Enemy[] = [];
+    for (const slot of slots) {
+      const x = startX + slot.col * spacingX;
+      const y = startY + slot.row * spacingY;
+      enemies.push(new BlueEnemy(x, y, enemyHealth));
     }
     return enemies;
   }
@@ -127,6 +145,15 @@ export class FormationGenerator {
     return enemies;
   }
 
+  private static shuffleSlots(slots: { row: number; col: number }[]): { row: number; col: number }[] {
+    const shuffled = [...slots];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
   private static isPositionSafe(x: number, y: number, existingEnemies: readonly Enemy[]): boolean {
     const MIN_DISTANCE = ENEMY_WIDTH * 1.5;
     const testCenterX = x + ENEMY_WIDTH / 2;
@@ -161,7 +188,7 @@ export class FormationGenerator {
       enemies.push(...this.spawnRedEnemies(slots, config.startX, config.startY, config.spacingX, config.spacingY, config.enemyHealth));
     } else {
       const typeCounts: Record<string, number> = {};
-      const sortedTypes = ['red', 'yellow', 'orange', 'violet'];
+      const sortedTypes = ['red', 'blue', 'yellow', 'orange', 'violet'];
       let allocated = 0;
       let cumulativePct = 0;
 
