@@ -9,14 +9,60 @@ vi.mock('../../assets/levels.json', () => ({
       "cols": 6,
       "speed": 1,
       "enemyCount": 30,
-      "enemyHealth": 1
+      "enemyHealth": 1,
+      "enemyTypes": {
+        "red": 100
+      }
+    },
+    "2": {
+      "rows": 5,
+      "cols": 6,
+      "speed": 1,
+      "enemyCount": 30,
+      "enemyHealth": 1,
+      "enemyTypes": {
+        "red": 100
+      }
     },
     "3": {
-      "+speed": 0.01
+      "rows": 5,
+      "cols": 6,
+      "speed": 1.02,
+      "enemyCount": 30,
+      "enemyHealth": 1,
+      "enemyTypes": {
+        "red": 100
+      }
+    },
+    "4": {
+      "rows": 5,
+      "cols": 6,
+      "speed": 1.03,
+      "enemyCount": 30,
+      "enemyHealth": 1,
+      "enemyTypes": {
+        "red": 100
+      }
+    },
+    "5": {
+      "rows": 5,
+      "cols": 6,
+      "speed": 1.04,
+      "enemyCount": 30,
+      "enemyHealth": 1,
+      "enemyTypes": {
+        "red": 100
+      }
     },
     "6": {
-      "+speed": 0.01,
-      "+enemyHealth": 0.5
+      "rows": 5,
+      "cols": 6,
+      "speed": 1.05,
+      "enemyCount": 30,
+      "enemyHealth": 1,
+      "enemyTypes": {
+        "red": 100
+      }
     },
     "7": {
       "enemyTypes": {
@@ -27,11 +73,10 @@ vi.mock('../../assets/levels.json', () => ({
       "cols": 6,
       "enemyCount": 30,
       "speed": 1.06,
-      "health": 2
+      "enemyHealth": 2
     },
-    "8": {
-      "+speed": 0.01,
-      "+enemyHealth": 0.5
+    "0": {
+      "rows": 5
     },
   }
 }));
@@ -111,6 +156,20 @@ describe('LevelManager getResolvedConfig', () => {
     expect(config.enemyCount).toBe(30);
     expect(config.enemyHealth).toBe(2);
     expect(config.enemyTypes).toMatchObject({ red: 95, yellow: 5 });
+  });
+
+  it('uses last defined level for higher levels (fallback)', () => {
+    const config = manager.getResolvedConfig(9);
+    expect(config.rows).toBe(5);
+    expect(config.cols).toBe(6);
+    expect(config.speed).toBe(1.06);
+    expect(config.enemyCount).toBe(30);
+    expect(config.enemyHealth).toBe(2);
+    expect(config.enemyTypes).toMatchObject({ red: 95, yellow: 5 });
+  });
+
+  it('throws if resolved config missing required properties', () => {
+    expect(() => manager.getResolvedConfig(0)).toThrow(/Missing required property/);
   });
 });
 
