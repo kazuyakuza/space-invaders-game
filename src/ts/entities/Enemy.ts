@@ -37,7 +37,7 @@ export abstract class Enemy {
     this.y += offsetY;
   }
 
-  public takeDamage(amount: number = 1): boolean {
+  public takeDamage(amount: number, spawnBullet?: (x: number, y: number, vx: number, vy: number) => void): boolean {
     this.health -= amount;
     return this.health <= 0;
   }
@@ -71,5 +71,25 @@ export abstract class Enemy {
     ctx.textBaseline = 'middle';
     ctx.fillText(this.health.toString(), this.x + this.width / 2, this.y + this.height / 2);
     ctx.restore();
+  }
+
+  protected drawHexagon(ctx: CanvasRenderingContext2D, drawX: number = this.x, drawY: number = this.y): void {
+    const centerX = drawX + this.width / 2;
+    const centerY = drawY + this.height / 2;
+    const size = Math.min(this.width / 2, this.height / 2);
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    for (let i = 0; i < 6; i++) {
+      const angle = (i / 6) * Math.PI * 2;
+      const px = centerX + Math.cos(angle) * size;
+      const py = centerY + Math.sin(angle) * size;
+      if (i === 0) {
+        ctx.moveTo(px, py);
+      } else {
+        ctx.lineTo(px, py);
+      }
+    }
+    ctx.closePath();
+    ctx.fill();
   }
 }
