@@ -35,7 +35,7 @@ export const SHOW_DEBUG_INFO = true;
 
 export const COUNTDOWN_FRAMES = 180;
 
-export const LABEL_PAUSE = 'Press ESC to pause';
+export const LABEL_PAUSE = 'Press ESC to Pause & Access Market';
 export const LABEL_RESTART = 'Press R to restart';
 export const LABEL_FONT = '20px Arial';
 export const LABEL_COLOR = '#ffffff';
@@ -47,3 +47,18 @@ export const KAMIKAZE_TARGET_LEFT_X = CANVAS_WIDTH / 6;
 export const KAMIKAZE_TARGET_LEFT_Y = CANVAS_HEIGHT / 2;
 export const KAMIKAZE_TARGET_RIGHT_X = 5 * CANVAS_WIDTH / 6;
 export const KAMIKAZE_TARGET_RIGHT_Y = CANVAS_HEIGHT / 2;
+
+export const HEDGE_COLOR = '#00ff00';
+export const HEDGE_HEIGHT = 2;
+export const HEDGE_MAX_COUNT = 10;
+export const HEDGE_START_Y_OFFSET = 100;
+export const HEDGE_SPACING = 20;
+export const MARKET_ITEM_LIFE_PRICE = 25000;
+export const MARKET_ITEM_HEDGE_PRICE = 5000;
+
+export interface MarketItem {
+  index: number;
+  name: string;
+  symbol: string;
+  price: number;
+}

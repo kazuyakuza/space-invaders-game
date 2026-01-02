@@ -63,6 +63,10 @@ export class Player {
         this.lives--;
     }
 
+    public addLife(): void {
+        this.lives++;
+    }
+
     public resetPosition(): void {
         this.x = (this.canvasWidth / 2) - (this.width / 2);
     }

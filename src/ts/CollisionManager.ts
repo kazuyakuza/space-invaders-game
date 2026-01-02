@@ -1,6 +1,7 @@
 import { Bullet } from './entities/Bullet';
 import { Player } from './entities/Player';
 import { EnemyWave } from './entities/EnemyWave';
+import { HedgeDefense } from './entities/HedgeDefense';
 import { SCORE_PER_ENEMY } from './constants';
 
 interface Bounds {
@@ -18,6 +19,7 @@ export interface CollisionContext {
   gameRunningCallback: (running: boolean) => void;
   onLifeLost: () => void;
   spawnBullet: (x: number, y: number, isPlayer: boolean, vx?: number, vy?: number) => void;
+  hedgeDefenses: HedgeDefense[];
 }
 
 export class CollisionManager {
@@ -57,6 +59,21 @@ export class CollisionManager {
             context.scoreCallback(SCORE_PER_ENEMY);
           }
           context.bullets.splice(i, 1);
+          break;
+        }
+      }
+    }
+
+    // Hedge defense - enemy collisions
+    const hedges = context.hedgeDefenses;
+    const enemies = context.enemyWave.getEnemies();
+    for (let i = 0; i < enemies.length; i++) {
+      const enemyBounds = enemies[i].getBounds();
+      for (let j = 0; j < hedges.length; j++) {
+        if (hedges[j].isActive() && enemyBounds.y + enemyBounds.height >= hedges[j].getY()) {
+          context.scoreCallback(SCORE_PER_ENEMY);
+          context.enemyWave.removeEnemy(enemies[i]);
+          hedges[j].deactivate();
           break;
         }
       }

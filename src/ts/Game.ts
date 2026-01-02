@@ -6,6 +6,7 @@ import { CollisionManager, type CollisionContext } from './CollisionManager';
 import { UIManager } from './UIManager';
 import { EntityRenderer } from './Renderer';
 import { LevelManager, type LevelConfig } from './LevelManager';
+import { HedgeDefense } from './entities/HedgeDefense';
 import {
   CANVAS_WIDTH,
   CANVAS_HEIGHT,
@@ -21,7 +22,13 @@ import {
   BULLET_SPEED,
   COUNTDOWN_FRAMES,
   PLAYER_HEIGHT,
-  SCORE_PER_ENEMY
+  SCORE_PER_ENEMY,
+  PLAYER_START_Y_OFFSET,
+  HEDGE_MAX_COUNT,
+  MARKET_ITEM_LIFE_PRICE,
+  MARKET_ITEM_HEDGE_PRICE,
+  HEDGE_START_Y_OFFSET,
+  HEDGE_SPACING
 } from './constants';
 
 export class Game {
@@ -34,6 +41,7 @@ export class Game {
   private player!: Player;
   private enemyWave!: EnemyWave;
   private bullets: Bullet[] = [];
+  private hedgeDefenses: HedgeDefense[] = [];
   private gameRunning: boolean = true;
   private shootCooldown: number = 0;
   private gameTime: number = 0;
@@ -99,6 +107,7 @@ export class Game {
     this.shootCooldown = 0;
     this.gameTime = 0;
     this.livesLostInLevel = 0;
+    this.hedgeDefenses = [];
     this.lastEscapePressed = false;
     this.lastSpacePressed = false;
   }
@@ -144,6 +153,13 @@ export class Game {
     this.lastEscapePressed = escape;
     if (this.isPaused) {
       if (this.input.isPressed('KeyR')) this.reset();
+
+      // Handle market purchases when paused
+      for (let i = 0; i <= 1; i++) {
+        if (this.input.isPressed(`Digit${i}`)) {
+          this.purchaseItem(i);
+        }
+      }
       return true;
     }
     if (!this.hasStarted) {
@@ -168,6 +184,8 @@ export class Game {
       this.shootCooldown--;
     }
     this.bullets = this.bullets.filter(b => b.update());
+    this.hedgeDefenses.forEach(h => h.update(16.67));
+    this.hedgeDefenses = this.hedgeDefenses.filter(h => h.isActive());
     const pPos = this.player.getShootPosition();
     const result = this.enemyWave.update(pPos.x, pPos.y, performance.now());
     this.gameRunning = result.continue;
@@ -185,10 +203,26 @@ export class Game {
 
 
 
+  private purchaseItem(index: number): void {
+    if (index === 0) {
+      if (this.score >= MARKET_ITEM_LIFE_PRICE) {
+        this.score -= MARKET_ITEM_LIFE_PRICE;
+        this.player.addLife();
+      }
+    } else if (index === 1) {
+      const activeCount = this.hedgeDefenses.filter(h => h.isActive()).length;
+      if (activeCount < HEDGE_MAX_COUNT && this.score >= MARKET_ITEM_HEDGE_PRICE) {
+        this.score -= MARKET_ITEM_HEDGE_PRICE;
+        const y = CANVAS_HEIGHT - PLAYER_START_Y_OFFSET - HEDGE_START_Y_OFFSET - (activeCount * HEDGE_SPACING);
+        this.hedgeDefenses.push(new HedgeDefense(y));
+      }
+    }
+  }
+
   private render(): void {
     this.ctx.fillStyle = '#000000';
     this.ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    EntityRenderer.render(this.ctx, this.player, this.enemyWave, this.bullets, this.hasStarted);
+    EntityRenderer.render(this.ctx, this.player, this.enemyWave, this.bullets, this.hedgeDefenses, this.hasStarted);
     this.uiManager.render(this.ctx, {
       score: this.score,
       currentLevel: this.currentLevel,

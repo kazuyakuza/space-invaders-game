@@ -107,7 +107,8 @@ export class UIManager {
       ctx.fillStyle = '#ffffff';
       ctx.font = '48px Arial';
       ctx.textAlign = 'center';
-      ctx.fillText('PAUSED - Press ESC to resume', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      ctx.fillText('PAUSED - Press ESC to Resume & Access Market', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      this.renderMarket(ctx);
       ctx.textAlign = 'left';
     }
 
@@ -127,5 +128,49 @@ export class UIManager {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  private renderMarket(ctx: CanvasRenderingContext2D): void {
+    ctx.save();
+    const titleY = CANVAS_HEIGHT / 2 + 80;
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 32px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('MARKET', CANVAS_WIDTH / 2, titleY);
+    const headerY = titleY + 50;
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'left';
+    const gridLeft = CANVAS_WIDTH / 2 - 250;
+    ctx.fillText('Index', gridLeft, headerY);
+    ctx.fillText('Name', gridLeft + 80, headerY);
+    ctx.fillText('Symbol', gridLeft + 220, headerY);
+    ctx.fillText('Price', gridLeft + 320, headerY);
+    const row1Y = headerY + 35;
+    ctx.fillText('0', gridLeft, row1Y);
+    ctx.fillText('+1 Life', gridLeft + 80, row1Y);
+    ctx.fillStyle = '#00ff00';
+    ctx.beginPath();
+    ctx.arc(gridLeft + 235, row1Y - 5, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('25,000', gridLeft + 320, row1Y);
+    const row2Y = row1Y + 35;
+    ctx.fillText('1', gridLeft, row2Y);
+    ctx.fillText('Hedge DEF', gridLeft + 80, row2Y);
+    ctx.strokeStyle = '#00ff00';
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(gridLeft + 225, row2Y - 2);
+    ctx.lineTo(gridLeft + 265, row2Y - 2);
+    ctx.stroke();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#ffffff';
+    ctx.fillText('5,000', gridLeft + 320, row2Y);
+    const instrY = row2Y + 50;
+    ctx.textAlign = 'center';
+    ctx.font = '18px Arial';
+    ctx.fillText('Press 0 or 1 to buy (ESC to resume)', CANVAS_WIDTH / 2, instrY);
+    ctx.restore();
   }
 }
