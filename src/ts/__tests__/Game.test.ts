@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Game } from '../Game';
+import { LevelManager } from '../LevelManager';
 
 vi.mock('../../assets/levels.json', () => ({
   default: {
@@ -22,15 +23,15 @@ vi.mock('../../assets/levels.json', () => ({
   }
 }));
 
-describe('Game resolveLevelConfig', () => {
-  let game: Game;
+describe('LevelManager getResolvedConfig', () => {
+  let manager: LevelManager;
 
   beforeEach(() => {
-    game = new Game();
+    manager = new LevelManager();
   });
 
   it('resolves full level 1 config', () => {
-    const config = (game as any).resolveLevelConfig(1);
+    const config = manager.getResolvedConfig(1);
     expect(config.rows).toBe(5);
     expect(config.cols).toBe(6);
     expect(config.speed).toBe(1.0);
@@ -40,7 +41,7 @@ describe('Game resolveLevelConfig', () => {
   });
 
   it('resolves sparse level 2 config', () => {
-    const config = (game as any).resolveLevelConfig(2);
+    const config = manager.getResolvedConfig(2);
     expect(config.rows).toBe(6);
     expect(config.cols).toBe(8);
     expect(config.speed).toBe(1.0);
@@ -50,7 +51,7 @@ describe('Game resolveLevelConfig', () => {
   });
 
   it('resolves level 3 with delta accumulation', () => {
-    const config = (game as any).resolveLevelConfig(3);
+    const config = manager.getResolvedConfig(3);
     expect(config.rows).toBe(6);
     expect(config.cols).toBe(8);
     expect(config.speed).toBe(1.5);
@@ -60,7 +61,7 @@ describe('Game resolveLevelConfig', () => {
   });
 
   it('resolves infinity level 4 config', () => {
-    const config = (game as any).resolveLevelConfig(4);
+    const config = manager.getResolvedConfig(4);
     expect(config.rows).toBe(6);
     expect(config.cols).toBe(8);
     expect(config.speed).toBe(2.0);
@@ -70,12 +71,19 @@ describe('Game resolveLevelConfig', () => {
   });
 
   it('resolves infinity level 5 config', () => {
-    const config = (game as any).resolveLevelConfig(5);
+    const config = manager.getResolvedConfig(5);
     expect(config.rows).toBe(6);
     expect(config.cols).toBe(8);
     expect(config.speed).toBe(2.5);
     expect(config.enemyHealth).toBe(4);
     expect(config.enemyCount).toBe(30);
     expect(config.enemyTypes).toMatchObject({ red: 100 });
+  });
+});
+
+describe('Game', () => {
+  it('starts at level 1', () => {
+    const game = new Game();
+    expect((game as any).currentLevel).toBe(1);
   });
 });

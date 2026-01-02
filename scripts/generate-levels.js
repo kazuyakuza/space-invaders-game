@@ -80,7 +80,7 @@ function getUpToLevel100Config({ level, prev, curr }) {
     config.cols = curr.cols;
     config.enemyCount = curr.enemyCount;
     config.enemyTypes = curr.types;
-    config.speed = getSpeedInc(level) * (level - 1);
+    config.speed = 1 + (getSpeedInc(level) * (level - 1));
     config.health = 1 + Math.floor(getHealthInc(level) * level - 1);
   }
 

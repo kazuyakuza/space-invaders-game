@@ -5,7 +5,7 @@ import { EnemyWave, type EnemyWaveConfig } from './entities/EnemyWave';
 import { CollisionManager, type CollisionContext } from './CollisionManager';
 import { UIManager } from './UIManager';
 import { EntityRenderer } from './Renderer';
-import levelsData from '../assets/levels.json';
+import { LevelManager, type LevelConfig } from './LevelManager';
 import {
   CANVAS_WIDTH,
   CANVAS_HEIGHT,
@@ -24,21 +24,13 @@ import {
   SCORE_PER_ENEMY
 } from './constants';
 
-interface LevelConfig {
-  rows: number;
-  cols: number;
-  speed: number;
-  enemyCount: number;
-  enemyHealth: number;
-  enemyTypes?: Record<string, number>;
-}
-
 export class Game {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private input: InputHandler;
   private collisionManager: CollisionManager;
   private uiManager: UIManager;
+  private levelManager!: LevelManager;
   private player!: Player;
   private enemyWave!: EnemyWave;
   private bullets: Bullet[] = [];
@@ -48,7 +40,6 @@ export class Game {
   private livesLostInLevel: number = 0;
   private score: number = 0;
   private currentLevel: number = 0;
-  private levelConfigs: Record<string, any> = {};
   private currentLevelConfig: LevelConfig | null = null;
   private isPaused: boolean = false;
   private hasStarted: boolean = false;
@@ -64,52 +55,14 @@ export class Game {
     this.input = new InputHandler();
     this.collisionManager = new CollisionManager();
     this.uiManager = new UIManager();
-    this.levelConfigs = levelsData as Record<string, any>;
+    this.levelManager = new LevelManager();
     this.reset();
   }
 
-  private resolveLevelConfig(targetLevel: number): LevelConfig {
-    const levelKeys = Object.keys(this.levelConfigs).map(k => parseInt(k)).filter(n => !isNaN(n)).sort((a, b) => a - b);
-    const maxLevel = levelKeys.length > 0 ? Math.max(...levelKeys) : 0;
-
-    // Find base level: latest <= targetLevel with no + keys
-    let baseLevel = 0;
-    for (let l = targetLevel; l >= 1; l--) {
-      const key = l.toString();
-      if (this.levelConfigs[key]) {
-        const config = this.levelConfigs[key];
-        const hasPlus = Object.keys(config).some(k => k.startsWith('+'));
-        if (!hasPlus) {
-          baseLevel = l;
-          break;
-        }
-      }
-    }
-
-    const effective: any = { rows: 5, cols: 6, speed: 1.0, enemyCount: 30, enemyHealth: 1 };
-    if (baseLevel > 0) {
-      const baseConfig = this.levelConfigs[baseLevel.toString()];
-      Object.assign(effective, baseConfig);
-    }
-
-    // Target config for increments
-    const targetKey = targetLevel > maxLevel ? maxLevel.toString() : targetLevel.toString();
-    const targetConfig = this.levelConfigs[targetKey];
-    if (targetConfig) {
-      if ('+speed' in targetConfig) {
-        effective.speed = targetConfig['+speed'] * (targetLevel - 1);
-      }
-      if ('+enemyHealth' in targetConfig) {
-        effective.enemyHealth = 1 + Math.floor(targetConfig['+enemyHealth'] * targetLevel - 1);
-      }
-    }
-    return effective as LevelConfig;
-  }
-
-  private initLevel(levelIndex: number): void {
-    const config = this.resolveLevelConfig(levelIndex + 1);
+  private initLevel(level: number): void {
+    const config = this.levelManager.getResolvedConfig(level);
     this.currentLevelConfig = config;
-    const waveConfig = {
+    const waveConfig: EnemyWaveConfig = {
       canvasWidth: CANVAS_WIDTH,
       canvasHeight: CANVAS_HEIGHT,
       cols: config.cols,
@@ -125,7 +78,7 @@ export class Game {
       enemyTypes: config.enemyTypes
     };
 
-    if (levelIndex === 0 || !this.enemyWave) {
+    if (level === 1 || !this.enemyWave) {
       this.enemyWave = new EnemyWave(waveConfig);
     } else {
       this.enemyWave.spawnEnemies(waveConfig);
@@ -137,8 +90,8 @@ export class Game {
   private reset(): void {
     this.player = new Player({ canvasWidth: CANVAS_WIDTH, canvasHeight: CANVAS_HEIGHT, speed: PLAYER_SPEED, padding: GAME_PADDING });
     this.score = 0;
-    this.currentLevel = 0;
-    this.initLevel(0);
+    this.currentLevel = 1;
+    this.initLevel(1);
     this.gameRunning = true;
     this.hasStarted = false;
     this.isPaused = false;
@@ -169,8 +122,8 @@ export class Game {
       if (this.input.isPressed('Enter')) this.reset();
       return;
     }
-      this.gameTime += 16.67;
-  this.updateEntities();
+    this.gameTime += 16.67;
+    this.updateEntities();
     this.collisionManager.handleCollisions({
       bullets: this.bullets,
       player: this.player,

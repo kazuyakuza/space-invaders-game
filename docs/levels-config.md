@@ -24,16 +24,19 @@ The `levels.json` file is an object where keys are level numbers (as strings) an
 Properties prefixed with `+` use absolute formulas based on the current level number, overriding any hardcoded base values when present in the target configuration.
 
 #### Enemy Speed Scaling
+
 The `+speed` property defines an increment applied per level.
-**Formula:** `effectiveSpeed = +speed * (currentLevel - 1)`
+**Formula:** `effectiveSpeed = 1 + (+speed * (currentLevel - 1))`
 
 #### Enemy Health Scaling
+
 The `+enemyHealth` property defines a health increment factor.
 **Formula:** `effectiveHealth = 1 + floor(+enemyHealth * currentLevel - 1)`
 
 ### Level Resolution Logic
 
 The game resolves the configuration for a target level as follows:
+
 1. **Find Base Level**: Searches backwards from the target level for the latest level definition that does **not** contain any `+` prefixed keys.
 2. **Inherit Base Values**: Loads all properties from this base level.
 3. **Apply Increments**: If the target level's own configuration contains `+speed` or `+enemyHealth`, the absolute formulas above are applied, overriding the inherited base values.
