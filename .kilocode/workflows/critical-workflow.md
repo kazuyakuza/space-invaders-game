@@ -61,10 +61,11 @@ Must include next steps:
 - This step must be handled by the Orchestrator Agent.
 - IMPORTANT: this step indicates that the Orchestrator Agent must drive the overall process. The analysis and implementation details should be handled by the appropriate agents. This is detailed in the below steps.
 - Process items within the TODO file in the order they are defined.
-- Before starting a new item, commit any pending changes to the current branch with a meaningful message.
+- Process each item in a separated sub-task.
+- Before starting a new item, commit any pending changes to the current branch with a meaningful message. This must be included in the steps and plans.
 - Ask the user for clarifications or to confirm implementation plans when necessary.
 - Adhere to all other defined rules and workflows (e.g., creating unit tests for new features).
-- For each item follow next steps in current section 4.
+- For each item, create a sub-task where follow next steps in current section 4.
 
 ### 4.1. Analysis and Planning
 
@@ -85,7 +86,7 @@ Must include next steps:
 - IMPORTANT: After the high-level approach, redefines the plan in very tiny and very detailed steps, including clear files names/paths, structure, code snippets, where/how run terminal cmds, and any other relevant details.
 - Review the plan for any necessary changes.
 - CRITICAL **File Storage**: the plan must be saved to a file in `.kilocode/_generated/plans/` with a unique name (e.g., `<datetime>-<plan-name>.md`) in almost all cases. So, the Coder Agent (or any other) can receive this file to work on.
-- The plan must be presented to the user for approval before proceeding with the next steps.
+- The plan **MUST** be presented to the user for approval before proceeding with the next steps.
 - Although the Architect Agent is responsible for creating the plan, the Orchestrator Agent is responsible for ensuring that the plan is followed and that the appropriate agents are assigned to the appropriate tasks.
 - Always check the details of the original task before proceeding with the next steps.
 - General process must be: the Orchestrator creates a step to generate the plan in a sub-task, that must respond with the plan file path. Then, the Orchestrator Agent can assign the Coder Agent to implement the plan in another sub-task.
@@ -93,9 +94,9 @@ Must include next steps:
 ### 4.2. Implementation
 
 - This step must be handled by the Coder Agent.
-- Receives and implements individual extremely tiny and very detailed steps from the plan.
+- In a sub-task, receives and implements individual extremely tiny and very detailed steps from the plan.
 - Always check the details of the original task before proceeding with the next steps.
-- IMPORTANT: Make commits with meaningful messages at the end of the work done to resolve each one of the TODO file items.
+- IMPORTANT: Make commits with meaningful messages when resolves each one of the TODO file items.
 
 ### 4.3. Code Review
 
@@ -113,7 +114,7 @@ Must include next steps:
 ### 4.5. Item Completion
 
 - This step is RELEVANT to show the details of the item completion process.
-- When the Implementation of a plan's item is completed, the item in the TODO file must be clearly marked as done, details below.
+- When the Implementation of a plan's item is completed, the item in the TODO file MUST be clearly marked as done, details below.
 - Mark the item as done in the TODO file:
   - **Line Item Format**: Add `[DONE]` at the beginning of the line.
   - **Section Item Format**: Add `[DONE]` to the section title.
