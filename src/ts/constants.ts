@@ -23,6 +23,7 @@ export const RED_ENEMY_COLOR = '#ff0000';
 export const YELLOW_ENEMY_COLOR = '#ffff00';
 export const ORANGE_ENEMY_COLOR = '#ffaa00';
 export const VIOLET_ENEMY_COLOR = '#aa00ff';
+export const BLUE_ENEMY_COLOR = '#0000ff';
 export const ENEMY_SHOOT_CHANCE = 0.002;
 export const YELLOW_ENEMY_SPEED = 1.0;
 
@@ -40,3 +41,9 @@ export const LABEL_FONT = '20px Arial';
 export const LABEL_COLOR = '#ffffff';
 
 export const ORANGE_SHOOT_COOLDOWN = 60000;
+export const KAMIKAZE_TARGET_HUD_X = CANVAS_WIDTH / 2;
+export const KAMIKAZE_TARGET_HUD_Y = CANVAS_HEIGHT - 20;
+export const KAMIKAZE_TARGET_LEFT_X = CANVAS_WIDTH / 6;
+export const KAMIKAZE_TARGET_LEFT_Y = CANVAS_HEIGHT / 2;
+export const KAMIKAZE_TARGET_RIGHT_X = 5 * CANVAS_WIDTH / 6;
+export const KAMIKAZE_TARGET_RIGHT_Y = CANVAS_HEIGHT / 2;
