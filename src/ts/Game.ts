@@ -180,19 +180,7 @@ export class Game {
     this.initLevel(this.currentLevel);
   }
 
-  private getUIState(): any {
-    return {
-      score: this.score,
-      currentLevel: this.currentLevel,
-      lives: this.player.getLives(),
-      hasStarted: this.hasStarted,
-      countdown: this.countdown,
-      isPaused: this.isPaused,
-      gameRunning: this.gameRunning,
-      currentLevelConfig: this.currentLevelConfig,
-      gameTime: this.gameTime
-    };
-  }
+
 
   private render(): void {
     this.ctx.fillStyle = '#000000';

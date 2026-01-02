@@ -35,14 +35,15 @@ export class LevelManager {
     return Object.keys(config).some(k => k.startsWith('+'));
   }
 
+  private getLevelConfig(level: number): Record<string, any> | undefined {
+    return this.levelsData[level.toString()];
+  }
+
   private findLastNonDeltaLevel(definedLevel: number): number {
     for (let l = definedLevel - 1; l >= 1; l--) {
-      const key = l.toString();
-      if (this.levelsData[key]) {
-        const config = this.levelsData[key];
-        if (!this.configHasDeltas(config)) {
-          return l;
-        }
+      const config = this.getLevelConfig(l);
+      if (config && !this.configHasDeltas(config)) {
+        return l;
       }
     }
     return 0;
@@ -51,15 +52,33 @@ export class LevelManager {
   private accumulateNonDeltaConfigs(upToLevel: number): LevelConfig {
     let effective = { ...this.DEFAULTS };
     for (let l = 1; l <= upToLevel; l++) {
-      const key = l.toString();
-      if (this.levelsData[key]) {
-        const config = this.levelsData[key];
-        if (!this.configHasDeltas(config)) {
-          Object.assign(effective, config);
-        }
+      const config = this.getLevelConfig(l);
+      if (config && !this.configHasDeltas(config)) {
+        Object.assign(effective, config);
       }
     }
     return effective;
+  }
+
+  private overrideNonDeltaProps(effective: any, config: Record<string, any>): void {
+    for (const [key, value] of Object.entries(config)) {
+      if (!key.startsWith('+')) {
+        (effective as any)[key as keyof LevelConfig] = value;
+      }
+    }
+  }
+
+  private applyDeltas(effective: any, config: Record<string, any>, distance: number): void {
+    for (const [key, deltaValue] of Object.entries(config)) {
+      if (key.startsWith('+')) {
+        const prop = key.slice(1) as keyof LevelConfig;
+        const baseValue = (effective as any)[prop] ?? (this.DEFAULTS as any)[prop] ?? 0;
+        (effective as any)[prop] = baseValue + (deltaValue as number) * distance;
+        if (prop === 'enemyHealth') {
+          (effective as any)[prop] = Math.floor((effective as any)[prop]);
+        }
+      }
+    }
   }
 
   public getResolvedConfig(targetLevel: number): LevelConfig {
@@ -75,22 +94,9 @@ export class LevelManager {
     const L_base = this.findLastNonDeltaLevel(L_defined);
     const baseConfig = L_base > 0 ? this.getResolvedConfig(L_base) : this.DEFAULTS;
     let effective: any = { ...baseConfig };
-    for (const [k, v] of Object.entries(definedConfig)) {
-      if (!k.startsWith('+')) {
-        (effective as any)[k as keyof LevelConfig] = v;
-      }
-    }
+    this.overrideNonDeltaProps(effective, definedConfig);
     const deltaDistance = targetLevel - L_base;
-    for (const [k, deltaValue] of Object.entries(definedConfig)) {
-      if (k.startsWith('+')) {
-        const prop = k.slice(1) as keyof LevelConfig;
-        let baseValue = (effective as any)[prop] ?? this.DEFAULTS[prop as keyof LevelConfig] ?? 0;
-        (effective as any)[prop] = baseValue + (deltaValue as number) * deltaDistance;
-        if (prop === 'enemyHealth') {
-          (effective as any)[prop] = Math.floor((effective as any)[prop]);
-        }
-      }
-    }
+    this.applyDeltas(effective, definedConfig, deltaDistance);
     return effective as LevelConfig;
   }
 }
