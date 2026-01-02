@@ -6,72 +6,220 @@
     "enemyCount": 30,
     "enemyHealth": 1
   },
-  "3": {
-    "+speed": 0.01
-  },
-  "6": {
-    "+speed": 0.01,
-    "+enemyHealth": 0.5
-  },
-  "7": {
-    "enemyTypes": {
-      "red": 95,
-      "yellow": 5
-    },
+  "2": {
     "rows": 5,
     "cols": 6,
     "enemyCount": 30,
-    "speed": 0.06,
-    "health": 3
+    "enemyTypes": {
+      "red": 100
+    },
+    "speed": 1,
+    "enemyHealth": 1
+  },
+  "3": {
+    "rows": 5,
+    "cols": 6,
+    "enemyCount": 30,
+    "enemyTypes": {
+      "red": 100
+    },
+    "speed": 1.01,
+    "enemyHealth": 1
+  },
+  "4": {
+    "rows": 5,
+    "cols": 6,
+    "enemyCount": 30,
+    "enemyTypes": {
+      "red": 100
+    },
+    "speed": 1.02,
+    "enemyHealth": 1
+  },
+  "5": {
+    "rows": 5,
+    "cols": 6,
+    "enemyCount": 30,
+    "enemyTypes": {
+      "red": 100
+    },
+    "speed": 1.03,
+    "enemyHealth": 1
+  },
+  "6": {
+    "rows": 5,
+    "cols": 6,
+    "enemyCount": 30,
+    "enemyTypes": {
+      "red": 100
+    },
+    "speed": 1.04,
+    "enemyHealth": 1
+  },
+  "7": {
+    "rows": 5,
+    "cols": 6,
+    "enemyCount": 30,
+    "enemyTypes": {
+      "red": 95,
+      "yellow": 5
+    },
+    "speed": 1.05,
+    "enemyHealth": 2
   },
   "8": {
-    "+speed": 0.01,
-    "+enemyHealth": 0.5
+    "rows": 5,
+    "cols": 6,
+    "enemyCount": 30,
+    "enemyTypes": {
+      "red": 95,
+      "yellow": 5
+    },
+    "speed": 1.06,
+    "enemyHealth": 2
+  },
+  "9": {
+    "rows": 5,
+    "cols": 6,
+    "enemyCount": 30,
+    "enemyTypes": {
+      "red": 95,
+      "yellow": 5
+    },
+    "speed": 1.07,
+    "enemyHealth": 3
+  },
+  "10": {
+    "rows": 5,
+    "cols": 6,
+    "enemyCount": 30,
+    "enemyTypes": {
+      "red": 95,
+      "yellow": 5
+    },
+    "speed": 1.08,
+    "enemyHealth": 3
   },
   "11": {
     "rows": 6,
-    "enemyCount": 36,
     "cols": 6,
+    "enemyCount": 36,
     "enemyTypes": {
       "red": 95,
       "yellow": 5
     },
-    "speed": 0.2,
-    "health": 5
+    "speed": 1.18,
+    "enemyHealth": 4
   },
   "12": {
+    "rows": 6,
     "cols": 7,
     "enemyCount": 42,
-    "rows": 6,
     "enemyTypes": {
       "red": 95,
       "yellow": 5
     },
-    "speed": 0.22,
-    "health": 6
+    "speed": 1.2,
+    "enemyHealth": 4
   },
   "13": {
-    "+speed": 0.02,
-    "+enemyHealth": 0.5
+    "rows": 6,
+    "cols": 7,
+    "enemyCount": 42,
+    "enemyTypes": {
+      "red": 95,
+      "yellow": 5
+    },
+    "speed": 1.22,
+    "enemyHealth": 5
   },
   "14": {
+    "rows": 6,
+    "cols": 7,
+    "enemyCount": 42,
     "enemyTypes": {
       "red": 86,
       "yellow": 7,
       "orange": 7
     },
+    "speed": 1.24,
+    "enemyHealth": 5
+  },
+  "15": {
     "rows": 6,
     "cols": 7,
     "enemyCount": 42,
-    "speed": 0.26,
-    "health": 7
+    "enemyTypes": {
+      "red": 86,
+      "yellow": 7,
+      "orange": 7
+    },
+    "speed": 1.26,
+    "enemyHealth": 6
   },
-  "15": {
-    "+speed": 0.02,
-    "+enemyHealth": 0.5
+  "16": {
+    "rows": 6,
+    "cols": 7,
+    "enemyCount": 42,
+    "enemyTypes": {
+      "red": 86,
+      "yellow": 7,
+      "orange": 7
+    },
+    "speed": 1.28,
+    "enemyHealth": 6
+  },
+  "17": {
+    "rows": 6,
+    "cols": 7,
+    "enemyCount": 42,
+    "enemyTypes": {
+      "red": 86,
+      "yellow": 7,
+      "orange": 7
+    },
+    "speed": 1.3,
+    "enemyHealth": 7
+  },
+  "18": {
+    "rows": 6,
+    "cols": 7,
+    "enemyCount": 42,
+    "enemyTypes": {
+      "red": 86,
+      "yellow": 7,
+      "orange": 7
+    },
+    "speed": 1.32,
+    "enemyHealth": 7
+  },
+  "19": {
+    "rows": 6,
+    "cols": 7,
+    "enemyCount": 42,
+    "enemyTypes": {
+      "red": 86,
+      "yellow": 7,
+      "orange": 7
+    },
+    "speed": 1.34,
+    "enemyHealth": 8
+  },
+  "20": {
+    "rows": 6,
+    "cols": 7,
+    "enemyCount": 42,
+    "enemyTypes": {
+      "red": 86,
+      "yellow": 7,
+      "orange": 7
+    },
+    "speed": 1.36,
+    "enemyHealth": 8
   },
   "21": {
     "rows": 7,
+    "cols": 7,
     "enemyCount": 49,
     "enemyTypes": {
       "red": 75,
@@ -79,242 +227,1034 @@
       "orange": 10,
       "violet": 5
     },
-    "cols": 7,
-    "speed": 0.6,
-    "health": 21
+    "speed": 1.57,
+    "enemyHealth": 17
   },
   "22": {
-    "+speed": 0.03,
-    "+enemyHealth": 1
-  },
-  "23": {
-    "cols": 8,
-    "enemyCount": 56,
     "rows": 7,
+    "cols": 7,
+    "enemyCount": 49,
     "enemyTypes": {
       "red": 75,
       "yellow": 10,
       "orange": 10,
       "violet": 5
     },
-    "speed": 0.6599999999999999,
-    "health": 23
+    "speed": 1.6,
+    "enemyHealth": 18
   },
-  "24": {
-    "+speed": 0.03,
-    "+enemyHealth": 1
-  },
-  "28": {
-    "enemyTypes": {
-      "red": 60,
-      "yellow": 15,
-      "orange": 15,
-      "violet": 10
-    },
+  "23": {
     "rows": 7,
     "cols": 8,
     "enemyCount": 56,
-    "speed": 0.8099999999999999,
-    "health": 28
+    "enemyTypes": {
+      "red": 75,
+      "yellow": 10,
+      "orange": 10,
+      "violet": 5
+    },
+    "speed": 1.63,
+    "enemyHealth": 19
+  },
+  "24": {
+    "rows": 7,
+    "cols": 8,
+    "enemyCount": 56,
+    "enemyTypes": {
+      "red": 75,
+      "yellow": 10,
+      "orange": 10,
+      "violet": 5
+    },
+    "speed": 1.66,
+    "enemyHealth": 20
+  },
+  "25": {
+    "rows": 7,
+    "cols": 8,
+    "enemyCount": 56,
+    "enemyTypes": {
+      "red": 75,
+      "yellow": 10,
+      "orange": 10,
+      "violet": 5
+    },
+    "speed": 1.69,
+    "enemyHealth": 21
+  },
+  "26": {
+    "rows": 7,
+    "cols": 8,
+    "enemyCount": 56,
+    "enemyTypes": {
+      "red": 75,
+      "yellow": 10,
+      "orange": 10,
+      "violet": 5
+    },
+    "speed": 1.72,
+    "enemyHealth": 22
+  },
+  "27": {
+    "rows": 7,
+    "cols": 8,
+    "enemyCount": 56,
+    "enemyTypes": {
+      "red": 75,
+      "yellow": 10,
+      "orange": 10,
+      "violet": 5
+    },
+    "speed": 1.75,
+    "enemyHealth": 23
+  },
+  "28": {
+    "rows": 7,
+    "cols": 8,
+    "enemyCount": 56,
+    "enemyTypes": {
+      "red": 60,
+      "yellow": 15,
+      "orange": 15,
+      "violet": 10
+    },
+    "speed": 1.78,
+    "enemyHealth": 24
   },
   "29": {
-    "+speed": 0.03,
-    "+enemyHealth": 1
+    "rows": 7,
+    "cols": 8,
+    "enemyCount": 56,
+    "enemyTypes": {
+      "red": 60,
+      "yellow": 15,
+      "orange": 15,
+      "violet": 10
+    },
+    "speed": 1.81,
+    "enemyHealth": 25
+  },
+  "30": {
+    "rows": 7,
+    "cols": 8,
+    "enemyCount": 56,
+    "enemyTypes": {
+      "red": 60,
+      "yellow": 15,
+      "orange": 15,
+      "violet": 10
+    },
+    "speed": 1.84,
+    "enemyHealth": 26
   },
   "31": {
     "rows": 8,
-    "enemyCount": 64,
     "cols": 8,
+    "enemyCount": 64,
     "enemyTypes": {
       "red": 60,
       "yellow": 15,
       "orange": 15,
       "violet": 10
     },
-    "speed": 0.8999999999999999,
-    "health": 62
+    "speed": 1.87,
+    "enemyHealth": 53
   },
   "32": {
-    "+speed": 0.03,
-    "+enemyHealth": 2
-  },
-  "34": {
-    "cols": 9,
-    "enemyCount": 72,
     "rows": 8,
+    "cols": 8,
+    "enemyCount": 64,
     "enemyTypes": {
       "red": 60,
       "yellow": 15,
       "orange": 15,
       "violet": 10
     },
-    "speed": 0.99,
-    "health": 68
+    "speed": 1.9,
+    "enemyHealth": 55
+  },
+  "33": {
+    "rows": 8,
+    "cols": 8,
+    "enemyCount": 64,
+    "enemyTypes": {
+      "red": 60,
+      "yellow": 15,
+      "orange": 15,
+      "violet": 10
+    },
+    "speed": 1.93,
+    "enemyHealth": 57
+  },
+  "34": {
+    "rows": 8,
+    "cols": 9,
+    "enemyCount": 72,
+    "enemyTypes": {
+      "red": 60,
+      "yellow": 15,
+      "orange": 15,
+      "violet": 10
+    },
+    "speed": 1.96,
+    "enemyHealth": 59
   },
   "35": {
+    "rows": 8,
+    "cols": 9,
+    "enemyCount": 72,
     "enemyTypes": {
       "red": 30,
       "yellow": 20,
       "orange": 30,
       "violet": 20
     },
+    "speed": 1.99,
+    "enemyHealth": 61
+  },
+  "36": {
     "rows": 8,
     "cols": 9,
     "enemyCount": 72,
-    "speed": 1.02,
-    "health": 70
+    "enemyTypes": {
+      "red": 30,
+      "yellow": 20,
+      "orange": 30,
+      "violet": 20
+    },
+    "speed": 2.36,
+    "enemyHealth": 63
   },
-  "36": {
-    "+speed": 0.04,
-    "+enemyHealth": 2
+  "37": {
+    "rows": 8,
+    "cols": 9,
+    "enemyCount": 72,
+    "enemyTypes": {
+      "red": 30,
+      "yellow": 20,
+      "orange": 30,
+      "violet": 20
+    },
+    "speed": 2.4,
+    "enemyHealth": 65
+  },
+  "38": {
+    "rows": 8,
+    "cols": 9,
+    "enemyCount": 72,
+    "enemyTypes": {
+      "red": 30,
+      "yellow": 20,
+      "orange": 30,
+      "violet": 20
+    },
+    "speed": 2.44,
+    "enemyHealth": 67
+  },
+  "39": {
+    "rows": 8,
+    "cols": 9,
+    "enemyCount": 72,
+    "enemyTypes": {
+      "red": 30,
+      "yellow": 20,
+      "orange": 30,
+      "violet": 20
+    },
+    "speed": 2.48,
+    "enemyHealth": 69
+  },
+  "40": {
+    "rows": 8,
+    "cols": 9,
+    "enemyCount": 72,
+    "enemyTypes": {
+      "red": 30,
+      "yellow": 20,
+      "orange": 30,
+      "violet": 20
+    },
+    "speed": 2.52,
+    "enemyHealth": 71
   },
   "41": {
     "rows": 9,
-    "enemyCount": 81,
     "cols": 9,
+    "enemyCount": 81,
     "enemyTypes": {
       "red": 30,
       "yellow": 20,
       "orange": 30,
       "violet": 20
     },
-    "speed": 1.6,
-    "health": 82
+    "speed": 2.56,
+    "enemyHealth": 73
   },
   "42": {
-    "enemyTypes": {
-      "red": 25,
-      "yellow": 25,
-      "orange": 25,
-      "violet": 25
-    },
     "rows": 9,
     "cols": 9,
     "enemyCount": 81,
-    "speed": 1.6400000000000001,
-    "health": 84
-  },
-  "43": {
-    "+speed": 0.04,
-    "+enemyHealth": 2
-  },
-  "45": {
-    "cols": 10,
-    "enemyCount": 90,
-    "rows": 9,
     "enemyTypes": {
       "red": 25,
       "yellow": 25,
       "orange": 25,
       "violet": 25
     },
-    "speed": 1.76,
-    "health": 90
+    "speed": 2.6,
+    "enemyHealth": 75
+  },
+  "43": {
+    "rows": 9,
+    "cols": 9,
+    "enemyCount": 81,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 2.64,
+    "enemyHealth": 77
+  },
+  "44": {
+    "rows": 9,
+    "cols": 9,
+    "enemyCount": 81,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 2.68,
+    "enemyHealth": 79
+  },
+  "45": {
+    "rows": 9,
+    "cols": 10,
+    "enemyCount": 90,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 2.72,
+    "enemyHealth": 81
   },
   "46": {
-    "+speed": 0.04,
-    "+enemyHealth": 2
+    "rows": 9,
+    "cols": 10,
+    "enemyCount": 90,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 2.76,
+    "enemyHealth": 83
+  },
+  "47": {
+    "rows": 9,
+    "cols": 10,
+    "enemyCount": 90,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 2.8,
+    "enemyHealth": 85
+  },
+  "48": {
+    "rows": 9,
+    "cols": 10,
+    "enemyCount": 90,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 2.84,
+    "enemyHealth": 87
+  },
+  "49": {
+    "rows": 9,
+    "cols": 10,
+    "enemyCount": 90,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 2.88,
+    "enemyHealth": 89
+  },
+  "50": {
+    "rows": 9,
+    "cols": 10,
+    "enemyCount": 90,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 2.92,
+    "enemyHealth": 91
   },
   "51": {
     "rows": 10,
-    "enemyCount": 100,
     "cols": 10,
+    "enemyCount": 100,
     "enemyTypes": {
       "red": 25,
       "yellow": 25,
       "orange": 25,
       "violet": 25
     },
-    "speed": 2.5,
-    "health": 153
+    "speed": 3.45,
+    "enemyHealth": 139
   },
   "52": {
-    "+speed": 0.05,
-    "+enemyHealth": 3
+    "rows": 10,
+    "cols": 10,
+    "enemyCount": 100,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 3.5,
+    "enemyHealth": 142
+  },
+  "53": {
+    "rows": 10,
+    "cols": 10,
+    "enemyCount": 100,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 3.55,
+    "enemyHealth": 145
+  },
+  "54": {
+    "rows": 10,
+    "cols": 10,
+    "enemyCount": 100,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 3.6,
+    "enemyHealth": 148
+  },
+  "55": {
+    "rows": 10,
+    "cols": 10,
+    "enemyCount": 100,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 3.65,
+    "enemyHealth": 151
   },
   "56": {
+    "rows": 10,
     "cols": 11,
     "enemyCount": 110,
-    "rows": 10,
     "enemyTypes": {
       "red": 25,
       "yellow": 25,
       "orange": 25,
       "violet": 25
     },
-    "speed": 2.75,
-    "health": 168
+    "speed": 3.7,
+    "enemyHealth": 154
   },
   "57": {
-    "+speed": 0.05,
-    "+enemyHealth": 3
+    "rows": 10,
+    "cols": 11,
+    "enemyCount": 110,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 3.75,
+    "enemyHealth": 157
+  },
+  "58": {
+    "rows": 10,
+    "cols": 11,
+    "enemyCount": 110,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 3.8,
+    "enemyHealth": 160
+  },
+  "59": {
+    "rows": 10,
+    "cols": 11,
+    "enemyCount": 110,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 3.85,
+    "enemyHealth": 163
+  },
+  "60": {
+    "rows": 10,
+    "cols": 11,
+    "enemyCount": 110,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 3.9,
+    "enemyHealth": 166
+  },
+  "61": {
+    "rows": 10,
+    "cols": 11,
+    "enemyCount": 110,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 3.95,
+    "enemyHealth": 169
+  },
+  "62": {
+    "rows": 10,
+    "cols": 11,
+    "enemyCount": 110,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4,
+    "enemyHealth": 172
+  },
+  "63": {
+    "rows": 10,
+    "cols": 11,
+    "enemyCount": 110,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.05,
+    "enemyHealth": 175
+  },
+  "64": {
+    "rows": 10,
+    "cols": 11,
+    "enemyCount": 110,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.1,
+    "enemyHealth": 178
+  },
+  "65": {
+    "rows": 10,
+    "cols": 11,
+    "enemyCount": 110,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.15,
+    "enemyHealth": 181
+  },
+  "66": {
+    "rows": 10,
+    "cols": 11,
+    "enemyCount": 110,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.2,
+    "enemyHealth": 184
   },
   "67": {
+    "rows": 10,
     "cols": 12,
     "enemyCount": 120,
-    "rows": 10,
     "enemyTypes": {
       "red": 25,
       "yellow": 25,
       "orange": 25,
       "violet": 25
     },
-    "speed": 3.3000000000000003,
-    "health": 201
+    "speed": 4.25,
+    "enemyHealth": 187
   },
   "68": {
-    "+speed": 0.05,
-    "+enemyHealth": 3
+    "rows": 10,
+    "cols": 12,
+    "enemyCount": 120,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.3,
+    "enemyHealth": 190
+  },
+  "69": {
+    "rows": 10,
+    "cols": 12,
+    "enemyCount": 120,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.35,
+    "enemyHealth": 193
+  },
+  "70": {
+    "rows": 10,
+    "cols": 12,
+    "enemyCount": 120,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.4,
+    "enemyHealth": 196
+  },
+  "71": {
+    "rows": 10,
+    "cols": 12,
+    "enemyCount": 120,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.45,
+    "enemyHealth": 199
+  },
+  "72": {
+    "rows": 10,
+    "cols": 12,
+    "enemyCount": 120,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.5,
+    "enemyHealth": 202
+  },
+  "73": {
+    "rows": 10,
+    "cols": 12,
+    "enemyCount": 120,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.55,
+    "enemyHealth": 205
+  },
+  "74": {
+    "rows": 10,
+    "cols": 12,
+    "enemyCount": 120,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.6,
+    "enemyHealth": 208
+  },
+  "75": {
+    "rows": 10,
+    "cols": 12,
+    "enemyCount": 120,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 4.65,
+    "enemyHealth": 211
   },
   "76": {
-    "+speed": 0.06,
-    "+enemyHealth": 4
+    "rows": 10,
+    "cols": 12,
+    "enemyCount": 120,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 5.44,
+    "enemyHealth": 285
+  },
+  "77": {
+    "rows": 10,
+    "cols": 12,
+    "enemyCount": 120,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 5.5,
+    "enemyHealth": 289
   },
   "78": {
+    "rows": 10,
     "cols": 13,
     "enemyCount": 130,
-    "rows": 10,
     "enemyTypes": {
       "red": 25,
       "yellow": 25,
       "orange": 25,
       "violet": 25
     },
-    "speed": 4.62,
-    "health": 312
+    "speed": 5.56,
+    "enemyHealth": 293
   },
   "79": {
-    "+speed": 0.06,
-    "+enemyHealth": 4
+    "rows": 10,
+    "cols": 13,
+    "enemyCount": 130,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 5.62,
+    "enemyHealth": 297
+  },
+  "80": {
+    "rows": 10,
+    "cols": 13,
+    "enemyCount": 130,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 5.68,
+    "enemyHealth": 301
+  },
+  "81": {
+    "rows": 10,
+    "cols": 13,
+    "enemyCount": 130,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 5.74,
+    "enemyHealth": 305
+  },
+  "82": {
+    "rows": 10,
+    "cols": 13,
+    "enemyCount": 130,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 5.8,
+    "enemyHealth": 309
+  },
+  "83": {
+    "rows": 10,
+    "cols": 13,
+    "enemyCount": 130,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 5.86,
+    "enemyHealth": 313
+  },
+  "84": {
+    "rows": 10,
+    "cols": 13,
+    "enemyCount": 130,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 5.92,
+    "enemyHealth": 317
+  },
+  "85": {
+    "rows": 10,
+    "cols": 13,
+    "enemyCount": 130,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 5.98,
+    "enemyHealth": 321
+  },
+  "86": {
+    "rows": 10,
+    "cols": 13,
+    "enemyCount": 130,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.04,
+    "enemyHealth": 325
+  },
+  "87": {
+    "rows": 10,
+    "cols": 13,
+    "enemyCount": 130,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.1,
+    "enemyHealth": 329
+  },
+  "88": {
+    "rows": 10,
+    "cols": 13,
+    "enemyCount": 130,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.16,
+    "enemyHealth": 333
   },
   "89": {
+    "rows": 10,
     "cols": 14,
     "enemyCount": 140,
-    "rows": 10,
     "enemyTypes": {
       "red": 25,
       "yellow": 25,
       "orange": 25,
       "violet": 25
     },
-    "speed": 5.279999999999999,
-    "health": 356
+    "speed": 6.22,
+    "enemyHealth": 337
   },
   "90": {
-    "+speed": 0.06,
-    "+enemyHealth": 4
-  },
-  "100": {
-    "cols": 15,
-    "enemyCount": 150,
     "rows": 10,
+    "cols": 14,
+    "enemyCount": 140,
     "enemyTypes": {
       "red": 25,
       "yellow": 25,
       "orange": 25,
       "violet": 25
     },
-    "speed": 5.9399999999999995,
-    "health": 400
+    "speed": 6.28,
+    "enemyHealth": 341
+  },
+  "91": {
+    "rows": 10,
+    "cols": 14,
+    "enemyCount": 140,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.34,
+    "enemyHealth": 345
+  },
+  "92": {
+    "rows": 10,
+    "cols": 14,
+    "enemyCount": 140,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.4,
+    "enemyHealth": 349
+  },
+  "93": {
+    "rows": 10,
+    "cols": 14,
+    "enemyCount": 140,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.46,
+    "enemyHealth": 353
+  },
+  "94": {
+    "rows": 10,
+    "cols": 14,
+    "enemyCount": 140,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.52,
+    "enemyHealth": 357
+  },
+  "95": {
+    "rows": 10,
+    "cols": 14,
+    "enemyCount": 140,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.58,
+    "enemyHealth": 361
+  },
+  "96": {
+    "rows": 10,
+    "cols": 14,
+    "enemyCount": 140,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.64,
+    "enemyHealth": 365
+  },
+  "97": {
+    "rows": 10,
+    "cols": 14,
+    "enemyCount": 140,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.7,
+    "enemyHealth": 369
+  },
+  "98": {
+    "rows": 10,
+    "cols": 14,
+    "enemyCount": 140,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.76,
+    "enemyHealth": 373
+  },
+  "99": {
+    "rows": 10,
+    "cols": 14,
+    "enemyCount": 140,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.82,
+    "enemyHealth": 377
+  },
+  "100": {
+    "rows": 10,
+    "cols": 15,
+    "enemyCount": 150,
+    "enemyTypes": {
+      "red": 25,
+      "yellow": 25,
+      "orange": 25,
+      "violet": 25
+    },
+    "speed": 6.88,
+    "enemyHealth": 381
   }
 }

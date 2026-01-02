@@ -19,6 +19,10 @@ function getSpeedInc(level) {
   return 0;
 }
 
+function getSpeedFor(level) {
+  return Math.round((1 + (getSpeedInc(level) * (level - 2))) * 100) / 100;
+}
+
 function getHealthInc(level) {
   if (level > 5) {
     if (level <= 20) return 0.5;
@@ -30,6 +34,10 @@ function getHealthInc(level) {
   return 0;
 }
 
+function getHealthFor(level) {
+  return 1 + Math.floor(getHealthInc(level) * (level - 5));
+}
+
 function getRows(level) {
   return Math.min(5 + Math.floor((level - 1) / 10), 10);
 }
@@ -38,10 +46,18 @@ function getCols(level) {
   return Math.min(6 + Math.floor((level - 1) / 11), 15);
 }
 
-function getLastDefinedLevelFrom(level) {
-  let lvlNum = level - 1;
-  while (!levels[`${lvlNum}`]) lvlNum--;
-  return levels[`${lvlNum}`];
+function getLastDefinedLevelFrom({ level, foundBaseLevel }) {
+  let num = level - 1;
+  while (
+    !levels[`${num}`]
+    || (foundBaseLevel
+      && Object.keys(levels[`${num}`])
+        .some(k => k.startsWith('+'))
+    )) num--;
+  return {
+    config: levels[`${num}`],
+    num,
+  };
 }
 
 function getLevel1Config({ currRows, currCols }) {
@@ -56,36 +72,12 @@ function getLevel1Config({ currRows, currCols }) {
 
 function getUpToLevel100Config({ level, prev, curr }) {
   const config = {};
-
-  if (curr.rows !== prev.rows) {
-    config.rows = curr.rows;
-  }
-  if (curr.cols !== prev.cols) {
-    config.cols = curr.cols;
-  }
-  if (curr.enemyCount !== prev.enemyCount) {
-    config.enemyCount = curr.enemyCount;
-  }
-  if (JSON.stringify(curr.types) !== JSON.stringify(prev.types)) {
-    config.enemyTypes = curr.types;
-  }
-
-  if (!Object.keys(config).length) {
-    const speed = getSpeedInc(level);
-    if (speed > 0) config['+speed'] = speed;
-    const enemyHealth = getHealthInc(level);
-    if (enemyHealth > 0) config['+enemyHealth'] = enemyHealth;
-  } else {
-    config.rows = curr.rows;
-    config.cols = curr.cols;
-    config.enemyCount = curr.enemyCount;
-    config.enemyTypes = curr.types;
-    config.speed = 1 + (getSpeedInc(level) * (level - 1));
-    config.health = 1 + Math.floor(getHealthInc(level) * level - 1);
-  }
-
-  if (JSON.stringify(config) == JSON.stringify(getLastDefinedLevelFrom(level))) return undefined;
-
+  config.rows = curr.rows;
+  config.cols = curr.cols;
+  config.enemyCount = curr.enemyCount;
+  config.enemyTypes = curr.types;
+  config.speed = getSpeedFor(level);
+  config.enemyHealth = getHealthFor(level);
   return config;
 }
 
