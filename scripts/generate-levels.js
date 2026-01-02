@@ -46,20 +46,6 @@ function getCols(level) {
   return Math.min(6 + Math.floor((level - 1) / 11), 15);
 }
 
-function getLastDefinedLevelFrom({ level, foundBaseLevel }) {
-  let num = level - 1;
-  while (
-    !levels[`${num}`]
-    || (foundBaseLevel
-      && Object.keys(levels[`${num}`])
-        .some(k => k.startsWith('+'))
-    )) num--;
-  return {
-    config: levels[`${num}`],
-    num,
-  };
-}
-
 function getLevel1Config({ currRows, currCols }) {
   return {
     rows: currRows,
