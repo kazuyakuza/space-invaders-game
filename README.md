@@ -6,13 +6,16 @@ Modern TypeScript/HTML5 Canvas remake of the classic arcade game.
 
 - **Multi-level system**: JSON-driven ([`src/assets/levels.json`](src/assets/levels.json)) with sparse definitions and '+' incremental accumulation, supporting 100 unique levels with a specialized infinity mode fallback.
 - **Auto-shooting**: The player spaceship fires automatically at a fixed interval ([`SHOOT_INTERVAL`](src/ts/constants.ts:3)), allowing focus on tactical movement.
+- **Market Space**: Access the market during pause to purchase upgrades using earned points.
+- **Hedge Defense**: Buyable horizontal laser defenses that destroy any enemy on contact.
 - **Level Completion Bonus**: Earn extra points upon clearing a level based on the level number. This bonus is doubled if no lives were lost during the level.
 - **Game Timer**: Track your survival time with the integrated HUD timer.
-- **Enemy varieties** (geometric pentagons):
-  - **Red** ([`RedEnemy.ts`](src/ts/entities/RedEnemy.ts)): Standard. Level ends when all cleared (others preserved).
-  - **Yellow**: Faster movement.
-  - **Orange** ([`OrangeEnemy.ts`](src/ts/entities/OrangeEnemy.ts)): Player-targeting shots, bullets pass through enemies.
-  - **Violet** ([`VioletEnemy.ts`](src/ts/entities/VioletEnemy.ts)): 10x health mini-boss (triple visual).
+- **Enemy varieties** (geometric shapes):
+  - **Red** ([`RedEnemy.ts`](src/ts/entities/RedEnemy.ts)): Standard pentagon. Level ends when all cleared (others preserved).
+  - **Yellow**: Faster movement (pentagon).
+  - **Orange** ([`OrangeEnemy.ts`](src/ts/entities/OrangeEnemy.ts)): Player-targeting shots, bullets pass through enemies (pentagon).
+  - **Violet** ([`VioletEnemy.ts`](src/ts/entities/VioletEnemy.ts)): 10x health mini-boss (triple pentagon).
+  - **Blue** ([`BlueEnemy.ts`](src/ts/entities/BlueEnemy.ts)): Kamikaze hexagon (spawns level 36+). Explodes into 3 bullets upon death.
 - **Difficulty scaling**: +0.1% speed per row drop ([`DIFFICULTY_SPEED_INCREMENT`](src/ts/constants.ts:8)).
 - **Player lives**: 3 lives with respawn.
 - **Game over**: Enemies reach player Y or 0 lives ([`checkLoseCondition`](src/ts/entities/EnemyWave.ts:107)).
@@ -26,7 +29,8 @@ Modern TypeScript/HTML5 Canvas remake of the classic arcade game.
 
 - **Arrow Keys**: Move spaceship left/right.
 - **Space**: Start the game (from the initial screen) and begin the countdown.
-- **ESC**: Toggle pause/resume during gameplay.
+- **ESC**: Toggle pause/resume during gameplay and access the **Market Space**.
+- **Number Keys (0-9)**: Purchase items in the Market when paused.
 - **R / Enter**: Restart the game (from Pause or Game Over screens).
 
 ## Setup

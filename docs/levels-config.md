@@ -20,6 +20,7 @@ Each level must include the following properties:
   - `yellow`: Fast enemy.
   - `orange`: Targeting enemy.
   - `violet`: Boss enemy.
+  - `blue`: Kamikaze enemy (available from Level 36+).
 
 ## Level Loading Logic
 
