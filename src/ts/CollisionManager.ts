@@ -31,6 +31,8 @@ export class CollisionManager {
   }
 
   handleCollisions(context: CollisionContext): void {
+    if (!context.bullets?.length) return;
+
     for (let i = context.bullets.length - 1; i >= 0; i--) {
       const bulletBounds = context.bullets[i].getBounds();
       const playerBounds = context.player.getBounds();
@@ -71,7 +73,7 @@ export class CollisionManager {
       console.warn('CollisionManager: enemies array is undefined');
       return;
     }
-    for (let i = 0; i < enemies.length; i++) {
+    for (let i = enemies.length - 1; i >= 0; i--) {
       const enemyBounds = enemies[i].getBounds();
       for (let j = 0; j < hedges.length; j++) {
         if (hedges[j].isActive() && enemyBounds.y + enemyBounds.height >= hedges[j].getY()) {
