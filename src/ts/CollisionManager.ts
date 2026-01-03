@@ -66,7 +66,11 @@ export class CollisionManager {
 
     // Hedge defense - enemy collisions
     const hedges = context.hedgeDefenses;
-    const enemies = context.enemyWave.getEnemies();
+    const enemies = context.enemyWave?.getEnemies();
+    if (!enemies) {
+      console.warn('CollisionManager: enemies array is undefined');
+      return;
+    }
     for (let i = 0; i < enemies.length; i++) {
       const enemyBounds = enemies[i].getBounds();
       for (let j = 0; j < hedges.length; j++) {
