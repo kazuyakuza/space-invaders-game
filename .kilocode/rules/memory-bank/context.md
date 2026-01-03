@@ -2,7 +2,15 @@
 
 ## Current State
 
-Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties via `LevelManager.ts`, enemy health/lives system, centralized `constants.ts`, simplified level JSON structure for configuration, improved game over detection at player base Y, enemy persistence across levels for non-red types, adjusted orange enemy shooting frequency, violet enemy hitbox planning. HUD timer now displays in "MM:SS" format. A headless unit testing environment using Vitest is in place.
+Space Invaders game features advanced multi-level progression system with sparse object-based levels.json supporting '+' accumulation properties via `LevelManager.ts`, enemy health/lives system, centralized `constants.ts`, simplified level JSON structure for configuration, improved game over detection at player base Y, enemy persistence across levels for non-red types, adjusted orange enemy shooting frequency, violet enemy hitbox planning. HUD timer now displays in "MM:SS" format. A headless unit testing environment using Vitest is in place. Recent stability improvements include defensive collision handling and corrected destruction logic for game entities.
+
+## Recent Changes (v1.1.22)
+
+- **Collision Detection Stability**:
+    - Fixed a `TypeError` in `CollisionManager.ts` by implementing defensive null checks for `enemyWave`, ensuring the game loop continues even during rapid level transitions or edge-case initializations.
+    - Added bullet consistency checks to verify entity activity status before processing collisions, preventing redundant logic execution for already destroyed projectiles.
+- **Entity Lifecycle Improvements**:
+    - Refactored `HedgeDefense` collision logic to use reverse iteration (decrementing loop). This ensures all segments are correctly evaluated and avoids index skipping when a segment is spliced from the array upon destruction.
 
 ## Recent Changes (v1.1.16)
 
