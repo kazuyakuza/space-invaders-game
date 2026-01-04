@@ -2,7 +2,7 @@ import { Bullet } from './entities/Bullet';
 import { Player } from './entities/Player';
 import { EnemyWave } from './entities/EnemyWave';
 import { HedgeDefense } from './entities/HedgeDefense';
-import { SCORE_PER_ENEMY } from './constants';
+import { SCORE_PER_ENEMY, CANVAS_WIDTH, HEDGE_HEIGHT } from './constants';
 
 interface Bounds {
   x: number;
@@ -62,6 +62,25 @@ export class CollisionManager {
           }
           context.bullets.splice(i, 1);
           break;
+        }
+      }
+      // Bullet vs hedge collisions
+      if (context.bullets[i]?.isPlayerBullet) {
+        const hedges = context.hedgeDefenses || [];
+        for (let k = hedges.length - 1; k >= 0; k--) {
+          const hedge = hedges[k];
+          if (!hedge.isActive()) continue;
+          const hedgeBounds: Bounds = {
+            x: 0,
+            y: hedge.getY() - HEDGE_HEIGHT / 2,
+            width: CANVAS_WIDTH,
+            height: HEDGE_HEIGHT
+          };
+          if (this.rectsIntersect(bulletBounds, hedgeBounds)) {
+            context.bullets.splice(i, 1);
+            hedge.deactivate();
+            break;
+          }
         }
       }
     }

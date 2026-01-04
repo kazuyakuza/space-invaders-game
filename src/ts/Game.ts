@@ -6,6 +6,7 @@ import { CollisionManager, type CollisionContext } from './CollisionManager';
 import { UIManager } from './UIManager';
 import { EntityRenderer } from './Renderer';
 import { LevelManager, type LevelConfig } from './LevelManager';
+import { PauseManager } from './PauseManager';
 import { HedgeDefense } from './entities/HedgeDefense';
 import {
   CANVAS_WIDTH,
@@ -38,6 +39,7 @@ export class Game {
   private collisionManager: CollisionManager;
   private uiManager: UIManager;
   private levelManager!: LevelManager;
+  private pauseManager!: PauseManager;
   private player!: Player;
   private enemyWave!: EnemyWave;
   private bullets: Bullet[] = [];
@@ -49,11 +51,6 @@ export class Game {
   private score: number = 0;
   private currentLevel: number = 0;
   private currentLevelConfig: LevelConfig | null = null;
-  private isPaused: boolean = false;
-  private hasStarted: boolean = false;
-  private countdown: number = 0;
-  private lastEscapePressed: boolean = false;
-  private lastSpacePressed: boolean = false;
 
   constructor() {
     this.canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
@@ -64,6 +61,7 @@ export class Game {
     this.collisionManager = new CollisionManager();
     this.uiManager = new UIManager();
     this.levelManager = new LevelManager();
+    this.pauseManager = new PauseManager();
     this.reset();
   }
 
@@ -95,21 +93,21 @@ export class Game {
     this.bullets = [];
   }
 
-  private reset(): void {
-    this.player = new Player({ canvasWidth: CANVAS_WIDTH, canvasHeight: CANVAS_HEIGHT, speed: PLAYER_SPEED, padding: GAME_PADDING });
+  private resetGameState(): void {
     this.score = 0;
     this.currentLevel = 1;
-    this.initLevel(1);
     this.gameRunning = true;
-    this.hasStarted = false;
-    this.isPaused = false;
-    this.countdown = 0;
     this.shootCooldown = 0;
     this.gameTime = 0;
     this.livesLostInLevel = 0;
     this.hedgeDefenses = [];
-    this.lastEscapePressed = false;
-    this.lastSpacePressed = false;
+  }
+
+  private reset(): void {
+    this.resetGameState();
+    this.player = new Player({ canvasWidth: CANVAS_WIDTH, canvasHeight: CANVAS_HEIGHT, speed: PLAYER_SPEED, padding: GAME_PADDING });
+    this.pauseManager.reset();
+    this.initLevel(1);
   }
 
   public start(): void {
@@ -122,9 +120,9 @@ export class Game {
   }
 
   private update(): void {
-    if (this.handlePauseAndStart()) return;
-    if (this.countdown > 0) { 
-      this.countdown--; 
+    if (this.pauseManager.handle(this.input, (i) => this.purchaseItem(i), () => this.reset())) return;
+    if (this.pauseManager.getCountdown() > 0) { 
+      this.pauseManager.updateCountdown(); 
       return; 
     }
     if (!this.gameRunning) {
@@ -140,38 +138,12 @@ export class Game {
       scoreCallback: (pts) => this.score += pts,
       gameRunningCallback: (run) => this.gameRunning = run,
       onLifeLost: () => this.livesLostInLevel++,
+      hedgeDefenses: this.hedgeDefenses,
       spawnBullet: (x, y, isPlayer, vx, vy) => {
         this.bullets.push(new Bullet(x, y, isPlayer, vx, vy));
       }
     });
     if (!this.enemyWave.hasRedEnemies()) this.nextLevel();
-  }
-
-  private handlePauseAndStart(): boolean {
-    const escape = this.input.isPressed('Escape');
-    if (escape && !this.lastEscapePressed) this.isPaused = !this.isPaused;
-    this.lastEscapePressed = escape;
-    if (this.isPaused) {
-      if (this.input.isPressed('KeyR')) this.reset();
-
-      // Handle market purchases when paused
-      for (let i = 0; i <= 1; i++) {
-        if (this.input.isPressed(`Digit${i}`)) {
-          this.purchaseItem(i);
-        }
-      }
-      return true;
-    }
-    if (!this.hasStarted) {
-      const space = this.input.isPressed('Space');
-      if (space && !this.lastSpacePressed) { 
-        this.hasStarted = true; 
-        this.countdown = COUNTDOWN_FRAMES; 
-      }
-      this.lastSpacePressed = space;
-      return true;
-    }
-    return false;
   }
 
   private updateEntities(): void {
@@ -201,8 +173,6 @@ export class Game {
     this.initLevel(this.currentLevel);
   }
 
-
-
   private purchaseItem(index: number): void {
     if (index === 0) {
       if (this.score >= MARKET_ITEM_LIFE_PRICE) {
@@ -222,17 +192,50 @@ export class Game {
   private render(): void {
     this.ctx.fillStyle = '#000000';
     this.ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    EntityRenderer.render(this.ctx, this.player, this.enemyWave, this.bullets, this.hedgeDefenses, this.hasStarted);
+    EntityRenderer.render(this.ctx, this.player, this.enemyWave, this.bullets, this.hedgeDefenses, this.pauseManager.getHasStarted());
     this.uiManager.render(this.ctx, {
       score: this.score,
       currentLevel: this.currentLevel,
       lives: this.player.getLives(),
-      hasStarted: this.hasStarted,
-      countdown: this.countdown,
-      isPaused: this.isPaused,
+      hasStarted: this.pauseManager.getHasStarted(),
+      countdown: this.pauseManager.getCountdown(),
+      isPaused: this.pauseManager.getIsPaused(),
       gameRunning: this.gameRunning,
       currentLevelConfig: this.currentLevelConfig,
       gameTime: this.gameTime
     });
+  }
+
+  public tick(): void {
+    this.update();
+    this.render();
+  }
+
+  public getHasStarted(): boolean {
+    return this.pauseManager.getHasStarted();
+  }
+
+  public getCountdown(): number {
+    return this.pauseManager.getCountdown();
+  }
+
+  public getScore(): number {
+    return this.score;
+  }
+
+  public getCurrentLevel(): number {
+    return this.currentLevel;
+  }
+
+  public getEnemyWave(): EnemyWave {
+    return this.enemyWave;
+  }
+
+  public getPlayer(): Player {
+    return this.player;
+  }
+
+  public getBullets(): Bullet[] {
+    return this.bullets;
   }
 }
