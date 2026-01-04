@@ -110,7 +110,14 @@ The plan must include next steps:
 - Updates the project's documentation (e.g., README, `/docs` files).
 - Suggests and implements automated documentation tools.
 
-### 4.5. Item Completion
+### 4.5 Verification
+
+Before proceed, check:
+
+- if the generated plan was followed
+- if there are unstaged files, and what they mean. If they need to be merged or not
+
+### 4.6. Item Completion
 
 - This step is RELEVANT to show the details of the item completion process.
 - It's important to understand that this MUST be executed just after the item is completed, and not when all items are completed.
